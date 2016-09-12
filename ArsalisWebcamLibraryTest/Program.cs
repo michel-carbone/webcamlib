@@ -17,9 +17,13 @@ namespace Arsalis.WebcamLibrary.Test
 			Console.WriteLine("Hello World!");
 			
 			Arsalis.WebcamLibrary.WebcamLibrary test = new WebcamLibrary();
-			for(int i = 0; i<test.WebcamListNames.Length; i++)
+			
+			if(test.webcamAvailable)
 			{
-				Console.WriteLine(i.ToString() + ": " + test.WebcamListNames[i]);
+    			for(int i = 0; i<test.WebcamListNames.Length; i++)
+    			{
+    				Console.WriteLine(i.ToString() + ": " + test.WebcamListNames[i]);
+    			}
 			}
 			Console.Write("Press any key to continue . . . ");
 			Console.ReadKey(true);

@@ -20,15 +20,32 @@ namespace Arsalis.WebcamLibrary
 	/// </summary>
 	public class WebcamLibrary
 	{
+	    /// <summary>
+	    /// default constructor
+	    /// </summary>
 		public WebcamLibrary()
 		{
 			loadWebcamDevices();
 		} 
 		
-		public string [] WebcamListNames = new string[10];
-		// collection of available video devices
-        private FilterInfoCollection videoDevices;
+		/// <summary>
+		/// array that contains name of all webcams connected to the computer
+		/// </summary>
+		public string [] WebcamListNames;
 		
+		/// <summary>
+		/// collection of available video devices
+		/// </summary>
+        private FilterInfoCollection videoDevices;
+        
+        /// <summary>
+        /// boolean that is set when one or more webcam are detected
+        /// </summary>
+        public bool webcamAvailable = false;
+		
+        /// <summary>
+        /// method that search for available webcams
+        /// </summary>
 		private void loadWebcamDevices()
 		{
 			try
@@ -37,20 +54,24 @@ namespace Arsalis.WebcamLibrary
                 this.videoDevices = new FilterInfoCollection( FilterCategory.VideoInputDevice );
 
                 if ( this.videoDevices.Count == 0 )
+                {
                     throw new ApplicationException( );
+                }
 
-                // add all devices to combo
+                // add all devices to array
+                WebcamListNames = new string[this.videoDevices.Count];
                 int i = 0;
                 foreach ( FilterInfo device in this.videoDevices )
                 {
                 	WebcamListNames[i] = device.Name +"\r\n"+device.MonikerString;
-                	
                 	i=++i;
                 }
+                
+                this.webcamAvailable = true;
             }
             catch ( ApplicationException )
             {
-                //TODO manage exception
+                System.Console.WriteLine("No webcam found");
             }
 		}
 	}
