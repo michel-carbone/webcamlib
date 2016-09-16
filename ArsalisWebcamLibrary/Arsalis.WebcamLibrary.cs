@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Drawing;
 using AForge;
 using AForge.Video;
 using AForge.Video.DirectShow;
@@ -34,9 +35,13 @@ namespace Arsalis.WebcamLibrary
 		public string [] WebcamListNames;
 		
 		/// <summary>
+		/// array that contains monikerString
+		/// </summary>
+		public string [] webcamListMonikerString;
+		/// <summary>
 		/// collection of available video devices
 		/// </summary>
-        private FilterInfoCollection videoDevices;
+        public FilterInfoCollection videoDevices;
         
         /// <summary>
         /// boolean that is set when one or more webcam are detected
@@ -46,12 +51,18 @@ namespace Arsalis.WebcamLibrary
         /// <summary>
         /// method that search for available webcams
         /// </summary>
+        
+        /// <summary>
+        /// videoDeviceForCapture
+        /// </summary>
+        public VideoCaptureDevice videoDeviceForCapture;
+        
 		private void loadWebcamDevices()
 		{
 			try
 			{
                 // enumerate video devices
-                this.videoDevices = new FilterInfoCollection( FilterCategory.VideoInputDevice );
+                this.videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
 
                 if ( this.videoDevices.Count == 0 )
                 {
@@ -60,10 +71,12 @@ namespace Arsalis.WebcamLibrary
 
                 // add all devices to array
                 WebcamListNames = new string[this.videoDevices.Count];
+                webcamListMonikerString = new string[this.videoDevices.Count];
                 int i = 0;
                 foreach ( FilterInfo device in this.videoDevices )
                 {
-                	WebcamListNames[i] = device.Name +"\r\n"+device.MonikerString;
+                	WebcamListNames[i] = device.Name;
+                	webcamListMonikerString[i] = device.MonikerString;
                 	i=++i;
                 }
                 
@@ -73,6 +86,24 @@ namespace Arsalis.WebcamLibrary
             {
                 System.Console.WriteLine("No webcam found");
             }
+		}
+		
+		/// <summary>
+		/// start  capture of selected webcam
+		/// </summary>
+		public void startWebcam()
+		{
+			videoDeviceForCapture = new VideoCaptureDevice(webcamListMonikerString[0]);
+    		//videoDeviceForCapture.NewFrame += new NewFrameEventHandler();
+    		videoDeviceForCapture.Start();
+		}
+		
+		/// <summary>
+		/// stop capture of selected webcam
+		/// </summary>
+		public void stopWebcam()
+		{
+			videoDeviceForCapture.Stop();
 		}
 	}
 }
