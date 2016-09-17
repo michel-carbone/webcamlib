@@ -19,32 +19,33 @@ namespace Arsalis.WebcamLibrary.Test
 		public static void Main(string[] args)
 		{
 			Console.WriteLine("Hello World!");
-			
+			// create one instance of Arsalis.WebcamLibrary
 			Arsalis.WebcamLibrary.WebcamLibrary test = new WebcamLibrary();
-			
+			// execute only if a webcam is available
 			if(test.webcamAvailable)
 			{
+				// print list of webcams
     			for(int i = 0; i<test.WebcamListNames.Length; i++)
     			{
     				Console.WriteLine(i.ToString() + ": " + test.WebcamListNames[i]);
     			}
+    			// start capture of webcam
+				test.startWebcam();
+				
+    			Console.WriteLine("Open GUI...");
+				// create an instance of test CUI
+    			Arsalis.WebcamLibrary.Test.GUI testGUI = new GUI();
+				// set GUI videoDevice to selected videoDevice of test webcam class
+				testGUI.OpenVideoSource(test.videoDeviceForCapture);
+				testGUI.ShowDialog();
+				//testGUI.videoSourcePlayer1.VideoSource.Start();
+				Console.WriteLine("Press any key to continue . . . ");
+				Console.ReadKey(true);
+				//testGUI.CloseCurrentVideoSource();
+				test.stopWebcam();
+				Console.Write(testGUI.timeStamps);
+				Console.WriteLine("Press any key to continue . . . ");
 			}
-			test.startWebcam();
-			Console.WriteLine("Open GUI...");
-			Arsalis.WebcamLibrary.Test.GUI testGUI = new GUI();
-			//testGUI.webcam.startWebcam();
-			testGUI.OpenVideoSource(test.videoDeviceForCapture);
-			testGUI.ShowDialog();
-			//CameraImaging cameraImg = new CameraImaging(test.videoDeviceForCapture);
-			//cameraImg.videoSource.NewFrame
-			//testGUI.videoSourcePlayer1.NewFrame += VideoSourcePlayer.NewFrameHandler(cameraImg.videoSource_NewFrame);
-			testGUI.videoSourcePlayer1.VideoSource.Start();
-			Console.WriteLine("Press any key to continue . . . ");
-			Console.ReadKey(true);
-			testGUI.CloseCurrentVideoSource();
-			test.stopWebcam();
-			Console.Write(testGUI.timeStamps);
-			Console.WriteLine("Press any key to continue . . . ");
 			Console.ReadKey(true);
 			
 			//testGUI.Dispose();

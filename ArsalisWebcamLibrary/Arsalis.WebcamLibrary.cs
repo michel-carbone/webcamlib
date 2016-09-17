@@ -38,6 +38,7 @@ namespace Arsalis.WebcamLibrary
 		/// array that contains monikerString
 		/// </summary>
 		public string [] webcamListMonikerString;
+		
 		/// <summary>
 		/// collection of available video devices
 		/// </summary>
@@ -48,15 +49,15 @@ namespace Arsalis.WebcamLibrary
         /// </summary>
         public bool webcamAvailable = false;
 		
-        /// <summary>
-        /// method that search for available webcams
-        /// </summary>
         
         /// <summary>
-        /// videoDeviceForCapture
+        /// video device selected for capture
         /// </summary>
         public VideoCaptureDevice videoDeviceForCapture;
         
+        /// <summary>
+        /// method that search for available webcams
+        /// </summary>        
 		private void loadWebcamDevices()
 		{
 			try
@@ -93,8 +94,8 @@ namespace Arsalis.WebcamLibrary
 		/// </summary>
 		public void startWebcam()
 		{
+			// TODO allow selection of webcam device if count > 1
 			videoDeviceForCapture = new VideoCaptureDevice(webcamListMonikerString[0]);
-    		//videoDeviceForCapture.NewFrame += new NewFrameEventHandler();
     		videoDeviceForCapture.Start();
 		}
 		
