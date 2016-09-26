@@ -48,12 +48,18 @@ namespace Arsalis.WebcamLibrary
         /// boolean that is set when one or more webcam are detected
         /// </summary>
         public bool webcamAvailable = false;
-		
         
+        public int frameCount = 0;
+		
+        public string webcamName = "";
         /// <summary>
         /// video device selected for capture
         /// </summary>
         public VideoCaptureDevice videoDeviceForCapture;
+        
+        public string messages = "";
+        
+        public object [] images = new object [10000];
         
         /// <summary>
         /// method that search for available webcams
@@ -92,12 +98,25 @@ namespace Arsalis.WebcamLibrary
 		/// <summary>
 		/// start  capture of selected webcam
 		/// </summary>
-		public void startWebcam()
+		///<param name="selectedCamera">
+		///	position of selected camera in <see cref="WebcamListNames"></see></param>
+		public void startWebcam(int selectedCamera)
 		{
 			// TODO allow selection of webcam device if count > 1
-			videoDeviceForCapture = new VideoCaptureDevice(webcamListMonikerString[0]);
-    		videoDeviceForCapture.Start();
+			videoDeviceForCapture = new VideoCaptureDevice(webcamListMonikerString[selectedCamera]);
+			videoDeviceForCapture.Start();
+            videoDeviceForCapture.NewFrame += new NewFrameEventHandler(videoDeviceForCapture_NewFrame);
+            this.webcamName = WebcamListNames[selectedCamera];
 		}
+
+        void videoDeviceForCapture_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        {
+        	this.frameCount = ++this.frameCount;
+            DateTime now = DateTime.Now;
+            messages += "Event in WebcamLibrary @ "+ now.ToString() + "::" + now.Millisecond.ToString() + ";\t frames received:" +this.frameCount.ToString()+"\r\n";
+            System.Drawing.Bitmap copy = (System.Drawing.Bitmap)eventArgs.Frame.Clone();
+            saveImage(copy, now);
+        }
 		
 		/// <summary>
 		/// stop capture of selected webcam
@@ -105,6 +124,37 @@ namespace Arsalis.WebcamLibrary
 		public void stopWebcam()
 		{
 			videoDeviceForCapture.Stop();
+		}
+		
+		private void saveImage(System.Drawing.Bitmap frameCopy, DateTime time)
+		{
+			string path = @"C:/Arsalis/capture_";
+            path += time.ToLongDateString() + "_";
+            path += time.Hour + "_";
+            path += time.Minute + "_";
+            path += time.Second + "_";
+            path += time.Millisecond + ".jpeg";
+            frameCopy.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
+            //System.Drawing.Image copyCompressed = (System.Drawing.Image)frameCopy.Clone();
+			//this.images[frameCount] = new Bitmap(copyCompressed);
+		}
+		
+		public delegate void WebcamEventsHandler(object source, WebcamEvent e);
+		
+	}
+	
+	public class WebcamEvent : EventArgs
+	{
+		private string EventInfo;
+		
+		public WebcamEvent(string Text)
+		{
+			EventInfo = Text;
+		}
+		
+		public string GetInfo()
+		{
+			return EventInfo;
 		}
 	}
 }

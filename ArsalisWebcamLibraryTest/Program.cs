@@ -29,30 +29,27 @@ namespace Arsalis.WebcamLibrary.Test
     			{
     				Console.WriteLine(i.ToString() + ": " + test.WebcamListNames[i]);
     			}
-    			// start capture of webcam
-				test.startWebcam();
-				
-    			Console.WriteLine("Open GUI...");
+    			// start capture of last webcam detected
+				test.startWebcam(test.WebcamListNames.Length -1);
+				Console.WriteLine("Press any key to continue . . . ");
+				Console.ReadKey(true);
+				test.stopWebcam();
+				Console.WriteLine(test.messages);
+				Console.WriteLine("Press any key to continue . . . ");
+			}
+			Console.ReadKey(true);			
+		}
+		
+		public void testGui(Arsalis.WebcamLibrary.WebcamLibrary test)
+		{
+			Console.WriteLine("Open GUI...");
 				// create an instance of test CUI
     			Arsalis.WebcamLibrary.Test.GUI testGUI = new GUI();
 				// set GUI videoDevice to selected videoDevice of test webcam class
 				testGUI.OpenVideoSource(test.videoDeviceForCapture);
 				testGUI.ShowDialog();
-				//testGUI.videoSourcePlayer1.VideoSource.Start();
-				Console.WriteLine("Press any key to continue . . . ");
-				Console.ReadKey(true);
-				//testGUI.CloseCurrentVideoSource();
-				test.stopWebcam();
 				Console.Write(testGUI.timeStamps);
-				Console.WriteLine("Press any key to continue . . . ");
-			}
-			Console.ReadKey(true);
-			
-			//testGUI.Dispose();
-
-			
-			//CameraImaging cameraImg = new CameraImaging(test.videoDeviceForCapture);
-			
+				
 		}
 	}
 }

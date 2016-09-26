@@ -1,7 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-# SharpDevelop 4.4
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArsalisWebcamLibraryTest", "ArsalisWebcamLibraryTest\ArsalisWebcamLibraryTest.csproj", "{BAF0AB85-E28B-4666-B062-CB44F3FEF999}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arsalis.WebcamLibrary", "ArsalisWebcamLibrary\Arsalis.WebcamLibrary.csproj", "{EE1695D2-5F5C-489B-A47C-647D1B14BA69}"
@@ -12,13 +11,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BAF0AB85-E28B-4666-B062-CB44F3FEF999}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAF0AB85-E28B-4666-B062-CB44F3FEF999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BAF0AB85-E28B-4666-B062-CB44F3FEF999}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAF0AB85-E28B-4666-B062-CB44F3FEF999}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAF0AB85-E28B-4666-B062-CB44F3FEF999}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE1695D2-5F5C-489B-A47C-647D1B14BA69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAF0AB85-E28B-4666-B062-CB44F3FEF999}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EE1695D2-5F5C-489B-A47C-647D1B14BA69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE1695D2-5F5C-489B-A47C-647D1B14BA69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE1695D2-5F5C-489B-A47C-647D1B14BA69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE1695D2-5F5C-489B-A47C-647D1B14BA69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE1695D2-5F5C-489B-A47C-647D1B14BA69}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
