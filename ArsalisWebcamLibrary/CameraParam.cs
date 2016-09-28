@@ -26,11 +26,21 @@
         public int defaultValue;
 
         /// <summary>
-        /// control flag of the specified parameter
+        /// available control flag for the specified parameter
+        /// </summary>
+        public AForge.Video.DirectShow.CameraControlFlags ctrFlag;
+
+        /// <summary>
+        /// The current value of the parameter
+        /// </summary>
+        public int currentValue;
+
+        /// <summary>
+        /// current control flag of the specified parameter
         /// if "None", the parameter cannot be changed manually
         /// if "Auto", the parameter is changed by the webcam automatically
         /// if "Manual", a value has been set by the user
         /// </summary>
-        public AForge.Video.DirectShow.CameraControlFlags ctrFlag;
+        public AForge.Video.DirectShow.CameraControlFlags currentCtrlFlag; 
     }
 }

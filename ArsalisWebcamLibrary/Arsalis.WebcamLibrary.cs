@@ -143,7 +143,7 @@ namespace Arsalis.WebcamLibrary
 		}
 		
 		/// <summary>
-		/// get Exposure parameter of selected webcam
+		/// get Exposure parameters of selected webcam
 		/// </summary>
 		public void getExposureParameters()
 		{
@@ -154,7 +154,9 @@ namespace Arsalis.WebcamLibrary
                             "stepSize: " + exposure.stepSize.ToString() + "\r\n" +
                             "defaultValue: " + exposure.defaultValue.ToString() + "\r\n" +   
                             "CameraControlFlags: " + exposure.ctrFlag.ToString() + "\r\n");
-            
+            this.videoDeviceForCapture.GetCameraProperty(CameraControlProperty.Exposure, out exposure.currentValue, out exposure.currentCtrlFlag);
+            Console.Write("currentValue: " + exposure.currentValue.ToString() + "\r\n" +
+                             "currentCameraControlFlags: " + exposure.currentCtrlFlag.ToString() + "\r\n");
 		}
 		
 		/// <summary>
