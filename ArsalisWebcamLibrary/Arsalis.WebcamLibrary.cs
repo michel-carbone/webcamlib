@@ -42,7 +42,7 @@ namespace Arsalis.WebcamLibrary
 		/// <summary>
 		/// collection of available video devices
 		/// </summary>
-        public FilterInfoCollection videoDevices;
+        private FilterInfoCollection videoDevices;
         
         /// <summary>
         /// boolean that is set when one or more webcam are detected
@@ -52,14 +52,20 @@ namespace Arsalis.WebcamLibrary
         public int frameCount = 0;
 		
         public string webcamName = "";
+
         /// <summary>
         /// video device selected for capture
         /// </summary>
         public VideoCaptureDevice videoDeviceForCapture;
         
         public string messages = "";
+
+        /// <summary>
+        /// structure containing webcam exposure parameters
+        /// </summary>
+        public CameraParam exposure = new CameraParam();
         
-        public object [] images = new object [10000];
+        public System.Drawing.Bitmap lastImage = new System.Drawing.Bitmap(640, 480, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
         
         /// <summary>
         /// method that search for available webcams
@@ -123,9 +129,39 @@ namespace Arsalis.WebcamLibrary
 		/// </summary>
 		public void stopWebcam()
 		{
-			videoDeviceForCapture.Stop();
+			messages += this.videoDeviceForCapture.FramesReceived.ToString() + " frames received before SignalToStop\r\n";
+			videoDeviceForCapture.SignalToStop();
+			Console.WriteLine("Height of last Image: " +this.lastImage.Height.ToString());
+			Console.WriteLine("Width of last Image: " +this.lastImage.Width.ToString());
+			Console.WriteLine("PropertyItems of last Image: ");
+			for(int j=0; j<this.lastImage.PropertyItems.Length;j++)
+			{	
+				Console.WriteLine(this.lastImage.PropertyItems[j].ToString());
+			}
+			videoDeviceForCapture.WaitForStop();
+			messages += this.videoDeviceForCapture.FramesReceived.ToString() + " frames received after WaitForStop\r\n";
 		}
 		
+		/// <summary>
+		/// get Exposure parameter of selected webcam
+		/// </summary>
+		public void getExposureParameters()
+		{
+			this.videoDeviceForCapture.GetCameraPropertyRange(CameraControlProperty.Exposure, out exposure.minValue, out exposure.maxValue, out exposure.stepSize, out exposure.defaultValue, out exposure.ctrFlag);
+            
+            Console.Write("minValue: " + exposure.minValue.ToString() + "\r\n" +
+                            "maxValue: " + exposure.maxValue.ToString() + "\r\n" +
+                            "stepSize: " + exposure.stepSize.ToString() + "\r\n" +
+                            "defaultValue: " + exposure.defaultValue.ToString() + "\r\n" +   
+                            "CameraControlFlags: " + exposure.ctrFlag.ToString() + "\r\n");
+            
+		}
+		
+		/// <summary>
+		/// Save image to disk
+		/// </summary>
+		/// <param name="frameCopy">Bitmap frame to save</param>
+		/// <param name="time">time when image is captured</param>
 		private void saveImage(System.Drawing.Bitmap frameCopy, DateTime time)
 		{
 			string path = @"C:/Arsalis/capture_";
@@ -135,6 +171,7 @@ namespace Arsalis.WebcamLibrary
             path += time.Second + "_";
             path += time.Millisecond + ".jpeg";
             frameCopy.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
+            this.lastImage = new Bitmap(frameCopy);
             //System.Drawing.Image copyCompressed = (System.Drawing.Image)frameCopy.Clone();
 			//this.images[frameCount] = new Bitmap(copyCompressed);
 		}

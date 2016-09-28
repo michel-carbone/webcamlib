@@ -31,6 +31,7 @@ namespace Arsalis.WebcamLibrary.Test
     			}
     			// start capture of last webcam detected
 				test.startWebcam(test.WebcamListNames.Length -1);
+				test.getExposureParameters();
 				Console.WriteLine("Press any key to continue . . . ");
 				Console.ReadKey(true);
 				test.stopWebcam();
