@@ -147,17 +147,33 @@ namespace Arsalis.WebcamLibrary
 		/// </summary>
 		public void getExposureParameters()
 		{
-			this.videoDeviceForCapture.GetCameraPropertyRange(CameraControlProperty.Exposure, out exposure.minValue, out exposure.maxValue, out exposure.stepSize, out exposure.defaultValue, out exposure.ctrFlag);
+            // set property type of structure
+            this.exposure.propertyType = CameraControlProperty.Exposure;
+            //get property ranges
+			this.videoDeviceForCapture.GetCameraPropertyRange(exposure.propertyType, out exposure.minValue, out exposure.maxValue, out exposure.stepSize, out exposure.defaultValue, out exposure.ctrFlag);
             
             Console.Write("minValue: " + exposure.minValue.ToString() + "\r\n" +
                             "maxValue: " + exposure.maxValue.ToString() + "\r\n" +
                             "stepSize: " + exposure.stepSize.ToString() + "\r\n" +
                             "defaultValue: " + exposure.defaultValue.ToString() + "\r\n" +   
                             "CameraControlFlags: " + exposure.ctrFlag.ToString() + "\r\n");
-            this.videoDeviceForCapture.GetCameraProperty(CameraControlProperty.Exposure, out exposure.currentValue, out exposure.currentCtrlFlag);
+            // get current property values
+            this.videoDeviceForCapture.GetCameraProperty(exposure.propertyType, out exposure.currentValue, out exposure.currentCtrlFlag);
             Console.Write("currentValue: " + exposure.currentValue.ToString() + "\r\n" +
                              "currentCameraControlFlags: " + exposure.currentCtrlFlag.ToString() + "\r\n");
+            // check if property is adjustable
+            Console.WriteLine("Property "+ exposure.propertyType.ToString() + " is ajustable?: " + this.exposure.isAdjustable.ToString());
 		}
+
+        /// <summary>
+        /// set webcam property
+        /// </summary>
+        /// <param name="property">property to adjust</param>
+        /// <param name="propertyValue">desired value of property</param>
+        public void setCameraParameter(CameraControlProperty property, int propertyValue)
+        {
+            this.videoDeviceForCapture.SetCameraProperty(property, propertyValue, CameraControlFlags.Manual);
+        }
 		
 		/// <summary>
 		/// Save image to disk

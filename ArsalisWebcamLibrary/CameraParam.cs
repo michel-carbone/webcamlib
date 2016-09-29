@@ -1,4 +1,12 @@
-﻿namespace Arsalis.WebcamLibrary
+﻿/*
+ * Created by SharpDevelop.
+ * User: michel
+ * Date: 27/09/2016
+ * Time: 17:29
+ * 
+ * To change this template use Tools | Options | Coding | Edit Standard Headers.
+ */
+namespace Arsalis.WebcamLibrary
 {
     /// <summary>
     /// structure that contains all parameters returned by GetCameraPropertyRange for a parameter
@@ -41,6 +49,29 @@
         /// if "Auto", the parameter is changed by the webcam automatically
         /// if "Manual", a value has been set by the user
         /// </summary>
-        public AForge.Video.DirectShow.CameraControlFlags currentCtrlFlag; 
+        public AForge.Video.DirectShow.CameraControlFlags currentCtrlFlag;
+
+        /// <summary>
+        /// property type of current structure
+        /// </summary>
+        public AForge.Video.DirectShow.CameraControlProperty propertyType;
+
+        /// <summary>
+        /// bool that say if selected parameter is ajustable
+        /// </summary>
+        public bool isAdjustable
+        {
+            get
+            {
+                if (this.ctrFlag != AForge.Video.DirectShow.CameraControlFlags.None)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
     }
 }
