@@ -27,6 +27,7 @@ namespace Arsalis.WebcamLibrary
 		public WebcamLibrary()
 		{
 			loadWebcamDevices();
+			this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
 		} 
 		
 		/// <summary>
@@ -66,6 +67,15 @@ namespace Arsalis.WebcamLibrary
         public CameraParam exposure = new CameraParam();
         
         public System.Drawing.Bitmap lastImage = new System.Drawing.Bitmap(640, 480, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+        
+        private AForge.Video.VFW.AVIWriter writer;
+        
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			this.messages += "This text was set safely by BackgroundWorker.\r\n";
+		}
         
         /// <summary>
         /// method that search for available webcams
@@ -113,6 +123,11 @@ namespace Arsalis.WebcamLibrary
 			videoDeviceForCapture.Start();
             videoDeviceForCapture.NewFrame += new NewFrameEventHandler(videoDeviceForCapture_NewFrame);
             this.webcamName = WebcamListNames[selectedCamera];
+            // instantiate AVI writer, use WMV3 codec
+			this.writer = new AForge.Video.VFW.AVIWriter( "MSVC" );
+			// create new AVI file and open it
+			string path = "C:/Arsalis/test_" + DateTime.Now.Minute.ToString()+".avi";
+			writer.Open( path, 640, 480 );
 		}
 
         void videoDeviceForCapture_NewFrame(object sender, NewFrameEventArgs eventArgs)
@@ -122,6 +137,7 @@ namespace Arsalis.WebcamLibrary
             messages += "Event in WebcamLibrary @ "+ now.ToString() + "::" + now.Millisecond.ToString() + ";\t frames received:" +this.frameCount.ToString()+"\r\n";
             System.Drawing.Bitmap copy = (System.Drawing.Bitmap)eventArgs.Frame.Clone();
             saveImage(copy, now);
+            writer.AddFrame(copy);
         }
 		
 		/// <summary>
@@ -140,6 +156,7 @@ namespace Arsalis.WebcamLibrary
 			}
 			videoDeviceForCapture.WaitForStop();
 			messages += this.videoDeviceForCapture.FramesReceived.ToString() + " frames received after WaitForStop\r\n";
+			this.writer.Close();
 		}
 		
 		/// <summary>

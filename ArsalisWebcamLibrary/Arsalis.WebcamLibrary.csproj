@@ -60,6 +60,9 @@
     <Reference Include="AForge.Video.DirectShow">
       <HintPath>..\..\AForge.NET.git\trunk\Release\AForge.Video.DirectShow.dll</HintPath>
     </Reference>
+    <Reference Include="AForge.Video.VFW">
+      <HintPath>..\..\AForge.NET.git\trunk\Release\AForge.Video.VFW.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
