@@ -13,6 +13,7 @@ using AForge.Video;
 using AForge.Video.DirectShow;
 using AForge.Controls;
 using AForge.Math;
+using System.Threading;
 
 namespace Arsalis.WebcamLibrary
 {
@@ -27,7 +28,6 @@ namespace Arsalis.WebcamLibrary
 		public WebcamLibrary()
 		{
 			loadWebcamDevices();
-			this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
 		} 
 		
 		/// <summary>
@@ -70,11 +70,11 @@ namespace Arsalis.WebcamLibrary
         
         private AForge.Video.VFW.AVIWriter writer;
         
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        
-        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        System.Threading.Thread thread;
+
+        public void WorkThreadFunction()
 		{
-			this.messages += "This text was set safely by BackgroundWorker.\r\n";
+            this.messages += "This text was set by WorkThreadFunction, frame number: " + this.frameCount.ToString() + ".\r\n";
 		}
         
         /// <summary>
@@ -138,6 +138,8 @@ namespace Arsalis.WebcamLibrary
             System.Drawing.Bitmap copy = (System.Drawing.Bitmap)eventArgs.Frame.Clone();
             saveImage(copy, now);
             writer.AddFrame(copy);
+            this.thread = new Thread(new ThreadStart(WorkThreadFunction));
+            thread.Start();
         }
 		
 		/// <summary>
