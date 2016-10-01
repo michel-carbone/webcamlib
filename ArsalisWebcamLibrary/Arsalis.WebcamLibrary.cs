@@ -68,13 +68,20 @@ namespace Arsalis.WebcamLibrary
         
         public System.Drawing.Bitmap lastImage = new System.Drawing.Bitmap(640, 480, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
         
+        public DateTime lastTimestamp;
+        
         private AForge.Video.VFW.AVIWriter writer;
         
         System.Threading.Thread thread;
 
-        public void WorkThreadFunction()
+        public void WorkThreadFunction(object webcamImage)
 		{
-            this.messages += "This text was set by WorkThreadFunction, frame number: " + this.frameCount.ToString() + ".\r\n";
+            WebcamImage lastImageObj = webcamImage as WebcamImage;
+            Bitmap lastBitmap = lastImageObj.image;
+            DateTime lastTimestamp = lastImageObj.timestamp;
+            int frameCount = lastImageObj.frameCount;
+            saveImage(lastBitmap, lastTimestamp);
+            this.messages += "This text was set by WorkThreadFunction, frame number: " + frameCount.ToString() + ".\r\n";
 		}
         
         /// <summary>
@@ -136,9 +143,16 @@ namespace Arsalis.WebcamLibrary
             DateTime now = DateTime.Now;
             messages += "Event in WebcamLibrary @ "+ now.ToString() + "::" + now.Millisecond.ToString() + ";\t frames received:" +this.frameCount.ToString()+"\r\n";
             System.Drawing.Bitmap copy = (System.Drawing.Bitmap)eventArgs.Frame.Clone();
-            saveImage(copy, now);
-            writer.AddFrame(copy);
-            this.thread = new Thread(new ThreadStart(WorkThreadFunction));
+            this.lastImage = new Bitmap(copy);
+            this.lastTimestamp = now;
+            WebcamImage lastImageObj = new WebcamImage();
+            lastImageObj.image = new Bitmap(copy);
+            lastImageObj.timestamp = now;
+            lastImageObj.frameCount = this.frameCount;
+            //saveImage(copy, now);
+
+            ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), lastImageObj);
+            //this.thread = new Thread(new ThreadStart(WorkThreadFunction));
             thread.Start();
         }
 		
@@ -208,7 +222,8 @@ namespace Arsalis.WebcamLibrary
             path += time.Second + "_";
             path += time.Millisecond + ".jpeg";
             frameCopy.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
-            this.lastImage = new Bitmap(frameCopy);
+            //this.lastImage = new Bitmap(frameCopy);
+            //writer.AddFrame(frameCopy);
             //System.Drawing.Image copyCompressed = (System.Drawing.Image)frameCopy.Clone();
 			//this.images[frameCount] = new Bitmap(copyCompressed);
 		}
