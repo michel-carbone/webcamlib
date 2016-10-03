@@ -58,14 +58,44 @@ namespace Arsalis.WebcamLibrary
         /// video device selected for capture
         /// </summary>
         public VideoCaptureDevice videoDeviceForCapture;
-        
+
         public string messages = "";
 
         /// <summary>
-        /// structure containing webcam exposure parameters
+        /// structure containing webcam Exposure parameters
         /// </summary>
-        public CameraParam exposure = new CameraParam();
-        
+        public CameraParam Exposure = new CameraParam();
+
+        /// <summary>
+        /// structure containing webcam Focus parameters
+        /// </summary>
+        public CameraParam Focus = new CameraParam();
+
+        /// <summary>
+        /// structure containing webcam Iris parameters
+        /// </summary>
+        public CameraParam Iris = new CameraParam();
+
+        /// <summary>
+        /// structure containing webcam Pan parameters
+        /// </summary>
+        public CameraParam Pan = new CameraParam();
+
+        /// <summary>
+        /// structure containing webcam Roll parameters
+        /// </summary>
+        public CameraParam Roll = new CameraParam();
+
+        /// <summary>
+        /// structure containing webcam Tilt parameters
+        /// </summary>
+        public CameraParam Tilt = new CameraParam();
+
+        /// <summary>
+        /// structure containing webcam Zoom parameters
+        /// </summary>
+        public CameraParam Zoom = new CameraParam();
+
         public System.Drawing.Bitmap lastImage = new System.Drawing.Bitmap(640, 480, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
         
         public DateTime lastTimestamp;
@@ -74,7 +104,7 @@ namespace Arsalis.WebcamLibrary
         
         System.Threading.Thread thread;
 
-        public void WorkThreadFunction(object webcamImage)
+        private void WorkThreadFunction(object webcamImage)
 		{
             WebcamImage lastImageObj = webcamImage as WebcamImage;
             Bitmap lastBitmap = lastImageObj.image;
@@ -181,21 +211,21 @@ namespace Arsalis.WebcamLibrary
 		public void getExposureParameters()
 		{
             // set property type of structure
-            this.exposure.propertyType = CameraControlProperty.Exposure;
+            this.Exposure.propertyType = CameraControlProperty.Exposure;
             //get property ranges
-			this.videoDeviceForCapture.GetCameraPropertyRange(exposure.propertyType, out exposure.minValue, out exposure.maxValue, out exposure.stepSize, out exposure.defaultValue, out exposure.ctrFlag);
+			this.videoDeviceForCapture.GetCameraPropertyRange(Exposure.propertyType, out Exposure.minValue, out Exposure.maxValue, out Exposure.stepSize, out Exposure.defaultValue, out Exposure.ctrFlag);
             
-            Console.Write("minValue: " + exposure.minValue.ToString() + "\r\n" +
-                            "maxValue: " + exposure.maxValue.ToString() + "\r\n" +
-                            "stepSize: " + exposure.stepSize.ToString() + "\r\n" +
-                            "defaultValue: " + exposure.defaultValue.ToString() + "\r\n" +   
-                            "CameraControlFlags: " + exposure.ctrFlag.ToString() + "\r\n");
+            Console.Write("minValue: " + Exposure.minValue.ToString() + "\r\n" +
+                            "maxValue: " + Exposure.maxValue.ToString() + "\r\n" +
+                            "stepSize: " + Exposure.stepSize.ToString() + "\r\n" +
+                            "defaultValue: " + Exposure.defaultValue.ToString() + "\r\n" +   
+                            "CameraControlFlags: " + Exposure.ctrFlag.ToString() + "\r\n");
             // get current property values
-            this.videoDeviceForCapture.GetCameraProperty(exposure.propertyType, out exposure.currentValue, out exposure.currentCtrlFlag);
-            Console.Write("currentValue: " + exposure.currentValue.ToString() + "\r\n" +
-                             "currentCameraControlFlags: " + exposure.currentCtrlFlag.ToString() + "\r\n");
+            this.videoDeviceForCapture.GetCameraProperty(Exposure.propertyType, out Exposure.currentValue, out Exposure.currentCtrlFlag);
+            Console.Write("currentValue: " + Exposure.currentValue.ToString() + "\r\n" +
+                             "currentCameraControlFlags: " + Exposure.currentCtrlFlag.ToString() + "\r\n");
             // check if property is adjustable
-            Console.WriteLine("Property "+ exposure.propertyType.ToString() + " is ajustable?: " + this.exposure.isAdjustable.ToString());
+            Console.WriteLine("Property "+ Exposure.propertyType.ToString() + " is ajustable?: " + this.Exposure.isAdjustable.ToString());
 		}
 
         /// <summary>
