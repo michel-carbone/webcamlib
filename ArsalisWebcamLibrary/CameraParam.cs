@@ -73,5 +73,21 @@ namespace Arsalis.WebcamLibrary
                 }
             }
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CameraParam"/> struct.
+        /// </summary>
+        /// <param name="property">Set type of camera control property.</param>
+        public CameraParam(AForge.Video.DirectShow.CameraControlProperty property)
+        {
+            this.propertyType = property;
+            this.minValue = 0;
+            this.maxValue = 0;
+            this.defaultValue = 0;
+            this.stepSize = 0;
+            this.ctrFlag = AForge.Video.DirectShow.CameraControlFlags.None;
+            this.currentCtrlFlag = AForge.Video.DirectShow.CameraControlFlags.None;
+            this.currentValue = 0;
+        }
     }
 }

@@ -25,14 +25,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Arsalis.WebcamLibrary.WebcamImage">
-    <Position X="7.25" Y="3.25" Width="1.75" />
+    <Position X="7.25" Y="4.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAEgAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WebcamImage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Struct Name="Arsalis.WebcamLibrary.CameraParam">
-    <Position X="7.25" Y="0.5" Width="2.75" />
+    <Position X="7.25" Y="0.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAAAAAAAIAAAAAAEAACoAQAAAAEAAAAg=</HashCode>
       <FileName>CameraParam.cs</FileName>

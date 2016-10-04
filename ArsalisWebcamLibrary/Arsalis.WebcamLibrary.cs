@@ -64,37 +64,37 @@ namespace Arsalis.WebcamLibrary
         /// <summary>
         /// structure containing webcam Exposure parameters
         /// </summary>
-        public CameraParam Exposure = new CameraParam();
+        public CameraParam Exposure = new CameraParam(AForge.Video.DirectShow.CameraControlProperty.Exposure);
 
         /// <summary>
         /// structure containing webcam Focus parameters
         /// </summary>
-        public CameraParam Focus = new CameraParam();
+        public CameraParam Focus = new CameraParam(AForge.Video.DirectShow.CameraControlProperty.Focus);
 
         /// <summary>
         /// structure containing webcam Iris parameters
         /// </summary>
-        public CameraParam Iris = new CameraParam();
+        public CameraParam Iris = new CameraParam(AForge.Video.DirectShow.CameraControlProperty.Iris);
 
         /// <summary>
         /// structure containing webcam Pan parameters
         /// </summary>
-        public CameraParam Pan = new CameraParam();
+        public CameraParam Pan = new CameraParam(AForge.Video.DirectShow.CameraControlProperty.Pan);
 
         /// <summary>
         /// structure containing webcam Roll parameters
         /// </summary>
-        public CameraParam Roll = new CameraParam();
+        public CameraParam Roll = new CameraParam(AForge.Video.DirectShow.CameraControlProperty.Roll);
 
         /// <summary>
         /// structure containing webcam Tilt parameters
         /// </summary>
-        public CameraParam Tilt = new CameraParam();
+        public CameraParam Tilt = new CameraParam(AForge.Video.DirectShow.CameraControlProperty.Tilt);
 
         /// <summary>
         /// structure containing webcam Zoom parameters
         /// </summary>
-        public CameraParam Zoom = new CameraParam();
+        public CameraParam Zoom = new CameraParam(AForge.Video.DirectShow.CameraControlProperty.Zoom);
 
         public System.Drawing.Bitmap lastImage = new System.Drawing.Bitmap(640, 480, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
         
@@ -155,17 +155,27 @@ namespace Arsalis.WebcamLibrary
 		///	position of selected camera in <see cref="WebcamListNames"></see></param>
 		public void startWebcam(int selectedCamera)
 		{
-			// TODO allow selection of webcam device if count > 1
-			videoDeviceForCapture = new VideoCaptureDevice(webcamListMonikerString[selectedCamera]);
+            initDevice(selectedCamera);
 			videoDeviceForCapture.Start();
             videoDeviceForCapture.NewFrame += new NewFrameEventHandler(videoDeviceForCapture_NewFrame);
-            this.webcamName = WebcamListNames[selectedCamera];
-            // instantiate AVI writer, use WMV3 codec
-			this.writer = new AForge.Video.VFW.AVIWriter( "MSVC" );
-			// create new AVI file and open it
-			string path = "C:/Arsalis/test_" + DateTime.Now.Minute.ToString()+".avi";
-			writer.Open( path, 640, 480 );
+            initSaveVideo();
 		}
+
+        public void initDevice(int selectedCamera)
+        {
+            // TODO allow selection of webcam device if count > 1
+            videoDeviceForCapture = new VideoCaptureDevice(webcamListMonikerString[selectedCamera]);
+            this.webcamName = WebcamListNames[selectedCamera];
+        }
+
+        public void initSaveVideo()
+        {
+            // instantiate AVI writer, use WMV3 codec
+            this.writer = new AForge.Video.VFW.AVIWriter("MSVC");
+            // create new AVI file and open it
+            string path = "C:/Arsalis/test_" + DateTime.Now.Minute.ToString() + ".avi";
+            writer.Open(path, 640, 480);
+        }
 
         void videoDeviceForCapture_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
@@ -202,7 +212,10 @@ namespace Arsalis.WebcamLibrary
 			}
 			videoDeviceForCapture.WaitForStop();
 			messages += this.videoDeviceForCapture.FramesReceived.ToString() + " frames received after WaitForStop\r\n";
-			this.writer.Close();
+            if (this.writer != null)
+            {
+                this.writer.Close();
+            }
 		}
 		
 		/// <summary>
