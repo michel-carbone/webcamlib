@@ -28,8 +28,9 @@ namespace Arsalis.WebcamLibrary
             this.label_top_value_read_only1.setLabel("min");
             this.label_top_value_read_only2.setLabel("default");
             this.label_top_value_read_only3.setLabel("max");
-            this.label_top_value_read_only4.setLabel("flag");
-
+            this.label_top_value_read_only4.setLabel("flags");
+            this.label_top_value_read_only5.setLabel("current value");
+            this.label_top_value_read_only6.setLabel("current flag");
         }
 
         private void select_webcam_button_Click(object sender, EventArgs e)
@@ -57,6 +58,8 @@ namespace Arsalis.WebcamLibrary
                     this.label_top_value_read_only2.setValue(this.webcamClass.Exposure.defaultValue);
                     this.label_top_value_read_only3.setValue(this.webcamClass.Exposure.maxValue);
                     this.label_top_value_read_only4.setValue(this.webcamClass.Exposure.ctrFlag.ToString());
+                    this.label_top_value_read_only5.setValue(this.webcamClass.Exposure.currentValue);
+                    this.label_top_value_read_only6.setValue(this.webcamClass.Exposure.currentCtrlFlag.ToString());
                     break;
                 }
                 default :
@@ -64,6 +67,11 @@ namespace Arsalis.WebcamLibrary
                     throw new ApplicationException("Not implemented");
                 }
             }
+        }
+
+        private void WebcamSetupGUI_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.webcamClass.stopWebcam();
         }
     }
 }
