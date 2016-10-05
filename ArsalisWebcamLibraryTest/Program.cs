@@ -32,16 +32,18 @@ namespace Arsalis.WebcamLibrary.Test
     			// start capture of last webcam detected
 				test.startWebcam(test.WebcamListNames.Length -1);
 				test.getExposureParameters();
+				test.parameters.Zoom = test.getParameter(test.parameters.Zoom);
 				Console.WriteLine("Press any key to continue . . . ");
 				Console.ReadKey(true);
 				test.stopWebcam();
 				Console.WriteLine(test.messages);
 				Console.WriteLine("Press any key to continue . . . ");
+				testGui(test);
 			}
 			Console.ReadKey(true);			
 		}
 		
-		public void testGui(Arsalis.WebcamLibrary.WebcamLibrary test)
+		public static void testGui(Arsalis.WebcamLibrary.WebcamLibrary test)
 		{
 			Console.WriteLine("Open GUI...");
 				// create an instance of test CUI

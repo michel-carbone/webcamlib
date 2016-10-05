@@ -62,40 +62,10 @@ namespace Arsalis.WebcamLibrary
         public string messages = "";
 
         /// <summary>
-        /// structure containing webcam Exposure parameters
+        /// class containing all struct CameraParam objects
         /// </summary>
-        public CameraParam Exposure = new CameraParam(AForge.Video.DirectShow.CameraControlProperty.Exposure);
-
-        /// <summary>
-        /// structure containing webcam Focus parameters
-        /// </summary>
-        public CameraParam Focus = new CameraParam(AForge.Video.DirectShow.CameraControlProperty.Focus);
-
-        /// <summary>
-        /// structure containing webcam Iris parameters
-        /// </summary>
-        public CameraParam Iris = new CameraParam(AForge.Video.DirectShow.CameraControlProperty.Iris);
-
-        /// <summary>
-        /// structure containing webcam Pan parameters
-        /// </summary>
-        public CameraParam Pan = new CameraParam(AForge.Video.DirectShow.CameraControlProperty.Pan);
-
-        /// <summary>
-        /// structure containing webcam Roll parameters
-        /// </summary>
-        public CameraParam Roll = new CameraParam(AForge.Video.DirectShow.CameraControlProperty.Roll);
-
-        /// <summary>
-        /// structure containing webcam Tilt parameters
-        /// </summary>
-        public CameraParam Tilt = new CameraParam(AForge.Video.DirectShow.CameraControlProperty.Tilt);
-
-        /// <summary>
-        /// structure containing webcam Zoom parameters
-        /// </summary>
-        public CameraParam Zoom = new CameraParam(AForge.Video.DirectShow.CameraControlProperty.Zoom);
-
+        public Arsalis.WebcamLibrary.WebcamParameters parameters = new WebcamParameters();
+        
         public System.Drawing.Bitmap lastImage = new System.Drawing.Bitmap(640, 480, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
         
         public DateTime lastTimestamp;
@@ -224,23 +194,52 @@ namespace Arsalis.WebcamLibrary
 		public void getExposureParameters()
 		{
             // set property type of structure
-            this.Exposure.propertyType = CameraControlProperty.Exposure;
+            this.parameters.Exposure.propertyType = CameraControlProperty.Exposure;
             //get property ranges
-			this.videoDeviceForCapture.GetCameraPropertyRange(Exposure.propertyType, out Exposure.minValue, out Exposure.maxValue, out Exposure.stepSize, out Exposure.defaultValue, out Exposure.ctrFlag);
+			this.videoDeviceForCapture.GetCameraPropertyRange(this.parameters.Exposure.propertyType, out this.parameters.Exposure.minValue, out this.parameters.Exposure.maxValue, out this.parameters.Exposure.stepSize, out this.parameters.Exposure.defaultValue, out this.parameters.Exposure.ctrFlag);
             
-            Console.Write("minValue: " + Exposure.minValue.ToString() + "\r\n" +
-                            "maxValue: " + Exposure.maxValue.ToString() + "\r\n" +
-                            "stepSize: " + Exposure.stepSize.ToString() + "\r\n" +
-                            "defaultValue: " + Exposure.defaultValue.ToString() + "\r\n" +   
-                            "CameraControlFlags: " + Exposure.ctrFlag.ToString() + "\r\n");
+            Console.Write("minValue: " + this.parameters.Exposure.minValue.ToString() + "\r\n" +
+                            "maxValue: " + this.parameters.Exposure.maxValue.ToString() + "\r\n" +
+                            "stepSize: " + this.parameters.Exposure.stepSize.ToString() + "\r\n" +
+                            "defaultValue: " + this.parameters.Exposure.defaultValue.ToString() + "\r\n" +   
+                            "CameraControlFlags: " + this.parameters.Exposure.ctrFlag.ToString() + "\r\n");
             // get current property values
-            this.videoDeviceForCapture.GetCameraProperty(Exposure.propertyType, out Exposure.currentValue, out Exposure.currentCtrlFlag);
-            Console.Write("currentValue: " + Exposure.currentValue.ToString() + "\r\n" +
-                             "currentCameraControlFlags: " + Exposure.currentCtrlFlag.ToString() + "\r\n");
+            this.videoDeviceForCapture.GetCameraProperty(this.parameters.Exposure.propertyType, out this.parameters.Exposure.currentValue, out this.parameters.Exposure.currentCtrlFlag);
+            Console.Write("currentValue: " + this.parameters.Exposure.currentValue.ToString() + "\r\n" +
+                             "currentCameraControlFlags: " + this.parameters.Exposure.currentCtrlFlag.ToString() + "\r\n");
             // check if property is adjustable
-            Console.WriteLine("Property "+ Exposure.propertyType.ToString() + " is ajustable?: " + this.Exposure.isAdjustable.ToString());
+            Console.WriteLine("Property "+ this.parameters.Exposure.propertyType.ToString() + " is ajustable?: " + this.parameters.Exposure.isAdjustable.ToString());
 		}
 
+		/// <summary>
+		/// get parameters of selected webcam
+		/// </summary>
+		public CameraParam getParameter(CameraParam property)
+		{
+			try
+			{
+	            //get property ranges
+				this.videoDeviceForCapture.GetCameraPropertyRange(property.propertyType, out property.minValue, out property.maxValue, out property.stepSize, out property.defaultValue, out property.ctrFlag);
+	            
+	            Console.Write("minValue: " + property.minValue.ToString() + "\r\n" +
+	                            "maxValue: " + property.maxValue.ToString() + "\r\n" +
+	                            "stepSize: " + property.stepSize.ToString() + "\r\n" +
+	                            "defaultValue: " + property.defaultValue.ToString() + "\r\n" +   
+	                            "CameraControlFlags: " + property.ctrFlag.ToString() + "\r\n");
+	            // get current property values
+	            this.videoDeviceForCapture.GetCameraProperty(property.propertyType, out property.currentValue, out property.currentCtrlFlag);
+	            Console.Write("currentValue: " + property.currentValue.ToString() + "\r\n" +
+	                             "currentCameraControlFlags: " + property.currentCtrlFlag.ToString() + "\r\n");
+	            // check if property is adjustable
+	            Console.WriteLine("Property "+ property.propertyType.ToString() + " is ajustable?: " + property.isAdjustable.ToString());
+			}
+			catch
+			{
+				throw new Exception("Error in type");
+			}
+			return property;
+		}
+		
         /// <summary>
         /// set webcam property
         /// </summary>

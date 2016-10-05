@@ -53,20 +53,55 @@ namespace Arsalis.WebcamLibrary
             {
                 case 0:
                 {
-                    this.webcamClass.getExposureParameters();
-                    this.label_top_value_read_only1.setValue(this.webcamClass.Exposure.minValue);
-                    this.label_top_value_read_only2.setValue(this.webcamClass.Exposure.defaultValue);
-                    this.label_top_value_read_only3.setValue(this.webcamClass.Exposure.maxValue);
-                    this.label_top_value_read_only4.setValue(this.webcamClass.Exposure.ctrFlag.ToString());
-                    this.label_top_value_read_only5.setValue(this.webcamClass.Exposure.currentValue);
-                    this.label_top_value_read_only6.setValue(this.webcamClass.Exposure.currentCtrlFlag.ToString());
-                    break;
+            		show_param_values(this.webcamClass.parameters.Exposure);
+            		break;
                 }
-                default :
+            	case 1:
+                {
+					show_param_values(this.webcamClass.parameters.Focus);
+            		break;                }
+            	case 2:
+                {
+					show_param_values(this.webcamClass.parameters.Iris);
+            		break;
+            	}
+            	case 3:
+                {
+					show_param_values(this.webcamClass.parameters.Pan);
+            		break;
+                }
+            		case 4:
+                {
+					show_param_values(this.webcamClass.parameters.Roll);
+            		break;
+                }
+            	case 5:
+                {
+					show_param_values(this.webcamClass.parameters.Tilt);
+            		break;
+                }
+				case 6:
+                {
+					show_param_values(this.webcamClass.parameters.Zoom);
+            		break;
+                }
+            	default :
                 {
                     throw new ApplicationException("Not implemented");
                 }
             }
+        }
+
+        private void show_param_values(CameraParam webcamParam)
+        {
+        	webcamParam = this.webcamClass.getParameter(webcamParam);
+            this.label_top_value_read_only1.setValue(webcamParam.minValue);
+            this.label_top_value_read_only2.setValue(webcamParam.defaultValue);
+            this.label_top_value_read_only3.setValue(webcamParam.maxValue);
+            this.label_top_value_read_only4.setValue(webcamParam.ctrFlag.ToString());
+            this.label_top_value_read_only5.setValue(webcamParam.currentValue);
+            this.label_top_value_read_only6.setValue(webcamParam.currentCtrlFlag.ToString());
+            this.label1.Text = webcamParam.propertyType.ToString();
         }
 
         private void WebcamSetupGUI_FormClosed(object sender, FormClosedEventArgs e)
