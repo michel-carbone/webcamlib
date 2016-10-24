@@ -21,16 +21,27 @@ namespace Arsalis.WebcamLibrary
         private void WebcamSetupGUI_Load(object sender, EventArgs e)
         {
             this.webcamClass = new Arsalis.WebcamLibrary.WebcamLibrary();
-            for(int i = 0; i < this.webcamClass.WebcamListNames.Length; i++)
+            	
+            if(this.webcamClass.WebcamListNames.Length == 0)
             {
-                comboBox1.Items.Add(this.webcamClass.WebcamListNames[i]);
+            	comboBox1.Items.Add("No webcam");
+            	select_webcam_button.Enabled = false;
+            	comboBox1.Enabled = false;
             }
-            this.label_top_value_read_only1.setLabel("min");
-            this.label_top_value_read_only2.setLabel("default");
-            this.label_top_value_read_only3.setLabel("max");
-            this.label_top_value_read_only4.setLabel("flags");
-            this.label_top_value_read_only5.setLabel("current value");
-            this.label_top_value_read_only6.setLabel("current flag");
+            else
+            {
+	            for(int i = 0; i < this.webcamClass.WebcamListNames.Length; i++)
+	            {
+	                comboBox1.Items.Add(this.webcamClass.WebcamListNames[i]);
+	            }
+	            this.label_top_value_read_only1.setLabel("min");
+	            this.label_top_value_read_only2.setLabel("default");
+	            this.label_top_value_read_only3.setLabel("max");
+	            this.label_top_value_read_only4.setLabel("flags");
+	            this.label_top_value_read_only5.setLabel("current value");
+	            this.label_top_value_read_only6.setLabel("current flag");
+            }
+            comboBox1.SelectedIndex = 0;
         }
 
         private void select_webcam_button_Click(object sender, EventArgs e)
@@ -40,9 +51,12 @@ namespace Arsalis.WebcamLibrary
             this.get_parameters_button.Enabled = true;
             // TODO get parameters from either Arsalis lib or AForge lib
             string [] cameraParameters = {"Exposure", "Focus", "Iris", "Pan", "Roll", "Tilt", "Zoom"};
-            for (int i = 0; i < cameraParameters.Length; i++)
+            if(comboBox2.Items.Count == 0)
             {
-                comboBox2.Items.Add(cameraParameters[i]);
+	            for (int i = 0; i < cameraParameters.Length; i++)
+	            {
+	                comboBox2.Items.Add(cameraParameters[i]);
+	            }
             }
         }
 

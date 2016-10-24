@@ -7,6 +7,8 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using AForge;
 using AForge.Video;
@@ -65,6 +67,11 @@ namespace Arsalis.WebcamLibrary
         /// class containing all struct CameraParam objects
         /// </summary>
         public Arsalis.WebcamLibrary.WebcamParameters parameters = new WebcamParameters();
+
+        public Size[] webcamResolutions;
+
+        private Dictionary<string, VideoCapabilities> videoCapabilitiesDictionary = new Dictionary<string, VideoCapabilities>();
+        
         
         public System.Drawing.Bitmap lastImage = new System.Drawing.Bitmap(640, 480, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
         
@@ -249,6 +256,14 @@ namespace Arsalis.WebcamLibrary
         {
             this.videoDeviceForCapture.SetCameraProperty(property, propertyValue, CameraControlFlags.Manual);
         }
+
+        public void setFrameResolution(Size resolution)
+        {
+            //VideoCapabilities caps = this.videoDeviceForCapture.VideoCapabilities;
+            VideoCapabilities caps = videoCapabilitiesDictionary["1280 x 800"];
+            //caps.FrameSize = resolution;
+            //this.videoDeviceForCapture.VideoCapabilities = caps;
+        }
 		
 		/// <summary>
 		/// Save image to disk
@@ -268,6 +283,42 @@ namespace Arsalis.WebcamLibrary
             //writer.AddFrame(frameCopy);
             //System.Drawing.Image copyCompressed = (System.Drawing.Image)frameCopy.Clone();
 			//this.images[frameCount] = new Bitmap(copyCompressed);
+		}
+		
+		public void GetFrameResolutions()
+		{
+            int [] widths = new int [100];
+            int [] heights = new int [100];
+			try
+            {
+				VideoCapabilities [] videoCapabilities = this.videoDeviceForCapture.VideoCapabilities;
+				int count = 0;
+				foreach ( VideoCapabilities capability in videoCapabilities )
+                {
+                    widths[count] = capability.FrameSize.Width;
+                    heights[count] = capability.FrameSize.Height;
+			    	Console.WriteLine(capability.FrameSize.ToString());
+                    string item = string.Format("{0} x {1}", widths[count],heights[count] );
+                	Console.WriteLine(item);
+                	count = ++ count;
+
+                    if (!videoCapabilitiesDictionary.ContainsKey(item))
+                    {
+                        videoCapabilitiesDictionary.Add(item, capability);
+                    }
+                }
+				this.webcamResolutions = new Size[count];
+                
+				for (int i = 0; i < count; i++)
+				{
+                    this.webcamResolutions[i] = new Size(widths[i], heights[i]);
+				}
+			}
+			catch
+            {
+                	
+            }
+            this.videoDeviceForCapture.VideoResolution = videoCapabilitiesDictionary["640 x 480"];
 		}
 		
 		public delegate void WebcamEventsHandler(object source, WebcamEvent e);

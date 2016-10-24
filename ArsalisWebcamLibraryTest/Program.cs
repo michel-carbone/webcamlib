@@ -33,12 +33,19 @@ namespace Arsalis.WebcamLibrary.Test
 				test.startWebcam(test.WebcamListNames.Length -1);
 				test.getExposureParameters();
 				test.parameters.Zoom = test.getParameter(test.parameters.Zoom);
-				Console.WriteLine("Press any key to continue . . . ");
+				test.GetFrameResolutions();
+                //test.videoDeviceForCapture.VideoResolution.FrameSize.ToString();
+                System.Drawing.Size frameSize = new System.Drawing.Size(1280, 800);
+                test.setFrameResolution(frameSize);
+                Console.WriteLine("New resolution is: \r\nWidth: ");
+                test.videoDeviceForCapture.VideoResolution.FrameSize.Width.ToString();
+                Console.WriteLine("Press any key to continue . . . ");
 				Console.ReadKey(true);
 				test.stopWebcam();
 				Console.WriteLine(test.messages);
 				Console.WriteLine("Press any key to continue . . . ");
-				testGui(test);
+				
+                //testGui(test);
 			}
 			Console.ReadKey(true);			
 		}
