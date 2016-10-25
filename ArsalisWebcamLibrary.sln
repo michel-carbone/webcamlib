@@ -27,4 +27,7 @@ Global
 		{35FCC9FF-DAD8-4C05-B41A-F9AAD676CCDB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{35FCC9FF-DAD8-4C05-B41A-F9AAD676CCDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = WebcamSetupGUI\Arsalis.WebcamLibrary.WebcamSetupGUI.csproj
+	EndGlobalSection
 EndGlobal
