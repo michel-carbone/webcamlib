@@ -22,14 +22,14 @@ namespace Arsalis.WebcamLibrary.Test
 	/// </summary>
 	public partial class GUI : Form
 	{
-		public GUI()
+		public GUI(Arsalis.WebcamLibrary.WebcamLibrary selectedWebcam)
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
-			
-			webcam = new WebcamLibrary();
+
+            this.webcam = selectedWebcam;
 		}
 		
 		public WebcamLibrary webcam;

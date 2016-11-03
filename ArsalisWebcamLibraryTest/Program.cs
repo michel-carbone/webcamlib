@@ -30,22 +30,26 @@ namespace Arsalis.WebcamLibrary.Test
     				Console.WriteLine(i.ToString() + ": " + test.WebcamListNames[i]);
     			}
     			// start capture of last webcam detected
-				test.startWebcam(test.WebcamListNames.Length -1);
-				test.getExposureParameters();
+                // DEBUG
+				//test.startWebcam(test.WebcamListNames.Length -1);
+                // DEBUG 
+                test.initDevice(test.WebcamListNames.Length - 1);
+                test.getExposureParameters();
 				test.parameters.Zoom = test.getParameter(test.parameters.Zoom);
 				test.GetFrameResolutions();
                 //test.videoDeviceForCapture.VideoResolution.FrameSize.ToString();
-                System.Drawing.Size frameSize = new System.Drawing.Size(1280, 800);
+                System.Drawing.Size frameSize = test.webcamResolutions[3];
                 test.setFrameResolution(frameSize);
-                Console.WriteLine("New resolution is: \r\nWidth: ");
-                test.videoDeviceForCapture.VideoResolution.FrameSize.Width.ToString();
+                Console.WriteLine("New resolution is: \r\n: ");
+                test.videoDeviceForCapture.VideoResolution.FrameSize.ToString();
                 Console.WriteLine("Press any key to continue . . . ");
+                test.startAcquisition();
 				Console.ReadKey(true);
 				test.stopWebcam();
 				Console.WriteLine(test.messages);
 				Console.WriteLine("Press any key to continue . . . ");
 				
-                //testGui(test);
+                testGui(test);
 			}
 			Console.ReadKey(true);			
 		}
@@ -54,12 +58,14 @@ namespace Arsalis.WebcamLibrary.Test
 		{
 			Console.WriteLine("Open GUI...");
 				// create an instance of test CUI
-    			Arsalis.WebcamLibrary.Test.GUI testGUI = new GUI();
+    			Arsalis.WebcamLibrary.Test.GUI testGUI = new GUI(test);
 				// set GUI videoDevice to selected videoDevice of test webcam class
 				testGUI.OpenVideoSource(test.videoDeviceForCapture);
 				testGUI.ShowDialog();
+                testGUI.CloseCurrentVideoSource();
 				Console.Write(testGUI.timeStamps);
-				
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
 		}
 	}
 }

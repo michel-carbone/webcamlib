@@ -133,9 +133,8 @@ namespace Arsalis.WebcamLibrary
 		public void startWebcam(int selectedCamera)
 		{
             initDevice(selectedCamera);
-			videoDeviceForCapture.Start();
-            videoDeviceForCapture.NewFrame += new NewFrameEventHandler(videoDeviceForCapture_NewFrame);
-            initSaveVideo();
+            startAcquisition();
+            //initSaveVideo();
 		}
 
         public void initDevice(int selectedCamera)
@@ -143,6 +142,12 @@ namespace Arsalis.WebcamLibrary
             // TODO allow selection of webcam device if count > 1
             videoDeviceForCapture = new VideoCaptureDevice(webcamListMonikerString[selectedCamera]);
             this.webcamName = WebcamListNames[selectedCamera];
+        }
+
+        public void startAcquisition()
+        {
+            videoDeviceForCapture.Start();
+            videoDeviceForCapture.NewFrame += new NewFrameEventHandler(videoDeviceForCapture_NewFrame);
         }
 
         public void initSaveVideo()
@@ -260,9 +265,13 @@ namespace Arsalis.WebcamLibrary
         public void setFrameResolution(Size resolution)
         {
             //VideoCapabilities caps = this.videoDeviceForCapture.VideoCapabilities;
-            VideoCapabilities caps = videoCapabilitiesDictionary["1280 x 800"];
+            string key = resolution.Width.ToString() + " x " + resolution.Height.ToString();
+            VideoCapabilities caps = videoCapabilitiesDictionary[key];
             //caps.FrameSize = resolution;
-            //this.videoDeviceForCapture.VideoCapabilities = caps;
+            Console.WriteLine("Frame size: " + this.videoDeviceForCapture.VideoResolution.FrameSize.ToString());
+            this.videoDeviceForCapture.VideoResolution = this.videoDeviceForCapture.VideoCapabilities[3];
+            System.Threading.Thread.Sleep(1000);
+            Console.WriteLine("Frame size: " + this.videoDeviceForCapture.VideoResolution.FrameSize.ToString());
         }
 		
 		/// <summary>
@@ -287,36 +296,30 @@ namespace Arsalis.WebcamLibrary
 		
 		public void GetFrameResolutions()
 		{
-            int [] widths = new int [100];
-            int [] heights = new int [100];
+            
 			try
             {
 				VideoCapabilities [] videoCapabilities = this.videoDeviceForCapture.VideoCapabilities;
-				int count = 0;
-				foreach ( VideoCapabilities capability in videoCapabilities )
-                {
-                    widths[count] = capability.FrameSize.Width;
-                    heights[count] = capability.FrameSize.Height;
-			    	Console.WriteLine(capability.FrameSize.ToString());
-                    string item = string.Format("{0} x {1}", widths[count],heights[count] );
-                	Console.WriteLine(item);
-                	count = ++ count;
+                this.webcamResolutions = new Size[videoCapabilities.Length];
 
+				for(int i = 0; i < videoCapabilities.Length; i++)
+                {
+                    int width = videoCapabilities[i].FrameSize.Width;
+                    int height = videoCapabilities[i].FrameSize.Height;
+                    Console.WriteLine(videoCapabilities[i].FrameSize.ToString());
+                    string item = string.Format("{0} x {1}", width,height );
+                	Console.WriteLine(item);
+                
                     if (!videoCapabilitiesDictionary.ContainsKey(item))
                     {
-                        videoCapabilitiesDictionary.Add(item, capability);
+                        videoCapabilitiesDictionary.Add(item, videoCapabilities[i]);
+                        this.webcamResolutions[i] = new Size(width, height);
                     }
                 }
-				this.webcamResolutions = new Size[count];
-                
-				for (int i = 0; i < count; i++)
-				{
-                    this.webcamResolutions[i] = new Size(widths[i], heights[i]);
-				}
 			}
 			catch
             {
-                	
+                messages += "Exception in GetFrameResolutions method";
             }
             this.videoDeviceForCapture.VideoResolution = videoCapabilitiesDictionary["640 x 480"];
 		}

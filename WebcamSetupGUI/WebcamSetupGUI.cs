@@ -104,6 +104,13 @@ namespace Arsalis.WebcamLibrary
                     throw new ApplicationException("Not implemented");
                 }
             }
+            this.comboBox3.Enabled = true;
+            this.button1.Enabled = true;
+            this.webcamClass.GetFrameResolutions();
+            for (int i = 0; i < this.webcamClass.webcamResolutions.Length; i++)
+            {
+                comboBox3.Items.Add(this.webcamClass.webcamResolutions[i].ToString());
+            }
         }
 
         private void show_param_values(CameraParam webcamParam)
@@ -121,6 +128,11 @@ namespace Arsalis.WebcamLibrary
         private void WebcamSetupGUI_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.webcamClass.stopWebcam();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.webcamClass.setFrameResolution(this.webcamClass.webcamResolutions[comboBox3.SelectedIndex]);
         }
     }
 }
