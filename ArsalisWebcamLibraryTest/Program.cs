@@ -48,11 +48,10 @@ namespace Arsalis.WebcamLibrary.Test
 				test.stopWebcam();
 				Console.WriteLine(test.messages);
 				Console.WriteLine("Press any key to continue . . . ");
-				
+                System.Threading.Thread.Sleep(2000);
                 testGui(test);
 			}
-			Console.ReadKey(true);			
-		}
+	}
 		
 		public static void testGui(Arsalis.WebcamLibrary.WebcamLibrary test)
 		{

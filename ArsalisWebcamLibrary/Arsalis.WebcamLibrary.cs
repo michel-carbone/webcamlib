@@ -73,7 +73,7 @@ namespace Arsalis.WebcamLibrary
         private Dictionary<string, VideoCapabilities> videoCapabilitiesDictionary = new Dictionary<string, VideoCapabilities>();
         
         
-        public System.Drawing.Bitmap lastImage = new System.Drawing.Bitmap(640, 480, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+        public System.Drawing.Bitmap lastImage;// = new System.Drawing.Bitmap(640, 480, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
         
         public DateTime lastTimestamp;
         
@@ -156,7 +156,9 @@ namespace Arsalis.WebcamLibrary
             this.writer = new AForge.Video.VFW.AVIWriter("MSVC");
             // create new AVI file and open it
             string path = "C:/Arsalis/test_" + DateTime.Now.Minute.ToString() + ".avi";
-            writer.Open(path, 640, 480);
+            int width = this.videoDeviceForCapture.VideoResolution.FrameSize.Width;
+            int height = this.videoDeviceForCapture.VideoResolution.FrameSize.Height;
+            writer.Open(path, width, height);
         }
 
         void videoDeviceForCapture_NewFrame(object sender, NewFrameEventArgs eventArgs)
@@ -266,10 +268,14 @@ namespace Arsalis.WebcamLibrary
         {
             //VideoCapabilities caps = this.videoDeviceForCapture.VideoCapabilities;
             string key = resolution.Width.ToString() + " x " + resolution.Height.ToString();
+
             VideoCapabilities caps = videoCapabilitiesDictionary[key];
+            
             //caps.FrameSize = resolution;
             Console.WriteLine("Frame size: " + this.videoDeviceForCapture.VideoResolution.FrameSize.ToString());
-            this.videoDeviceForCapture.VideoResolution = this.videoDeviceForCapture.VideoCapabilities[3];
+
+            //this.videoDeviceForCapture.VideoResolution = this.videoDeviceForCapture.VideoCapabilities[3];
+            this.videoDeviceForCapture.VideoResolution = caps;
             System.Threading.Thread.Sleep(1000);
             Console.WriteLine("Frame size: " + this.videoDeviceForCapture.VideoResolution.FrameSize.ToString());
         }

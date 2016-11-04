@@ -30,6 +30,9 @@ namespace Arsalis.WebcamLibrary.Test
 			InitializeComponent();
 
             this.webcam = selectedWebcam;
+            this.webcam.startWebcam(0);
+            this.videoSourcePlayer1.VideoSource = this.webcam.videoDeviceForCapture;
+            this.videoSourcePlayer1.Start();
 		}
 		
 		public WebcamLibrary webcam;

@@ -40,6 +40,7 @@ namespace Arsalis.WebcamLibrary
 	            this.label_top_value_read_only4.setLabel("flags");
 	            this.label_top_value_read_only5.setLabel("current value");
 	            this.label_top_value_read_only6.setLabel("current flag");
+                this.label_top_value_read_only7.setLabel("New resolution");
             }
             comboBox1.SelectedIndex = 0;
         }
@@ -133,6 +134,8 @@ namespace Arsalis.WebcamLibrary
         private void button1_Click(object sender, EventArgs e)
         {
             this.webcamClass.setFrameResolution(this.webcamClass.webcamResolutions[comboBox3.SelectedIndex]);
+            string newResolution = this.webcamClass.videoDeviceForCapture.VideoResolution.FrameSize.ToString();
+            this.label_top_value_read_only7.setValue(newResolution);
         }
     }
 }

@@ -33,17 +33,18 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupBox_setParameter = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.get_parameters_button = new System.Windows.Forms.Button();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.label_top_value_read_only6 = new Arsalis.WebcamLibrary.label_top_value_read_only();
             this.label_top_value_read_only5 = new Arsalis.WebcamLibrary.label_top_value_read_only();
             this.label_top_value_read_only4 = new Arsalis.WebcamLibrary.label_top_value_read_only();
             this.label_top_value_read_only3 = new Arsalis.WebcamLibrary.label_top_value_read_only();
             this.label_top_value_read_only2 = new Arsalis.WebcamLibrary.label_top_value_read_only();
             this.label_top_value_read_only1 = new Arsalis.WebcamLibrary.label_top_value_read_only();
+            this.get_parameters_button = new System.Windows.Forms.Button();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.label_top_value_read_only7 = new Arsalis.WebcamLibrary.label_top_value_read_only();
             this.groupBox_selectWebcam.SuspendLayout();
             this.groupBox_setParameter.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -110,64 +111,6 @@
             this.label1.TabIndex = 8;
             this.label1.Text = "label1";
             // 
-            // get_parameters_button
-            // 
-            this.get_parameters_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.get_parameters_button.Enabled = false;
-            this.get_parameters_button.Location = new System.Drawing.Point(521, 18);
-            this.get_parameters_button.Name = "get_parameters_button";
-            this.get_parameters_button.Size = new System.Drawing.Size(75, 23);
-            this.get_parameters_button.TabIndex = 1;
-            this.get_parameters_button.Text = "Get";
-            this.get_parameters_button.UseVisualStyleBackColor = true;
-            this.get_parameters_button.Click += new System.EventHandler(this.get_parameters_button_Click);
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox2.Enabled = false;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(13, 20);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(502, 21);
-            this.comboBox2.TabIndex = 0;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.comboBox3);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(0, 152);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(608, 53);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Set webcam resolution";
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(521, 18);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Set";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox3.Enabled = false;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(13, 20);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(502, 21);
-            this.comboBox3.TabIndex = 0;
-            // 
             // label_top_value_read_only6
             // 
             this.label_top_value_read_only6.Location = new System.Drawing.Point(437, 48);
@@ -210,6 +153,72 @@
             this.label_top_value_read_only1.Size = new System.Drawing.Size(80, 45);
             this.label_top_value_read_only1.TabIndex = 2;
             // 
+            // get_parameters_button
+            // 
+            this.get_parameters_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.get_parameters_button.Enabled = false;
+            this.get_parameters_button.Location = new System.Drawing.Point(521, 18);
+            this.get_parameters_button.Name = "get_parameters_button";
+            this.get_parameters_button.Size = new System.Drawing.Size(75, 23);
+            this.get_parameters_button.TabIndex = 1;
+            this.get_parameters_button.Text = "Get";
+            this.get_parameters_button.UseVisualStyleBackColor = true;
+            this.get_parameters_button.Click += new System.EventHandler(this.get_parameters_button_Click);
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox2.Enabled = false;
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(13, 20);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(502, 21);
+            this.comboBox2.TabIndex = 0;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label_top_value_read_only7);
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.comboBox3);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(0, 152);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(608, 99);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Set webcam resolution";
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Enabled = false;
+            this.button1.Location = new System.Drawing.Point(521, 18);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Set";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // comboBox3
+            // 
+            this.comboBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox3.Enabled = false;
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Location = new System.Drawing.Point(13, 20);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(502, 21);
+            this.comboBox3.TabIndex = 0;
+            // 
+            // label_top_value_read_only7
+            // 
+            this.label_top_value_read_only7.Location = new System.Drawing.Point(7, 47);
+            this.label_top_value_read_only7.Name = "label_top_value_read_only7";
+            this.label_top_value_read_only7.Size = new System.Drawing.Size(508, 45);
+            this.label_top_value_read_only7.TabIndex = 3;
+            // 
             // WebcamSetupGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -247,6 +256,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox comboBox3;
+        private label_top_value_read_only label_top_value_read_only7;
         
     }
 }
