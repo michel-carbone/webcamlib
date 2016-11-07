@@ -85,7 +85,7 @@ namespace Arsalis.WebcamLibrary
 					show_param_values(this.webcamClass.parameters.Pan);
             		break;
                 }
-            		case 4:
+            	case 4:
                 {
 					show_param_values(this.webcamClass.parameters.Roll);
             		break;
@@ -106,11 +106,15 @@ namespace Arsalis.WebcamLibrary
                 }
             }
             this.comboBox3.Enabled = true;
-            this.button1.Enabled = true;
-            this.webcamClass.GetFrameResolutions();
-            for (int i = 0; i < this.webcamClass.webcamResolutions.Length; i++)
+            this.set_resolution_button.Enabled = true;
+            // test if combobox was not populated before by another get_parameters_button_Click
+            if (comboBox3.Items.Count == 0)
             {
-                comboBox3.Items.Add(this.webcamClass.webcamResolutions[i].ToString());
+                this.webcamClass.GetFrameResolutions();
+                for (int i = 0; i < this.webcamClass.webcamResolutions.Length; i++)
+                {
+                    comboBox3.Items.Add(this.webcamClass.webcamResolutions[i].ToString());
+                }
             }
         }
 
@@ -131,7 +135,7 @@ namespace Arsalis.WebcamLibrary
             this.webcamClass.stopWebcam();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void set_resolution_button_Click(object sender, EventArgs e)
         {
             this.webcamClass.setFrameResolution(this.webcamClass.webcamResolutions[comboBox3.SelectedIndex]);
             string newResolution = this.webcamClass.videoDeviceForCapture.VideoResolution.FrameSize.ToString();

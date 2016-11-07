@@ -73,13 +73,11 @@ namespace Arsalis.WebcamLibrary
         private Dictionary<string, VideoCapabilities> videoCapabilitiesDictionary = new Dictionary<string, VideoCapabilities>();
         
         
-        public System.Drawing.Bitmap lastImage;// = new System.Drawing.Bitmap(640, 480, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-        
-        public DateTime lastTimestamp;
-        
         private AForge.Video.VFW.AVIWriter writer;
-        
+
         System.Threading.Thread thread;
+
+        private Arsalis.WebcamLibrary.WebcamImage lastImage;
 
         private void WorkThreadFunction(object webcamImage)
 		{
@@ -167,8 +165,8 @@ namespace Arsalis.WebcamLibrary
             DateTime now = DateTime.Now;
             messages += "Event in WebcamLibrary @ "+ now.ToString() + "::" + now.Millisecond.ToString() + ";\t frames received:" +this.frameCount.ToString()+"\r\n";
             System.Drawing.Bitmap copy = (System.Drawing.Bitmap)eventArgs.Frame.Clone();
-            this.lastImage = new Bitmap(copy);
-            this.lastTimestamp = now;
+            this.lastImage.image = new Bitmap(copy);
+            this.lastImage.timestamp = now;
             WebcamImage lastImageObj = new WebcamImage();
             lastImageObj.image = new Bitmap(copy);
             lastImageObj.timestamp = now;
@@ -187,12 +185,12 @@ namespace Arsalis.WebcamLibrary
 		{
 			messages += this.videoDeviceForCapture.FramesReceived.ToString() + " frames received before SignalToStop\r\n";
 			videoDeviceForCapture.SignalToStop();
-			Console.WriteLine("Height of last Image: " +this.lastImage.Height.ToString());
-			Console.WriteLine("Width of last Image: " +this.lastImage.Width.ToString());
+			Console.WriteLine("Height of last Image: " +this.lastImage.image.Height.ToString());
+			Console.WriteLine("Width of last Image: " +this.lastImage.image.Width.ToString());
 			Console.WriteLine("PropertyItems of last Image: ");
-			for(int j=0; j<this.lastImage.PropertyItems.Length;j++)
+			for(int j=0; j<this.lastImage.image.PropertyItems.Length;j++)
 			{	
-				Console.WriteLine(this.lastImage.PropertyItems[j].ToString());
+				Console.WriteLine(this.lastImage.image.PropertyItems[j].ToString());
 			}
 			videoDeviceForCapture.WaitForStop();
 			messages += this.videoDeviceForCapture.FramesReceived.ToString() + " frames received after WaitForStop\r\n";
@@ -269,13 +267,13 @@ namespace Arsalis.WebcamLibrary
             //VideoCapabilities caps = this.videoDeviceForCapture.VideoCapabilities;
             string key = resolution.Width.ToString() + " x " + resolution.Height.ToString();
 
-            VideoCapabilities caps = videoCapabilitiesDictionary[key];
-            
+            this.parameters.capabilities = videoCapabilitiesDictionary[key];
             //caps.FrameSize = resolution;
+            // TODO DEBUG: this.videoDeviceForCapture.VideoResolution is null when get parameter is called a second time
             Console.WriteLine("Frame size: " + this.videoDeviceForCapture.VideoResolution.FrameSize.ToString());
 
             //this.videoDeviceForCapture.VideoResolution = this.videoDeviceForCapture.VideoCapabilities[3];
-            this.videoDeviceForCapture.VideoResolution = caps;
+            this.videoDeviceForCapture.VideoResolution = this.parameters.capabilities;
             System.Threading.Thread.Sleep(1000);
             Console.WriteLine("Frame size: " + this.videoDeviceForCapture.VideoResolution.FrameSize.ToString());
         }

@@ -50,6 +50,9 @@ namespace Arsalis.WebcamLibrary
         /// </summary>
         public CameraParam Zoom = new CameraParam(AForge.Video.DirectShow.CameraControlProperty.Zoom);
 
+        /// <summary>
+        /// VideoCapabilities of selected webcam
+        /// </summary>
         public AForge.Video.DirectShow.VideoCapabilities capabilities;
 	}
 }
