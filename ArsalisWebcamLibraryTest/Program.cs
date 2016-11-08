@@ -33,7 +33,7 @@ namespace Arsalis.WebcamLibrary.Test
                 // DEBUG
 				//test.startWebcam(test.WebcamListNames.Length -1);
                 // DEBUG 
-                test.initDevice(test.WebcamListNames.Length - 1);
+                test.initDevice(test.WebcamListNames.Length - 1, false);
                 test.getExposureParameters();
 				test.parameters.Zoom = test.getParameter(test.parameters.Zoom);
 				test.GetFrameResolutions();

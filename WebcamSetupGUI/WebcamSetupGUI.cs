@@ -63,7 +63,7 @@ namespace Arsalis.WebcamLibrary
 
         private void get_parameters_button_Click(object sender, EventArgs e)
         {
-            this.webcamClass.initDevice(comboBox1.SelectedIndex);
+            this.webcamClass.initDevice(comboBox1.SelectedIndex, false);
             switch(comboBox2.SelectedIndex)
             {
                 case 0:

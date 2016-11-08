@@ -130,18 +130,28 @@ namespace Arsalis.WebcamLibrary
 		///	position of selected camera in <see cref="WebcamListNames"></see></param>
 		public void startWebcam(int selectedCamera)
 		{
-            initDevice(selectedCamera);
+            initDevice(selectedCamera, false);
             startAcquisition();
-            //initSaveVideo();
 		}
 
-        public void initDevice(int selectedCamera)
+        /// <summary>
+        /// configure selected camera
+        /// </summary>
+        /// <param name="selectedCamera">integer representing selected webcam</param>
+        /// <param name="initVideo">bool, if set: init video</param>
+        public void initDevice(int selectedCamera, bool initVideo)
         {
-            // TODO allow selection of webcam device if count > 1
             videoDeviceForCapture = new VideoCaptureDevice(webcamListMonikerString[selectedCamera]);
             this.webcamName = WebcamListNames[selectedCamera];
+            if (initVideo)
+            {
+                initSaveVideo();
+            }
         }
 
+        /// <summary>
+        /// start acquisition of webcam
+        /// </summary>
         public void startAcquisition()
         {
             videoDeviceForCapture.Start();
@@ -271,7 +281,6 @@ namespace Arsalis.WebcamLibrary
             //caps.FrameSize = resolution;
             // TODO DEBUG: this.videoDeviceForCapture.VideoResolution is null when get parameter is called a second time
             Console.WriteLine("Frame size: " + this.videoDeviceForCapture.VideoResolution.FrameSize.ToString());
-
             //this.videoDeviceForCapture.VideoResolution = this.videoDeviceForCapture.VideoCapabilities[3];
             this.videoDeviceForCapture.VideoResolution = this.parameters.capabilities;
             System.Threading.Thread.Sleep(1000);
@@ -300,8 +309,7 @@ namespace Arsalis.WebcamLibrary
 		
 		public void GetFrameResolutions()
 		{
-            
-			try
+            try
             {
 				VideoCapabilities [] videoCapabilities = this.videoDeviceForCapture.VideoCapabilities;
                 this.webcamResolutions = new Size[videoCapabilities.Length];
@@ -312,7 +320,6 @@ namespace Arsalis.WebcamLibrary
                     int height = videoCapabilities[i].FrameSize.Height;
                     Console.WriteLine(videoCapabilities[i].FrameSize.ToString());
                     string item = string.Format("{0} x {1}", width,height );
-                	Console.WriteLine(item);
                 
                     if (!videoCapabilitiesDictionary.ContainsKey(item))
                     {
