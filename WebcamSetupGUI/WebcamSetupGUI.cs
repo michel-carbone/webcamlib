@@ -141,5 +141,21 @@ namespace Arsalis.WebcamLibrary
             string newResolution = this.webcamClass.videoDeviceForCapture.VideoResolution.FrameSize.ToString();
             this.label_top_value_read_only7.setValue(newResolution);
         }
+
+        private void start_webcam_button_Click(object sender, EventArgs e)
+        {
+            this.stop_webcam_button.Enabled = true;
+            this.start_webcam_button.Enabled = false;
+            this.webcamClass.startAcquisition();
+        }
+
+        private void stop_webcam_button_Click(object sender, EventArgs e)
+        {
+            this.stop_webcam_button.Enabled = false;
+            this.start_webcam_button.Enabled = true;
+            this.webcamClass.stopWebcam();
+        }
+
+        public delegate void WebcamEventsHandler(object source, WebcamEvent e);
     }
 }

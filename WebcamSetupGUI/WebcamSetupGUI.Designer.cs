@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox_selectWebcam = new System.Windows.Forms.GroupBox();
+            this.select_webcam_button = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupBox_setParameter = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -44,7 +45,8 @@
             this.label_top_value_read_only3 = new Arsalis.WebcamLibrary.label_top_value_read_only();
             this.label_top_value_read_only2 = new Arsalis.WebcamLibrary.label_top_value_read_only();
             this.label_top_value_read_only1 = new Arsalis.WebcamLibrary.label_top_value_read_only();
-            this.select_webcam_button = new System.Windows.Forms.Button();
+            this.start_webcam_button = new System.Windows.Forms.Button();
+            this.stop_webcam_button = new System.Windows.Forms.Button();
             this.groupBox_selectWebcam.SuspendLayout();
             this.groupBox_setParameter.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -61,6 +63,17 @@
             this.groupBox_selectWebcam.TabIndex = 0;
             this.groupBox_selectWebcam.TabStop = false;
             this.groupBox_selectWebcam.Text = "Select and set webcam";
+            // 
+            // select_webcam_button
+            // 
+            this.select_webcam_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.select_webcam_button.Location = new System.Drawing.Point(521, 18);
+            this.select_webcam_button.Name = "select_webcam_button";
+            this.select_webcam_button.Size = new System.Drawing.Size(75, 23);
+            this.select_webcam_button.TabIndex = 1;
+            this.select_webcam_button.Text = "Set";
+            this.select_webcam_button.UseVisualStyleBackColor = true;
+            this.select_webcam_button.Click += new System.EventHandler(this.select_webcam_button_Click);
             // 
             // comboBox1
             // 
@@ -208,22 +221,34 @@
             this.label_top_value_read_only1.Size = new System.Drawing.Size(80, 45);
             this.label_top_value_read_only1.TabIndex = 2;
             // 
-            // select_webcam_button
+            // start_webcam_button
             // 
-            this.select_webcam_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.select_webcam_button.Location = new System.Drawing.Point(521, 18);
-            this.select_webcam_button.Name = "select_webcam_button";
-            this.select_webcam_button.Size = new System.Drawing.Size(75, 23);
-            this.select_webcam_button.TabIndex = 1;
-            this.select_webcam_button.Text = "Set";
-            this.select_webcam_button.UseVisualStyleBackColor = true;
-            this.select_webcam_button.Click += new System.EventHandler(this.select_webcam_button_Click);
+            this.start_webcam_button.Location = new System.Drawing.Point(521, 258);
+            this.start_webcam_button.Name = "start_webcam_button";
+            this.start_webcam_button.Size = new System.Drawing.Size(75, 23);
+            this.start_webcam_button.TabIndex = 4;
+            this.start_webcam_button.Text = "Start webcam";
+            this.start_webcam_button.UseVisualStyleBackColor = true;
+            this.start_webcam_button.Click += new System.EventHandler(this.start_webcam_button_Click);
+            // 
+            // stop_webcam_button
+            // 
+            this.stop_webcam_button.Enabled = false;
+            this.stop_webcam_button.Location = new System.Drawing.Point(521, 288);
+            this.stop_webcam_button.Name = "stop_webcam_button";
+            this.stop_webcam_button.Size = new System.Drawing.Size(75, 23);
+            this.stop_webcam_button.TabIndex = 5;
+            this.stop_webcam_button.Text = "Stop webcam";
+            this.stop_webcam_button.UseVisualStyleBackColor = true;
+            this.stop_webcam_button.Click += new System.EventHandler(this.stop_webcam_button_Click);
             // 
             // WebcamSetupGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(608, 266);
+            this.ClientSize = new System.Drawing.Size(608, 329);
+            this.Controls.Add(this.stop_webcam_button);
+            this.Controls.Add(this.start_webcam_button);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox_setParameter);
             this.Controls.Add(this.groupBox_selectWebcam);
@@ -257,6 +282,8 @@
         private System.Windows.Forms.Button set_resolution_button;
         private System.Windows.Forms.ComboBox comboBox3;
         private label_top_value_read_only label_top_value_read_only7;
+        private System.Windows.Forms.Button start_webcam_button;
+        private System.Windows.Forms.Button stop_webcam_button;
         
     }
 }

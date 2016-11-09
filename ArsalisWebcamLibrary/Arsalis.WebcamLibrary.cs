@@ -87,6 +87,7 @@ namespace Arsalis.WebcamLibrary
             int frameCount = lastImageObj.frameCount;
             saveImage(lastBitmap, lastTimestamp);
             this.messages += "This text was set by WorkThreadFunction, frame number: " + frameCount.ToString() + ".\r\n";
+            //new WebcamEvent("New image arrived, number " + this.frameCount.ToString());
 		}
         
         /// <summary>
@@ -141,7 +142,7 @@ namespace Arsalis.WebcamLibrary
         /// <param name="initVideo">bool, if set: init video</param>
         public void initDevice(int selectedCamera, bool initVideo)
         {
-            videoDeviceForCapture = new VideoCaptureDevice(webcamListMonikerString[selectedCamera]);
+            this.videoDeviceForCapture = new VideoCaptureDevice(webcamListMonikerString[selectedCamera]);
             this.webcamName = WebcamListNames[selectedCamera];
             if (initVideo)
             {
@@ -158,6 +159,9 @@ namespace Arsalis.WebcamLibrary
             videoDeviceForCapture.NewFrame += new NewFrameEventHandler(videoDeviceForCapture_NewFrame);
         }
 
+        /// <summary>
+        /// method that initialize saving a video file to disk
+        /// </summary>
         public void initSaveVideo()
         {
             // instantiate AVI writer, use WMV3 codec
@@ -193,46 +197,31 @@ namespace Arsalis.WebcamLibrary
 		/// </summary>
 		public void stopWebcam()
 		{
-			messages += this.videoDeviceForCapture.FramesReceived.ToString() + " frames received before SignalToStop\r\n";
-			videoDeviceForCapture.SignalToStop();
-			Console.WriteLine("Height of last Image: " +this.lastImage.image.Height.ToString());
-			Console.WriteLine("Width of last Image: " +this.lastImage.image.Width.ToString());
-			Console.WriteLine("PropertyItems of last Image: ");
-			for(int j=0; j<this.lastImage.image.PropertyItems.Length;j++)
-			{	
-				Console.WriteLine(this.lastImage.image.PropertyItems[j].ToString());
-			}
-			videoDeviceForCapture.WaitForStop();
-			messages += this.videoDeviceForCapture.FramesReceived.ToString() + " frames received after WaitForStop\r\n";
+            if (this.videoDeviceForCapture != null)
+            {
+                messages += this.videoDeviceForCapture.FramesReceived.ToString() + " frames received before SignalToStop\r\n";
+                videoDeviceForCapture.SignalToStop();
+                if (this.lastImage != null)
+                {
+                    Console.WriteLine("Height of last Image: " + this.lastImage.image.Height.ToString());
+                    Console.WriteLine("Width of last Image: " + this.lastImage.image.Width.ToString());
+                    Console.WriteLine("PropertyItems of last Image: ");
+                    for (int j = 0; j < this.lastImage.image.PropertyItems.Length; j++)
+                    {
+                        Console.WriteLine(this.lastImage.image.PropertyItems[j].ToString());
+                    }
+                }
+                videoDeviceForCapture.WaitForStop();
+                messages += this.videoDeviceForCapture.FramesReceived.ToString() + " frames received after WaitForStop\r\n";
+            }
+            // close AVI writer if open
             if (this.writer != null)
             {
                 this.writer.Close();
             }
+            System.Console.Write(this.messages);
 		}
 		
-		/// <summary>
-		/// get Exposure parameters of selected webcam
-		/// </summary>
-		public void getExposureParameters()
-		{
-            // set property type of structure
-            this.parameters.Exposure.propertyType = CameraControlProperty.Exposure;
-            //get property ranges
-			this.videoDeviceForCapture.GetCameraPropertyRange(this.parameters.Exposure.propertyType, out this.parameters.Exposure.minValue, out this.parameters.Exposure.maxValue, out this.parameters.Exposure.stepSize, out this.parameters.Exposure.defaultValue, out this.parameters.Exposure.ctrFlag);
-            
-            Console.Write("minValue: " + this.parameters.Exposure.minValue.ToString() + "\r\n" +
-                            "maxValue: " + this.parameters.Exposure.maxValue.ToString() + "\r\n" +
-                            "stepSize: " + this.parameters.Exposure.stepSize.ToString() + "\r\n" +
-                            "defaultValue: " + this.parameters.Exposure.defaultValue.ToString() + "\r\n" +   
-                            "CameraControlFlags: " + this.parameters.Exposure.ctrFlag.ToString() + "\r\n");
-            // get current property values
-            this.videoDeviceForCapture.GetCameraProperty(this.parameters.Exposure.propertyType, out this.parameters.Exposure.currentValue, out this.parameters.Exposure.currentCtrlFlag);
-            Console.Write("currentValue: " + this.parameters.Exposure.currentValue.ToString() + "\r\n" +
-                             "currentCameraControlFlags: " + this.parameters.Exposure.currentCtrlFlag.ToString() + "\r\n");
-            // check if property is adjustable
-            Console.WriteLine("Property "+ this.parameters.Exposure.propertyType.ToString() + " is ajustable?: " + this.parameters.Exposure.isAdjustable.ToString());
-		}
-
 		/// <summary>
 		/// get parameters of selected webcam
 		/// </summary>
@@ -272,19 +261,16 @@ namespace Arsalis.WebcamLibrary
             this.videoDeviceForCapture.SetCameraProperty(property, propertyValue, CameraControlFlags.Manual);
         }
 
+        /// <summary>
+        /// Set resolution of webcam
+        /// </summary>
+        /// <param name="resolution">Size of frame</param>
         public void setFrameResolution(Size resolution)
         {
-            //VideoCapabilities caps = this.videoDeviceForCapture.VideoCapabilities;
             string key = resolution.Width.ToString() + " x " + resolution.Height.ToString();
-
             this.parameters.capabilities = videoCapabilitiesDictionary[key];
-            //caps.FrameSize = resolution;
-            // TODO DEBUG: this.videoDeviceForCapture.VideoResolution is null when get parameter is called a second time
-            Console.WriteLine("Frame size: " + this.videoDeviceForCapture.VideoResolution.FrameSize.ToString());
-            //this.videoDeviceForCapture.VideoResolution = this.videoDeviceForCapture.VideoCapabilities[3];
             this.videoDeviceForCapture.VideoResolution = this.parameters.capabilities;
-            System.Threading.Thread.Sleep(1000);
-            Console.WriteLine("Frame size: " + this.videoDeviceForCapture.VideoResolution.FrameSize.ToString());
+            System.Console.WriteLine(this.videoDeviceForCapture.VideoResolution.FrameSize.ToString());
         }
 		
 		/// <summary>
@@ -307,6 +293,9 @@ namespace Arsalis.WebcamLibrary
 			//this.images[frameCount] = new Bitmap(copyCompressed);
 		}
 		
+        /// <summary>
+        /// Get all available frame resolution from selected webcam
+        /// </summary>
 		public void GetFrameResolutions()
 		{
             try
@@ -332,25 +321,6 @@ namespace Arsalis.WebcamLibrary
             {
                 messages += "Exception in GetFrameResolutions method";
             }
-            this.videoDeviceForCapture.VideoResolution = videoCapabilitiesDictionary["640 x 480"];
-		}
-		
-		public delegate void WebcamEventsHandler(object source, WebcamEvent e);
-		
-	}
-	
-	public class WebcamEvent : EventArgs
-	{
-		private string EventInfo;
-		
-		public WebcamEvent(string Text)
-		{
-			EventInfo = Text;
-		}
-		
-		public string GetInfo()
-		{
-			return EventInfo;
-		}
+		}		
 	}
 }

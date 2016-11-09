@@ -75,6 +75,7 @@
     <Compile Include="Arsalis.WebcamLibrary.cs" />
     <Compile Include="CameraParam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebcamEvent.cs" />
     <Compile Include="WebcamImage.cs" />
     <Compile Include="WebcamParameters.cs" />
   </ItemGroup>

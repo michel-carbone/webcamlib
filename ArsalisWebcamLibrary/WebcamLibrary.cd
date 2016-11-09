@@ -5,22 +5,8 @@
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
-    <NestedTypes>
-      <Delegate Name="Arsalis.WebcamLibrary.WebcamLibrary.WebcamEventsHandler">
-        <TypeIdentifier>
-          <NewMemberFileName>Arsalis.WebcamLibrary.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Delegate>
-    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>ACAAEAAAgAAAAgEgETkEAACABgEAAAABIQQAQAIABAQ=</HashCode>
-      <FileName>Arsalis.WebcamLibrary.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Arsalis.WebcamLibrary.WebcamEvent">
-    <Position X="11.25" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAIAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAEgAAgAAAAAEgASsMAACABwAAAAABIQABQACAFAQ=</HashCode>
       <FileName>Arsalis.WebcamLibrary.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -29,6 +15,13 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAEgAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WebcamImage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Arsalis.WebcamLibrary.WebcamEvent">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAEAAIAAAAAAAAAA=</HashCode>
+      <FileName>WebcamEvent.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Struct Name="Arsalis.WebcamLibrary.CameraParam">
