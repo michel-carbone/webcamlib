@@ -33,23 +33,31 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupBox_setParameter = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.get_parameters_button = new System.Windows.Forms.Button();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.set_resolution_button = new System.Windows.Forms.Button();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.label_top_value_read_only7 = new Arsalis.WebcamLibrary.label_top_value_read_only();
             this.label_top_value_read_only6 = new Arsalis.WebcamLibrary.label_top_value_read_only();
             this.label_top_value_read_only5 = new Arsalis.WebcamLibrary.label_top_value_read_only();
             this.label_top_value_read_only4 = new Arsalis.WebcamLibrary.label_top_value_read_only();
             this.label_top_value_read_only3 = new Arsalis.WebcamLibrary.label_top_value_read_only();
             this.label_top_value_read_only2 = new Arsalis.WebcamLibrary.label_top_value_read_only();
             this.label_top_value_read_only1 = new Arsalis.WebcamLibrary.label_top_value_read_only();
+            this.get_parameters_button = new System.Windows.Forms.Button();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.groupBox_set_resolution = new System.Windows.Forms.GroupBox();
+            this.label_top_value_read_only7 = new Arsalis.WebcamLibrary.label_top_value_read_only();
+            this.set_resolution_button = new System.Windows.Forms.Button();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.start_webcam_button = new System.Windows.Forms.Button();
             this.stop_webcam_button = new System.Windows.Forms.Button();
+            this.groupBox_set_parameter = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBox5 = new System.Windows.Forms.ComboBox();
+            this.label_top_value1 = new Arsalis.WebcamLibrary.label_top_value();
+            this.label2 = new System.Windows.Forms.Label();
+            this.set_parameter_button = new System.Windows.Forms.Button();
+            this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.groupBox_selectWebcam.SuspendLayout();
             this.groupBox_setParameter.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.groupBox_set_resolution.SuspendLayout();
+            this.groupBox_set_parameter.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox_selectWebcam
@@ -67,7 +75,7 @@
             // select_webcam_button
             // 
             this.select_webcam_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.select_webcam_button.Location = new System.Drawing.Point(521, 18);
+            this.select_webcam_button.Location = new System.Drawing.Point(526, 18);
             this.select_webcam_button.Name = "select_webcam_button";
             this.select_webcam_button.Size = new System.Drawing.Size(75, 23);
             this.select_webcam_button.TabIndex = 1;
@@ -107,11 +115,59 @@
             // label1
             // 
             this.label1.AutoEllipsis = true;
-            this.label1.Location = new System.Drawing.Point(514, 51);
+            this.label1.Location = new System.Drawing.Point(519, 51);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(94, 15);
             this.label1.TabIndex = 8;
             this.label1.Text = "label1";
+            // 
+            // label_top_value_read_only6
+            // 
+            this.label_top_value_read_only6.labelText = "label1";
+            this.label_top_value_read_only6.Location = new System.Drawing.Point(442, 48);
+            this.label_top_value_read_only6.Name = "label_top_value_read_only6";
+            this.label_top_value_read_only6.Size = new System.Drawing.Size(80, 45);
+            this.label_top_value_read_only6.TabIndex = 7;
+            // 
+            // label_top_value_read_only5
+            // 
+            this.label_top_value_read_only5.labelText = "label1";
+            this.label_top_value_read_only5.Location = new System.Drawing.Point(356, 48);
+            this.label_top_value_read_only5.Name = "label_top_value_read_only5";
+            this.label_top_value_read_only5.Size = new System.Drawing.Size(80, 45);
+            this.label_top_value_read_only5.TabIndex = 6;
+            // 
+            // label_top_value_read_only4
+            // 
+            this.label_top_value_read_only4.labelText = "label1";
+            this.label_top_value_read_only4.Location = new System.Drawing.Point(270, 48);
+            this.label_top_value_read_only4.Name = "label_top_value_read_only4";
+            this.label_top_value_read_only4.Size = new System.Drawing.Size(80, 45);
+            this.label_top_value_read_only4.TabIndex = 5;
+            // 
+            // label_top_value_read_only3
+            // 
+            this.label_top_value_read_only3.labelText = "label1";
+            this.label_top_value_read_only3.Location = new System.Drawing.Point(184, 48);
+            this.label_top_value_read_only3.Name = "label_top_value_read_only3";
+            this.label_top_value_read_only3.Size = new System.Drawing.Size(80, 45);
+            this.label_top_value_read_only3.TabIndex = 4;
+            // 
+            // label_top_value_read_only2
+            // 
+            this.label_top_value_read_only2.labelText = "label1";
+            this.label_top_value_read_only2.Location = new System.Drawing.Point(98, 48);
+            this.label_top_value_read_only2.Name = "label_top_value_read_only2";
+            this.label_top_value_read_only2.Size = new System.Drawing.Size(80, 45);
+            this.label_top_value_read_only2.TabIndex = 3;
+            // 
+            // label_top_value_read_only1
+            // 
+            this.label_top_value_read_only1.labelText = "label1";
+            this.label_top_value_read_only1.Location = new System.Drawing.Point(12, 48);
+            this.label_top_value_read_only1.Name = "label_top_value_read_only1";
+            this.label_top_value_read_only1.Size = new System.Drawing.Size(80, 45);
+            this.label_top_value_read_only1.TabIndex = 2;
             // 
             // get_parameters_button
             // 
@@ -136,18 +192,26 @@
             this.comboBox2.Size = new System.Drawing.Size(502, 21);
             this.comboBox2.TabIndex = 0;
             // 
-            // groupBox1
+            // groupBox_set_resolution
             // 
-            this.groupBox1.Controls.Add(this.label_top_value_read_only7);
-            this.groupBox1.Controls.Add(this.set_resolution_button);
-            this.groupBox1.Controls.Add(this.comboBox3);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(0, 152);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(608, 99);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Set webcam resolution";
+            this.groupBox_set_resolution.Controls.Add(this.label_top_value_read_only7);
+            this.groupBox_set_resolution.Controls.Add(this.set_resolution_button);
+            this.groupBox_set_resolution.Controls.Add(this.comboBox3);
+            this.groupBox_set_resolution.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox_set_resolution.Location = new System.Drawing.Point(0, 152);
+            this.groupBox_set_resolution.Name = "groupBox_set_resolution";
+            this.groupBox_set_resolution.Size = new System.Drawing.Size(608, 99);
+            this.groupBox_set_resolution.TabIndex = 3;
+            this.groupBox_set_resolution.TabStop = false;
+            this.groupBox_set_resolution.Text = "Set webcam resolution";
+            // 
+            // label_top_value_read_only7
+            // 
+            this.label_top_value_read_only7.labelText = "label1";
+            this.label_top_value_read_only7.Location = new System.Drawing.Point(12, 47);
+            this.label_top_value_read_only7.Name = "label_top_value_read_only7";
+            this.label_top_value_read_only7.Size = new System.Drawing.Size(508, 45);
+            this.label_top_value_read_only7.TabIndex = 3;
             // 
             // set_resolution_button
             // 
@@ -172,58 +236,9 @@
             this.comboBox3.Size = new System.Drawing.Size(502, 21);
             this.comboBox3.TabIndex = 0;
             // 
-            // label_top_value_read_only7
-            // 
-            this.label_top_value_read_only7.Location = new System.Drawing.Point(7, 47);
-            this.label_top_value_read_only7.Name = "label_top_value_read_only7";
-            this.label_top_value_read_only7.Size = new System.Drawing.Size(508, 45);
-            this.label_top_value_read_only7.TabIndex = 3;
-            // 
-            // label_top_value_read_only6
-            // 
-            this.label_top_value_read_only6.Location = new System.Drawing.Point(437, 48);
-            this.label_top_value_read_only6.Name = "label_top_value_read_only6";
-            this.label_top_value_read_only6.Size = new System.Drawing.Size(80, 45);
-            this.label_top_value_read_only6.TabIndex = 7;
-            // 
-            // label_top_value_read_only5
-            // 
-            this.label_top_value_read_only5.Location = new System.Drawing.Point(351, 48);
-            this.label_top_value_read_only5.Name = "label_top_value_read_only5";
-            this.label_top_value_read_only5.Size = new System.Drawing.Size(80, 45);
-            this.label_top_value_read_only5.TabIndex = 6;
-            // 
-            // label_top_value_read_only4
-            // 
-            this.label_top_value_read_only4.Location = new System.Drawing.Point(265, 48);
-            this.label_top_value_read_only4.Name = "label_top_value_read_only4";
-            this.label_top_value_read_only4.Size = new System.Drawing.Size(80, 45);
-            this.label_top_value_read_only4.TabIndex = 5;
-            // 
-            // label_top_value_read_only3
-            // 
-            this.label_top_value_read_only3.Location = new System.Drawing.Point(179, 48);
-            this.label_top_value_read_only3.Name = "label_top_value_read_only3";
-            this.label_top_value_read_only3.Size = new System.Drawing.Size(80, 45);
-            this.label_top_value_read_only3.TabIndex = 4;
-            // 
-            // label_top_value_read_only2
-            // 
-            this.label_top_value_read_only2.Location = new System.Drawing.Point(93, 48);
-            this.label_top_value_read_only2.Name = "label_top_value_read_only2";
-            this.label_top_value_read_only2.Size = new System.Drawing.Size(80, 45);
-            this.label_top_value_read_only2.TabIndex = 3;
-            // 
-            // label_top_value_read_only1
-            // 
-            this.label_top_value_read_only1.Location = new System.Drawing.Point(7, 48);
-            this.label_top_value_read_only1.Name = "label_top_value_read_only1";
-            this.label_top_value_read_only1.Size = new System.Drawing.Size(80, 45);
-            this.label_top_value_read_only1.TabIndex = 2;
-            // 
             // start_webcam_button
             // 
-            this.start_webcam_button.Location = new System.Drawing.Point(521, 258);
+            this.start_webcam_button.Location = new System.Drawing.Point(521, 358);
             this.start_webcam_button.Name = "start_webcam_button";
             this.start_webcam_button.Size = new System.Drawing.Size(75, 23);
             this.start_webcam_button.TabIndex = 4;
@@ -234,7 +249,7 @@
             // stop_webcam_button
             // 
             this.stop_webcam_button.Enabled = false;
-            this.stop_webcam_button.Location = new System.Drawing.Point(521, 288);
+            this.stop_webcam_button.Location = new System.Drawing.Point(521, 388);
             this.stop_webcam_button.Name = "stop_webcam_button";
             this.stop_webcam_button.Size = new System.Drawing.Size(75, 23);
             this.stop_webcam_button.TabIndex = 5;
@@ -242,14 +257,87 @@
             this.stop_webcam_button.UseVisualStyleBackColor = true;
             this.stop_webcam_button.Click += new System.EventHandler(this.stop_webcam_button_Click);
             // 
+            // groupBox_set_parameter
+            // 
+            this.groupBox_set_parameter.Controls.Add(this.label3);
+            this.groupBox_set_parameter.Controls.Add(this.comboBox5);
+            this.groupBox_set_parameter.Controls.Add(this.label_top_value1);
+            this.groupBox_set_parameter.Controls.Add(this.label2);
+            this.groupBox_set_parameter.Controls.Add(this.set_parameter_button);
+            this.groupBox_set_parameter.Controls.Add(this.comboBox4);
+            this.groupBox_set_parameter.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox_set_parameter.Location = new System.Drawing.Point(0, 251);
+            this.groupBox_set_parameter.Name = "groupBox_set_parameter";
+            this.groupBox_set_parameter.Size = new System.Drawing.Size(608, 99);
+            this.groupBox_set_parameter.TabIndex = 6;
+            this.groupBox_set_parameter.TabStop = false;
+            this.groupBox_set_parameter.Text = "Select parameter and set values";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(186, 50);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(27, 13);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Flag";
+            // 
+            // comboBox5
+            // 
+            this.comboBox5.FormattingEnabled = true;
+            this.comboBox5.Location = new System.Drawing.Point(185, 66);
+            this.comboBox5.Name = "comboBox5";
+            this.comboBox5.Size = new System.Drawing.Size(121, 21);
+            this.comboBox5.TabIndex = 10;
+            // 
+            // label_top_value1
+            // 
+            this.label_top_value1.labelText = "Set parameter value";
+            this.label_top_value1.Location = new System.Drawing.Point(12, 47);
+            this.label_top_value1.Name = "label_top_value1";
+            this.label_top_value1.Size = new System.Drawing.Size(167, 45);
+            this.label_top_value1.TabIndex = 9;
+            // 
+            // label2
+            // 
+            this.label2.AutoEllipsis = true;
+            this.label2.Location = new System.Drawing.Point(514, 51);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(94, 15);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "label2";
+            // 
+            // set_parameter_button
+            // 
+            this.set_parameter_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.set_parameter_button.Enabled = false;
+            this.set_parameter_button.Location = new System.Drawing.Point(521, 18);
+            this.set_parameter_button.Name = "set_parameter_button";
+            this.set_parameter_button.Size = new System.Drawing.Size(75, 23);
+            this.set_parameter_button.TabIndex = 1;
+            this.set_parameter_button.Text = "Set";
+            this.set_parameter_button.UseVisualStyleBackColor = true;
+            // 
+            // comboBox4
+            // 
+            this.comboBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox4.Enabled = false;
+            this.comboBox4.FormattingEnabled = true;
+            this.comboBox4.Location = new System.Drawing.Point(13, 20);
+            this.comboBox4.Name = "comboBox4";
+            this.comboBox4.Size = new System.Drawing.Size(502, 21);
+            this.comboBox4.TabIndex = 0;
+            // 
             // WebcamSetupGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(608, 329);
+            this.ClientSize = new System.Drawing.Size(608, 423);
+            this.Controls.Add(this.groupBox_set_parameter);
             this.Controls.Add(this.stop_webcam_button);
             this.Controls.Add(this.start_webcam_button);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox_set_resolution);
             this.Controls.Add(this.groupBox_setParameter);
             this.Controls.Add(this.groupBox_selectWebcam);
             this.Name = "WebcamSetupGUI";
@@ -258,7 +346,9 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WebcamSetupGUI_FormClosed);
             this.groupBox_selectWebcam.ResumeLayout(false);
             this.groupBox_setParameter.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
+            this.groupBox_set_resolution.ResumeLayout(false);
+            this.groupBox_set_parameter.ResumeLayout(false);
+            this.groupBox_set_parameter.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -278,12 +368,19 @@
         private label_top_value_read_only label_top_value_read_only4;
         private label_top_value_read_only label_top_value_read_only6;
         private label_top_value_read_only label_top_value_read_only5;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox_set_resolution;
         private System.Windows.Forms.Button set_resolution_button;
         private System.Windows.Forms.ComboBox comboBox3;
         private label_top_value_read_only label_top_value_read_only7;
         private System.Windows.Forms.Button start_webcam_button;
         private System.Windows.Forms.Button stop_webcam_button;
+        private System.Windows.Forms.GroupBox groupBox_set_parameter;
+        private label_top_value label_top_value1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button set_parameter_button;
+        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox comboBox5;
         
     }
 }

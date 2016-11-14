@@ -66,7 +66,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        internal System.Windows.Forms.Label label1;
+        internal System.Windows.Forms.TextBox textBox1;
     }
 }

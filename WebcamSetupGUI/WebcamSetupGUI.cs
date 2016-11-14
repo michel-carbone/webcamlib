@@ -49,7 +49,9 @@ namespace Arsalis.WebcamLibrary
         {
             // TODO select webcam
             this.comboBox2.Enabled = true;
+            this.comboBox4.Enabled = true;
             this.get_parameters_button.Enabled = true;
+            this.set_parameter_button.Enabled = true;
             // TODO get parameters from either Arsalis lib or AForge lib
             string [] cameraParameters = {"Exposure", "Focus", "Iris", "Pan", "Roll", "Tilt", "Zoom"};
             if(comboBox2.Items.Count == 0)
@@ -58,6 +60,13 @@ namespace Arsalis.WebcamLibrary
 	            {
 	                comboBox2.Items.Add(cameraParameters[i]);
 	            }
+            }
+            if (comboBox4.Items.Count == 0)
+            {
+                for (int i = 0; i < cameraParameters.Length; i++)
+                {
+                    comboBox4.Items.Add(cameraParameters[i]);
+                }
             }
         }
 

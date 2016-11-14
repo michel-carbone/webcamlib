@@ -60,6 +60,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="label_top_value.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="label_top_value.Designer.cs">
+      <DependentUpon>label_top_value.cs</DependentUpon>
+    </Compile>
     <Compile Include="label_top_value_read_only.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -86,6 +92,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="WebcamSetupGUI.cd" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
