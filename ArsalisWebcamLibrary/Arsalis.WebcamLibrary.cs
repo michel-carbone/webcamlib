@@ -155,8 +155,8 @@ namespace Arsalis.WebcamLibrary
         /// </summary>
         public void startAcquisition()
         {
-            videoDeviceForCapture.Start();
             videoDeviceForCapture.NewFrame += new NewFrameEventHandler(videoDeviceForCapture_NewFrame);
+            videoDeviceForCapture.Start();
         }
 
         /// <summary>
@@ -179,13 +179,14 @@ namespace Arsalis.WebcamLibrary
             DateTime now = DateTime.Now;
             messages += "Event in WebcamLibrary @ "+ now.ToString() + "::" + now.Millisecond.ToString() + ";\t frames received:" +this.frameCount.ToString()+"\r\n";
             System.Drawing.Bitmap copy = (System.Drawing.Bitmap)eventArgs.Frame.Clone();
+            this.lastImage = new WebcamImage();
             this.lastImage.image = new Bitmap(copy);
             this.lastImage.timestamp = now;
             WebcamImage lastImageObj = new WebcamImage();
             lastImageObj.image = new Bitmap(copy);
             lastImageObj.timestamp = now;
             lastImageObj.frameCount = this.frameCount;
-            //saveImage(copy, now);
+            saveImage(copy, now);
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), lastImageObj);
             //this.thread = new Thread(new ThreadStart(WorkThreadFunction));
