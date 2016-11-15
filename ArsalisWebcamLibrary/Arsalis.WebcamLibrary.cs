@@ -30,7 +30,15 @@ namespace Arsalis.WebcamLibrary
 		public WebcamLibrary()
 		{
 			loadWebcamDevices();
-		} 
+		}
+
+        public bool IsAvailable
+        {
+            get
+            {
+                return webcamAvailable;
+            }
+        } 
 		
 		/// <summary>
 		/// array that contains name of all webcams connected to the computer
@@ -50,7 +58,7 @@ namespace Arsalis.WebcamLibrary
         /// <summary>
         /// boolean that is set when one or more webcam are detected
         /// </summary>
-        public bool webcamAvailable = false;
+        private bool webcamAvailable = false;
         
         public int frameCount = 0;
 		
@@ -100,11 +108,15 @@ namespace Arsalis.WebcamLibrary
                 // enumerate video devices
                 this.videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
 
-                if ( this.videoDevices.Count == 0 )
+                if (this.videoDevices.Count == 0)
                 {
-                    throw new ApplicationException( );
+                    this.webcamAvailable = false;
+                    //throw new ApplicationException();
                 }
-
+                else
+                {
+                    this.webcamAvailable = true;
+                }
                 // add all devices to array
                 WebcamListNames = new string[this.videoDevices.Count];
                 webcamListMonikerString = new string[this.videoDevices.Count];
@@ -115,12 +127,10 @@ namespace Arsalis.WebcamLibrary
                 	webcamListMonikerString[i] = device.MonikerString;
                 	i=++i;
                 }
-                
-                this.webcamAvailable = true;
             }
-            catch ( ApplicationException )
+            catch ( ApplicationException ex)
             {
-                System.Console.WriteLine("No webcam found");
+                System.Console.WriteLine("Problem in loadWebcamDevices:" + ex.Message);
             }
 		}
 		
@@ -243,7 +253,7 @@ namespace Arsalis.WebcamLibrary
 	            Console.Write("currentValue: " + property.currentValue.ToString() + "\r\n" +
 	                             "currentCameraControlFlags: " + property.currentCtrlFlag.ToString() + "\r\n");
 	            // check if property is adjustable
-	            Console.WriteLine("Property "+ property.propertyType.ToString() + " is ajustable?: " + property.isAdjustable.ToString());
+	            Console.WriteLine("IsAvailable "+ property.propertyType.ToString() + " is ajustable?: " + property.isAdjustable.ToString());
 			}
 			catch
 			{
