@@ -31,7 +31,7 @@ namespace Arsalis.WebcamLibrary
             this.textBox1.Text = value;
         }
 
-        public string labelText
+        public string LabelText
         {
             get
             {

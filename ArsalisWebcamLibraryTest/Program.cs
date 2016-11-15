@@ -22,7 +22,7 @@ namespace Arsalis.WebcamLibrary.Test
 			// create one instance of Arsalis.WebcamLibrary
 			Arsalis.WebcamLibrary.WebcamLibrary test = new WebcamLibrary();
 			// execute only if a webcam is available
-			if(test.webcamAvailable)
+			if(test.IsAvailable)
 			{
 				// print list of webcams
     			for(int i = 0; i<test.WebcamListNames.Length; i++)

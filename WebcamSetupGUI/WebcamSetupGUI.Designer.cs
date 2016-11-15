@@ -48,12 +48,13 @@
             this.start_webcam_button = new System.Windows.Forms.Button();
             this.stop_webcam_button = new System.Windows.Forms.Button();
             this.groupBox_set_parameter = new System.Windows.Forms.GroupBox();
+            this.label_top_numeric1 = new Arsalis.WebcamLibrary.label_top_numeric();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox5 = new System.Windows.Forms.ComboBox();
-            this.label_top_value1 = new Arsalis.WebcamLibrary.label_top_value();
             this.label2 = new System.Windows.Forms.Label();
             this.set_parameter_button = new System.Windows.Forms.Button();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.refresh_webcamList_button = new System.Windows.Forms.Button();
             this.groupBox_selectWebcam.SuspendLayout();
             this.groupBox_setParameter.SuspendLayout();
             this.groupBox_set_resolution.SuspendLayout();
@@ -75,7 +76,7 @@
             // select_webcam_button
             // 
             this.select_webcam_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.select_webcam_button.Location = new System.Drawing.Point(526, 18);
+            this.select_webcam_button.Location = new System.Drawing.Point(521, 18);
             this.select_webcam_button.Name = "select_webcam_button";
             this.select_webcam_button.Size = new System.Drawing.Size(75, 23);
             this.select_webcam_button.TabIndex = 1;
@@ -123,7 +124,7 @@
             // 
             // label_top_value_read_only6
             // 
-            this.label_top_value_read_only6.labelText = "label1";
+            this.label_top_value_read_only6.LabelText = "label1";
             this.label_top_value_read_only6.Location = new System.Drawing.Point(442, 48);
             this.label_top_value_read_only6.Name = "label_top_value_read_only6";
             this.label_top_value_read_only6.Size = new System.Drawing.Size(80, 45);
@@ -131,7 +132,7 @@
             // 
             // label_top_value_read_only5
             // 
-            this.label_top_value_read_only5.labelText = "label1";
+            this.label_top_value_read_only5.LabelText = "label1";
             this.label_top_value_read_only5.Location = new System.Drawing.Point(356, 48);
             this.label_top_value_read_only5.Name = "label_top_value_read_only5";
             this.label_top_value_read_only5.Size = new System.Drawing.Size(80, 45);
@@ -139,7 +140,7 @@
             // 
             // label_top_value_read_only4
             // 
-            this.label_top_value_read_only4.labelText = "label1";
+            this.label_top_value_read_only4.LabelText = "label1";
             this.label_top_value_read_only4.Location = new System.Drawing.Point(270, 48);
             this.label_top_value_read_only4.Name = "label_top_value_read_only4";
             this.label_top_value_read_only4.Size = new System.Drawing.Size(80, 45);
@@ -147,7 +148,7 @@
             // 
             // label_top_value_read_only3
             // 
-            this.label_top_value_read_only3.labelText = "label1";
+            this.label_top_value_read_only3.LabelText = "label1";
             this.label_top_value_read_only3.Location = new System.Drawing.Point(184, 48);
             this.label_top_value_read_only3.Name = "label_top_value_read_only3";
             this.label_top_value_read_only3.Size = new System.Drawing.Size(80, 45);
@@ -155,7 +156,7 @@
             // 
             // label_top_value_read_only2
             // 
-            this.label_top_value_read_only2.labelText = "label1";
+            this.label_top_value_read_only2.LabelText = "label1";
             this.label_top_value_read_only2.Location = new System.Drawing.Point(98, 48);
             this.label_top_value_read_only2.Name = "label_top_value_read_only2";
             this.label_top_value_read_only2.Size = new System.Drawing.Size(80, 45);
@@ -163,7 +164,7 @@
             // 
             // label_top_value_read_only1
             // 
-            this.label_top_value_read_only1.labelText = "label1";
+            this.label_top_value_read_only1.LabelText = "label1";
             this.label_top_value_read_only1.Location = new System.Drawing.Point(12, 48);
             this.label_top_value_read_only1.Name = "label_top_value_read_only1";
             this.label_top_value_read_only1.Size = new System.Drawing.Size(80, 45);
@@ -207,7 +208,7 @@
             // 
             // label_top_value_read_only7
             // 
-            this.label_top_value_read_only7.labelText = "label1";
+            this.label_top_value_read_only7.LabelText = "label1";
             this.label_top_value_read_only7.Location = new System.Drawing.Point(12, 47);
             this.label_top_value_read_only7.Name = "label_top_value_read_only7";
             this.label_top_value_read_only7.Size = new System.Drawing.Size(508, 45);
@@ -259,9 +260,9 @@
             // 
             // groupBox_set_parameter
             // 
+            this.groupBox_set_parameter.Controls.Add(this.label_top_numeric1);
             this.groupBox_set_parameter.Controls.Add(this.label3);
             this.groupBox_set_parameter.Controls.Add(this.comboBox5);
-            this.groupBox_set_parameter.Controls.Add(this.label_top_value1);
             this.groupBox_set_parameter.Controls.Add(this.label2);
             this.groupBox_set_parameter.Controls.Add(this.set_parameter_button);
             this.groupBox_set_parameter.Controls.Add(this.comboBox4);
@@ -273,10 +274,18 @@
             this.groupBox_set_parameter.TabStop = false;
             this.groupBox_set_parameter.Text = "Select parameter and set values";
             // 
+            // label_top_numeric1
+            // 
+            this.label_top_numeric1.LabelText = "Param value";
+            this.label_top_numeric1.Location = new System.Drawing.Point(12, 47);
+            this.label_top_numeric1.Name = "label_top_numeric1";
+            this.label_top_numeric1.Size = new System.Drawing.Size(80, 45);
+            this.label_top_numeric1.TabIndex = 12;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(186, 50);
+            this.label3.Location = new System.Drawing.Point(98, 51);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(27, 13);
             this.label3.TabIndex = 11;
@@ -285,18 +294,10 @@
             // comboBox5
             // 
             this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Location = new System.Drawing.Point(185, 66);
+            this.comboBox5.Location = new System.Drawing.Point(98, 66);
             this.comboBox5.Name = "comboBox5";
             this.comboBox5.Size = new System.Drawing.Size(121, 21);
             this.comboBox5.TabIndex = 10;
-            // 
-            // label_top_value1
-            // 
-            this.label_top_value1.labelText = "Set parameter value";
-            this.label_top_value1.Location = new System.Drawing.Point(12, 47);
-            this.label_top_value1.Name = "label_top_value1";
-            this.label_top_value1.Size = new System.Drawing.Size(167, 45);
-            this.label_top_value1.TabIndex = 9;
             // 
             // label2
             // 
@@ -317,6 +318,7 @@
             this.set_parameter_button.TabIndex = 1;
             this.set_parameter_button.Text = "Set";
             this.set_parameter_button.UseVisualStyleBackColor = true;
+            this.set_parameter_button.Click += new System.EventHandler(this.set_parameter_button_Click);
             // 
             // comboBox4
             // 
@@ -328,12 +330,25 @@
             this.comboBox4.Name = "comboBox4";
             this.comboBox4.Size = new System.Drawing.Size(502, 21);
             this.comboBox4.TabIndex = 0;
+            this.comboBox4.SelectedIndexChanged += new System.EventHandler(this.comboBox4_SelectedIndexChanged);
+            // 
+            // refresh_webcamList_button
+            // 
+            this.refresh_webcamList_button.Location = new System.Drawing.Point(12, 388);
+            this.refresh_webcamList_button.Name = "refresh_webcamList_button";
+            this.refresh_webcamList_button.Size = new System.Drawing.Size(75, 23);
+            this.refresh_webcamList_button.TabIndex = 7;
+            this.refresh_webcamList_button.Tag = "";
+            this.refresh_webcamList_button.Text = "Refresh";
+            this.refresh_webcamList_button.UseVisualStyleBackColor = true;
+            this.refresh_webcamList_button.Click += new System.EventHandler(this.refresh_webcamList_button_Click);
             // 
             // WebcamSetupGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(608, 423);
+            this.Controls.Add(this.refresh_webcamList_button);
             this.Controls.Add(this.groupBox_set_parameter);
             this.Controls.Add(this.stop_webcam_button);
             this.Controls.Add(this.start_webcam_button);
@@ -375,12 +390,13 @@
         private System.Windows.Forms.Button start_webcam_button;
         private System.Windows.Forms.Button stop_webcam_button;
         private System.Windows.Forms.GroupBox groupBox_set_parameter;
-        private label_top_value label_top_value1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button set_parameter_button;
         private System.Windows.Forms.ComboBox comboBox4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox5;
+        private System.Windows.Forms.Button refresh_webcamList_button;
+        private label_top_numeric label_top_numeric1;
         
     }
 }
