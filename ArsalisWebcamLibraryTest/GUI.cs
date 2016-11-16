@@ -30,9 +30,9 @@ namespace Arsalis.WebcamLibrary.Test
 			InitializeComponent();
 
             this.webcam = selectedWebcam;
-            this.webcam.startWebcam(0);
-            this.videoSourcePlayer1.VideoSource = this.webcam.videoDeviceForCapture;
-            this.videoSourcePlayer1.Start();
+            this.OpenVideoSource( this.webcam.videoDeviceForCapture);
+            //this.webcam.startWebcam(0);
+            //this.videoSourcePlayer1.Start();
 		}
 		
 		public WebcamLibrary webcam;
@@ -45,8 +45,8 @@ namespace Arsalis.WebcamLibrary.Test
 				//Create Bitmap from frame
 				System.Drawing.Bitmap FrameData = (System.Drawing.Bitmap)image.Clone();
 				//Add to PictureBox
-		        pictureBox1.Image = FrameData;
-		        pictureBox1.Invalidate();
+		        //pictureBox1.Image = FrameData;
+		        //pictureBox1.Invalidate();
 			
 	        DateTime now = DateTime.Now;
 	        //int frameCount = this.webcam.videoDeviceForCapture.FramesReceived;

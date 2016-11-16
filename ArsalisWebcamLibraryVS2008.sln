@@ -7,7 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arsalis.WebcamLibrary", "Ar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arsalis.WebcamLibrary.WebcamSetupGUI", "WebcamSetupGUI\Arsalis.WebcamLibrary.WebcamSetupGUI.csproj", "{35FCC9FF-DAD8-4C05-B41A-F9AAD676CCDB}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WebcamGUISetup", "WebcamGUISetup\WebcamGUISetup.vdproj", "{5BD9A9E6-E492-483D-8E2A-37D804D82C7F}"
+EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -25,6 +31,9 @@ Global
 		{35FCC9FF-DAD8-4C05-B41A-F9AAD676CCDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35FCC9FF-DAD8-4C05-B41A-F9AAD676CCDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35FCC9FF-DAD8-4C05-B41A-F9AAD676CCDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BD9A9E6-E492-483D-8E2A-37D804D82C7F}.Debug|Any CPU.ActiveCfg = Debug
+		{5BD9A9E6-E492-483D-8E2A-37D804D82C7F}.Release|Any CPU.ActiveCfg = Release
+		{5BD9A9E6-E492-483D-8E2A-37D804D82C7F}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
