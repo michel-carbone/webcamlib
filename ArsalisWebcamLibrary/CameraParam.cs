@@ -81,8 +81,8 @@ namespace Arsalis.WebcamLibrary
         public CameraParam(AForge.Video.DirectShow.CameraControlProperty property)
         {
             this.propertyType = property;
-            this.minValue = 0;
-            this.maxValue = 0;
+            this.minValue = int.MinValue;
+            this.maxValue = int.MaxValue;
             this.defaultValue = 0;
             this.stepSize = 0;
             this.ctrFlag = AForge.Video.DirectShow.CameraControlFlags.None;

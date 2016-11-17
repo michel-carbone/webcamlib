@@ -154,10 +154,27 @@ namespace Arsalis.WebcamLibrary
         {
             this.videoDeviceForCapture = new VideoCaptureDevice(webcamListMonikerString[selectedCamera]);
             this.webcamName = WebcamListNames[selectedCamera];
+
+            this.getAllParameters();
+
             if (initVideo)
             {
                 initSaveVideo();
             }
+        }
+
+        /// <summary>
+        /// Method that set all parameters of camera into the object
+        /// </summary>
+        private void getAllParameters()
+        {
+            this.parameters.Exposure = this.getParameter(this.parameters.Exposure);
+            this.parameters.Focus = this.getParameter(this.parameters.Focus);
+            this.parameters.Iris = this.getParameter(this.parameters.Iris);
+            this.parameters.Pan = this.getParameter(this.parameters.Pan);
+            this.parameters.Roll = this.getParameter(this.parameters.Roll);
+            this.parameters.Tilt = this.getParameter(this.parameters.Tilt);
+            this.parameters.Zoom = this.getParameter(this.parameters.Zoom);
         }
 
         /// <summary>
@@ -238,6 +255,7 @@ namespace Arsalis.WebcamLibrary
 		/// </summary>
 		public CameraParam getParameter(CameraParam property)
 		{
+            // TODO DEBUG setting is correctly get from webcam but not set to object
 			try
 			{
 	            //get property ranges
@@ -255,9 +273,9 @@ namespace Arsalis.WebcamLibrary
 	            // check if property is adjustable
 	            Console.WriteLine("IsAvailable "+ property.propertyType.ToString() + " is ajustable?: " + property.isAdjustable.ToString());
 			}
-			catch
+            catch (ApplicationException ex)
 			{
-				throw new Exception("Error in type");
+				throw new Exception("Error in getParameter method: " + ex.Message);
 			}
 			return property;
 		}
@@ -291,13 +309,33 @@ namespace Arsalis.WebcamLibrary
 		/// <param name="time">time when image is captured</param>
 		private void saveImage(System.Drawing.Bitmap frameCopy, DateTime time)
 		{
-			string path = @"C:/Arsalis/capture_";
-            path += time.ToLongDateString() + "_";
-            path += time.Hour + "_";
-            path += time.Minute + "_";
-            path += time.Second + "_";
-            path += time.Millisecond + ".jpeg";
-            frameCopy.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
+            char folderSep = System.IO.Path.DirectorySeparatorChar;
+            string path = "C:" + folderSep + "Arsalis" + folderSep;
+            if (System.IO.Directory.Exists(path))
+            {
+                path += "capture_";
+                path += time.ToLongDateString() + "_";
+                path += time.Hour + "_";
+                path += time.Minute + "_";
+                path += time.Second + "_";
+                path += time.Millisecond + ".jpeg";
+                try
+                {
+                    frameCopy.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
+                }
+                catch (System.ArgumentNullException argEx)
+                {
+                    throw new System.ArgumentNullException("ArgumentNullException: " + argEx.Message);
+                }
+                catch (System.Runtime.InteropServices.ExternalException extEx)
+                {
+                    throw new System.Runtime.InteropServices.ExternalException("System.Runtime.InteropServices.ExternalException: " + extEx.Message);
+                }
+            }
+            else
+            {
+                throw new ApplicationException("File path for saving image does not exist");
+            }
             //this.lastImage = new Bitmap(frameCopy);
             //writer.AddFrame(frameCopy);
             //System.Drawing.Image copyCompressed = (System.Drawing.Image)frameCopy.Clone();
