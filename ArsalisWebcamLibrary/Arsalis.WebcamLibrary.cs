@@ -83,7 +83,7 @@ namespace Arsalis.WebcamLibrary
         
         private AForge.Video.VFW.AVIWriter writer;
 
-        System.Threading.Thread thread;
+        //System.Threading.Thread thread;
 
         private Arsalis.WebcamLibrary.WebcamImage lastImage;
 
@@ -202,22 +202,29 @@ namespace Arsalis.WebcamLibrary
 
         void videoDeviceForCapture_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
-        	this.frameCount = ++this.frameCount;
-            DateTime now = DateTime.Now;
-            messages += "Event in WebcamLibrary @ "+ now.ToString() + "::" + now.Millisecond.ToString() + ";\t frames received:" +this.frameCount.ToString()+"\r\n";
-            System.Drawing.Bitmap copy = (System.Drawing.Bitmap)eventArgs.Frame.Clone();
-            this.lastImage = new WebcamImage();
-            this.lastImage.image = new Bitmap(copy);
-            this.lastImage.timestamp = now;
-            WebcamImage lastImageObj = new WebcamImage();
-            lastImageObj.image = new Bitmap(copy);
-            lastImageObj.timestamp = now;
-            lastImageObj.frameCount = this.frameCount;
-            saveImage(copy, now);
+            try
+            {
+                this.frameCount = ++this.frameCount;
+                DateTime now = DateTime.Now;
+                messages += "Event in WebcamLibrary @ " + now.ToString() + "::" + now.Millisecond.ToString() + ";\t frames received:" + this.frameCount.ToString() + "\r\n";
+                System.Drawing.Bitmap copy = (System.Drawing.Bitmap)eventArgs.Frame.Clone();
+                this.lastImage = new WebcamImage();
+                this.lastImage.image = new Bitmap(copy);
+                this.lastImage.timestamp = now;
+                WebcamImage lastImageObj = new WebcamImage();
+                lastImageObj.image = new Bitmap(copy);
+                lastImageObj.timestamp = now;
+                lastImageObj.frameCount = this.frameCount;
+                saveImage(copy, now);
 
-            ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), lastImageObj);
-            //this.thread = new Thread(new ThreadStart(WorkThreadFunction));
-            thread.Start();
+                ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), lastImageObj);
+                //this.thread = new Thread(new ThreadStart(WorkThreadFunction));
+                //thread.Start();
+            }
+            catch (System.NullReferenceException NullEx)
+            {
+                System.Console.WriteLine("System.NullReferenceException; Message: " + NullEx.Message + "; Source: " + NullEx.Source + "; TargetSite: " + NullEx.TargetSite + ";InnerException: " + NullEx.InnerException + "; Data: " + NullEx.Data + "; HelpLink: " + NullEx.HelpLink + "; StackTrace: " +NullEx.StackTrace);
+            }
         }
 		
 		/// <summary>
@@ -259,13 +266,35 @@ namespace Arsalis.WebcamLibrary
 			try
 			{
 	            //get property ranges
-				this.videoDeviceForCapture.GetCameraPropertyRange(property.propertyType, out property.minValue, out property.maxValue, out property.stepSize, out property.defaultValue, out property.ctrFlag);
+				bool success = this.videoDeviceForCapture.GetCameraPropertyRange(property.propertyType, out property.minValue, out property.maxValue, out property.stepSize, out property.defaultValue, out property.ctrFlag);
 	            
 	            Console.Write("minValue: " + property.minValue.ToString() + "\r\n" +
 	                            "maxValue: " + property.maxValue.ToString() + "\r\n" +
 	                            "stepSize: " + property.stepSize.ToString() + "\r\n" +
 	                            "defaultValue: " + property.defaultValue.ToString() + "\r\n" +   
-	                            "CameraControlFlags: " + property.ctrFlag.ToString() + "\r\n");
+	                            "CameraControlFlags: " + property.ctrFlag.ToString() + "\r\n" +
+                                "returnValue(success): " + success.ToString() + "\r\n");
+                // set min & max to ezro if property is not adjustable
+                if (!success)
+                {
+                    property.minValue = 0;
+                    property.maxValue = 0;
+                }
+            }
+            catch (System.ArgumentException ArgEx)
+            {
+                Console.WriteLine("System.ArgumentException: Video source is not specified - device moniker is not set. Exception message: " + ArgEx.Message);
+            }
+            catch (System.ApplicationException AppEx)
+            {
+                Console.WriteLine("System.ApplicationException: Failed creating device object for moniker. Exception message: "+ AppEx.Message);
+            }
+            catch(System.NotSupportedException NotSupporterEx)
+            {
+                Console.WriteLine("System.NotSupportedException: The video source does not support camera control. Exception message: " + NotSupporterEx.Message);
+            }
+            try
+            {
 	            // get current property values
 	            this.videoDeviceForCapture.GetCameraProperty(property.propertyType, out property.currentValue, out property.currentCtrlFlag);
 	            Console.Write("currentValue: " + property.currentValue.ToString() + "\r\n" +
