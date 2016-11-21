@@ -182,8 +182,15 @@ namespace Arsalis.WebcamLibrary
         /// </summary>
         public void startAcquisition()
         {
-            videoDeviceForCapture.NewFrame += new NewFrameEventHandler(videoDeviceForCapture_NewFrame);
-            videoDeviceForCapture.Start();
+            if (videoDeviceForCapture != null)
+            {
+                this.videoDeviceForCapture.NewFrame += new NewFrameEventHandler(this.videoDeviceForCapture_NewFrame);
+                this.videoDeviceForCapture.Start();
+            }
+            else
+            {
+                new ApplicationException("videoDeviceForCapture is NULL");
+            }
         }
 
         /// <summary>
@@ -275,7 +282,7 @@ namespace Arsalis.WebcamLibrary
 	                            "CameraControlFlags: " + property.ctrFlag.ToString() + "\r\n" +
                                 "returnValue(success): " + success.ToString() + "\r\n");
                 // set min & max to ezro if property is not adjustable
-                if (!success)
+                if (property.ctrFlag.ToString().Contains("None"))
                 {
                     property.minValue = 0;
                     property.maxValue = 0;
