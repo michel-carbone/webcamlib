@@ -31,5 +31,37 @@ namespace Arsalis.WebcamLibrary
             //this.image = new System.Drawing.Bitmap(640, 480, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             //this.frameCount = 0;
         }
+
+        internal void saveImage()
+        {
+            char folderSep = System.IO.Path.DirectorySeparatorChar;
+            string path = "C:" + folderSep + "Arsalis" + folderSep;
+            if (System.IO.Directory.Exists(path))
+            {
+                path += "capture_";
+                path += this.timestamp.ToLongDateString() + "_";
+                path += this.timestamp.Hour + "_";
+                path += this.timestamp.Minute + "_";
+                path += this.timestamp.Second + "_";
+                path += this.timestamp.Millisecond + ".jpeg";
+                try
+                {
+                    this.image.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
+                }
+                catch (System.ArgumentNullException argEx)
+                {
+                    throw new System.ArgumentNullException("ArgumentNullException: " + argEx.Message);
+                }
+                catch (System.Runtime.InteropServices.ExternalException extEx)
+                {
+                    throw new System.Runtime.InteropServices.ExternalException("System.Runtime.InteropServices.ExternalException: " + extEx.Message);
+                }
+            }
+            else
+            {
+                throw new ApplicationException("File path for saving image does not exist");
+            }
+        }
+		
     }
 }

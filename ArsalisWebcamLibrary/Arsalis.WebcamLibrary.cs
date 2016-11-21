@@ -95,7 +95,7 @@ namespace Arsalis.WebcamLibrary
             int frameCount = lastImageObj.frameCount;
             saveImage(lastBitmap, lastTimestamp);
             this.messages += "This text was set by WorkThreadFunction, frame number: " + frameCount.ToString() + ".\r\n";
-            //new NewFrameEvent("New image arrived, number " + this.frameCount.ToString());
+            //new NewFrameImageEventArgs("New image arrived, number " + this.frameCount.ToString());
 		}
         
         /// <summary>
@@ -222,11 +222,15 @@ namespace Arsalis.WebcamLibrary
                 lastImageObj.image = new Bitmap(copy);
                 lastImageObj.timestamp = now;
                 lastImageObj.frameCount = this.frameCount;
-                saveImage(copy, now);
-
-                ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), lastImageObj);
+                //saveImage(copy, now);
+                // 21/11/2016 commented ThreadPool call
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), lastImageObj);
+                //
                 //this.thread = new Thread(new ThreadStart(WorkThreadFunction));
                 //thread.Start();
+
+                NewFrameImageEventArgs e = new NewFrameImageEventArgs(lastImageObj);
+                OnNewFrameImage(e);
             }
             catch (System.NullReferenceException NullEx)
             {
@@ -406,6 +410,15 @@ namespace Arsalis.WebcamLibrary
             {
                 messages += "Exception in GetFrameResolutions method";
             }
-		}		
+		}
+
+        public event Arsalis.WebcamLibrary.NewFrameImageEventArgs.NewFrameEventImageHandler NewFrameImage;
+
+
+        protected virtual void OnNewFrameImage(NewFrameImageEventArgs e)
+        {
+            if (NewFrameImage != null)
+                NewFrameImage(this, e);
+        }
 	}
 }
