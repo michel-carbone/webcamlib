@@ -6,7 +6,7 @@
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAEgAAgAAAAAEgASsMAACABwAAAAABoQABQACAFAQ=</HashCode>
+      <HashCode>AEAAEgAAgAAAAAAgASsMAACABwAAAAABIQABQICAFAQ=</HashCode>
       <FileName>Arsalis.WebcamLibrary.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -17,11 +17,11 @@
       <FileName>WebcamImage.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Arsalis.WebcamLibrary.WebcamEvent">
+  <Class Name="Arsalis.WebcamLibrary.NewFrameEvent">
     <Position X="11.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAEAAIAAAAAAAAAA=</HashCode>
-      <FileName>WebcamEvent.cs</FileName>
+      <FileName>NewFrameEvent.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Struct Name="Arsalis.WebcamLibrary.CameraParam">

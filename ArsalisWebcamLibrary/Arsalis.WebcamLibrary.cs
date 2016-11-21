@@ -95,7 +95,7 @@ namespace Arsalis.WebcamLibrary
             int frameCount = lastImageObj.frameCount;
             saveImage(lastBitmap, lastTimestamp);
             this.messages += "This text was set by WorkThreadFunction, frame number: " + frameCount.ToString() + ".\r\n";
-            //new WebcamEvent("New image arrived, number " + this.frameCount.ToString());
+            //new NewFrameEvent("New image arrived, number " + this.frameCount.ToString());
 		}
         
         /// <summary>

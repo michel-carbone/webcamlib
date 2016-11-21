@@ -216,7 +216,7 @@ namespace Arsalis.WebcamLibrary
             this.webcamClass.stopWebcam();
         }
 
-        public delegate void WebcamEventsHandler(object source, WebcamEvent e);
+        public delegate void WebcamEventsHandler(object source, NewFrameEvent e);
 
         private void refresh_webcamList_button_Click(object sender, EventArgs e)
         {
