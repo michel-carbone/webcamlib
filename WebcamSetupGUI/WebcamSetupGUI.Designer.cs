@@ -55,6 +55,7 @@
             this.set_parameter_button = new System.Windows.Forms.Button();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.refresh_webcamList_button = new System.Windows.Forms.Button();
+            this.show_button = new System.Windows.Forms.Button();
             this.groupBox_selectWebcam.SuspendLayout();
             this.groupBox_setParameter.SuspendLayout();
             this.groupBox_set_resolution.SuspendLayout();
@@ -343,11 +344,22 @@
             this.refresh_webcamList_button.UseVisualStyleBackColor = true;
             this.refresh_webcamList_button.Click += new System.EventHandler(this.refresh_webcamList_button_Click);
             // 
+            // show_button
+            // 
+            this.show_button.Location = new System.Drawing.Point(440, 388);
+            this.show_button.Name = "show_button";
+            this.show_button.Size = new System.Drawing.Size(75, 23);
+            this.show_button.TabIndex = 8;
+            this.show_button.Text = "Show";
+            this.show_button.UseVisualStyleBackColor = true;
+            this.show_button.Click += new System.EventHandler(this.show_button_Click);
+            // 
             // WebcamSetupGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(608, 423);
+            this.Controls.Add(this.show_button);
             this.Controls.Add(this.refresh_webcamList_button);
             this.Controls.Add(this.groupBox_set_parameter);
             this.Controls.Add(this.stop_webcam_button);
@@ -397,6 +409,7 @@
         private System.Windows.Forms.ComboBox comboBox5;
         private System.Windows.Forms.Button refresh_webcamList_button;
         private label_top_numeric label_top_numeric1;
+        private System.Windows.Forms.Button show_button;
         
     }
 }

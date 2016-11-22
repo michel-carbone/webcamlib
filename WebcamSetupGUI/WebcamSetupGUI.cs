@@ -333,5 +333,14 @@ namespace Arsalis.WebcamLibrary
             }
             this.comboBox5.SelectedIndex = 0;
         }
+
+        private void show_button_Click(object sender, EventArgs e)
+        {
+            Arsalis.WebcamLibrary.Test.GUI testGUI = new Arsalis.WebcamLibrary.Test.GUI(this.webcamClass);
+            // set GUI videoDevice to selected videoDevice of test webcam class
+            //testGUI.OpenVideoSource(this.webcamClass.videoDeviceForCapture);
+            testGUI.ShowDialog();
+            testGUI.CloseCurrentVideoSource();
+        }
     }
 }

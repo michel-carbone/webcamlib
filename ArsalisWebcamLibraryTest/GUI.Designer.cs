@@ -49,7 +49,7 @@ namespace Arsalis.WebcamLibrary.Test
             this.videoSourcePlayer1.KeepAspectRatio = true;
             this.videoSourcePlayer1.Location = new System.Drawing.Point(12, 12);
             this.videoSourcePlayer1.Name = "videoSourcePlayer1";
-            this.videoSourcePlayer1.Size = new System.Drawing.Size(228, 112);
+            this.videoSourcePlayer1.Size = new System.Drawing.Size(160, 120);
             this.videoSourcePlayer1.TabIndex = 0;
             this.videoSourcePlayer1.Text = "videoSourcePlayer1";
             this.videoSourcePlayer1.VideoSource = null;
@@ -57,9 +57,10 @@ namespace Arsalis.WebcamLibrary.Test
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(306, 55);
+            this.pictureBox1.Location = new System.Drawing.Point(178, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(302, 188);
+            this.pictureBox1.Size = new System.Drawing.Size(1024, 768);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
@@ -67,7 +68,7 @@ namespace Arsalis.WebcamLibrary.Test
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(658, 292);
+            this.ClientSize = new System.Drawing.Size(833, 502);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.videoSourcePlayer1);
             this.Name = "GUI";

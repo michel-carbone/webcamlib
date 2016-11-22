@@ -29,7 +29,11 @@ namespace Arsalis.WebcamLibrary.Test
 			//
 			InitializeComponent();
 
+            // optimise display speed in order to avoid flicker
+            //this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            
             this.webcam = selectedWebcam;
+            this.pictureBox1.Size = this.webcam.videoDeviceForCapture.VideoResolution.FrameSize;
             //this.OpenVideoSource( this.webcam.videoDeviceForCapture);
             //this.webcam.startWebcam(0);
             //this.videoSourcePlayer1.Start();
