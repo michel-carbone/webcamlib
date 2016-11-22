@@ -6,17 +6,22 @@ namespace Arsalis.WebcamLibrary
 {
     public class NewFrameImageEventArgs : EventArgs
     {
-        public string timestamp;
+        private string EventInfo;
 
-        public System.Drawing.Bitmap image;
+        private System.Drawing.Bitmap image;
 
         public NewFrameImageEventArgs(object newframe)
         {
             Arsalis.WebcamLibrary.WebcamImage obj = (Arsalis.WebcamLibrary.WebcamImage)newframe;
-            timestamp = obj.timestamp.ToString() + "::" + obj.timestamp.Millisecond.ToString(); ;
+            EventInfo = obj.timestamp.ToString() + "::" + obj.timestamp.Millisecond.ToString(); ;
             image = obj.image;
-            System.Console.WriteLine("NewFrameImageEventArgs :" + timestamp);
+            System.Console.WriteLine("NewFrameImageEventArgs :" + EventInfo);
             obj.saveImage();
+        }
+
+        public string GetInfo()
+        {
+            return EventInfo;
         }
 
         public delegate void NewFrameEventImageHandler(object sender, NewFrameImageEventArgs e);
