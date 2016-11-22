@@ -30,9 +30,10 @@ namespace Arsalis.WebcamLibrary.Test
 			InitializeComponent();
 
             this.webcam = selectedWebcam;
-            this.OpenVideoSource( this.webcam.videoDeviceForCapture);
+            //this.OpenVideoSource( this.webcam.videoDeviceForCapture);
             //this.webcam.startWebcam(0);
             //this.videoSourcePlayer1.Start();
+            SubscribeToEvent(selectedWebcam);
 		}
 		
 		public WebcamLibrary webcam;
@@ -92,6 +93,42 @@ namespace Arsalis.WebcamLibrary.Test
 
                 this.videoSourcePlayer1.VideoSource = null;
             }
+        }
+
+        public event Arsalis.WebcamLibrary.NewFrameImageEventArgs.NewFrameEventImageHandler NewFrameImage;
+
+
+        protected virtual void OnNewFrameImage(NewFrameImageEventArgs e)
+        {
+            if (NewFrameImage != null)
+            {
+                NewFrameImage(this, e);
+                this.pictureBox1.Image = (System.Drawing.Image)(e.image).Clone();
+                this.pictureBox1.Invalidate();
+            }
+        }
+
+        void SubscribeToEvent(Arsalis.WebcamLibrary.WebcamLibrary webcam)
+        {
+            webcam.NewFrameImage += this.GrabNewFrame;
+        }
+
+        void GrabNewFrame(object sender, NewFrameImageEventArgs args)
+        {
+            System.Drawing.Image frame = DrawText((System.Drawing.Image)args.image, args.timestamp);
+            this.pictureBox1.Image = frame;
+            //this.pictureBox1.Update();
+        }
+
+        private System.Drawing.Image DrawText(System.Drawing.Image image, string text)
+        {
+            Graphics g = Graphics.FromImage(image);
+
+            // paint current time
+            SolidBrush brush = new SolidBrush(Color.Red);
+            g.DrawString(text, this.Font, brush, new PointF(5, 5));
+            brush.Dispose();
+            return image ;
         }
 	}
 }

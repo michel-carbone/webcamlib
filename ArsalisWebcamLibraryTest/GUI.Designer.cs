@@ -37,6 +37,8 @@ namespace Arsalis.WebcamLibrary.Test
 		private void InitializeComponent()
 		{
             this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // videoSourcePlayer1
@@ -47,24 +49,35 @@ namespace Arsalis.WebcamLibrary.Test
             this.videoSourcePlayer1.KeepAspectRatio = true;
             this.videoSourcePlayer1.Location = new System.Drawing.Point(12, 12);
             this.videoSourcePlayer1.Name = "videoSourcePlayer1";
-            this.videoSourcePlayer1.Size = new System.Drawing.Size(634, 268);
+            this.videoSourcePlayer1.Size = new System.Drawing.Size(228, 112);
             this.videoSourcePlayer1.TabIndex = 0;
             this.videoSourcePlayer1.Text = "videoSourcePlayer1";
             this.videoSourcePlayer1.VideoSource = null;
             this.videoSourcePlayer1.NewFrame += new AForge.Controls.VideoSourcePlayer.NewFrameHandler(this.VideoSourcePlayer1NewFrame);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(306, 55);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(302, 188);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
             // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(658, 292);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.videoSourcePlayer1);
             this.Name = "GUI";
             this.Text = "GUI";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
 		public AForge.Controls.VideoSourcePlayer videoSourcePlayer1;
+        private System.Windows.Forms.PictureBox pictureBox1;
 		
 	}
 }
