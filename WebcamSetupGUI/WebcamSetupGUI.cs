@@ -339,8 +339,7 @@ namespace Arsalis.WebcamLibrary
             Arsalis.WebcamLibrary.Test.GUI testGUI = new Arsalis.WebcamLibrary.Test.GUI(this.webcamClass);
             // set GUI videoDevice to selected videoDevice of test webcam class
             //testGUI.OpenVideoSource(this.webcamClass.videoDeviceForCapture);
-            testGUI.ShowDialog();
-            testGUI.CloseCurrentVideoSource();
+            testGUI.Show();
         }
     }
 }

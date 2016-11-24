@@ -33,7 +33,12 @@ namespace Arsalis.WebcamLibrary.Test
             //this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             
             this.webcam = selectedWebcam;
-            this.pictureBox1.Size = this.webcam.videoDeviceForCapture.VideoResolution.FrameSize;
+            // TODO check if VideoResolution can be set all the time at initialisation 
+            // of WebcamLibrary or define a new parameter in WebcamLibrary
+            if (this.webcam.videoDeviceForCapture.VideoResolution != null)
+            {
+                this.pictureBox1.Size = this.webcam.videoDeviceForCapture.VideoResolution.FrameSize;
+            }
             //this.OpenVideoSource( this.webcam.videoDeviceForCapture);
             //this.webcam.startWebcam(0);
             //this.videoSourcePlayer1.Start();
@@ -104,9 +109,10 @@ namespace Arsalis.WebcamLibrary.Test
 
         protected virtual void OnNewFrameImage(NewFrameImageEventArgs e)
         {
-            if (NewFrameImage != null)
+            var handler = NewFrameImage;
+            if (handler != null)
             {
-                NewFrameImage(this, e);
+                handler(this, e);
                 this.pictureBox1.Image = (System.Drawing.Image)(e.image).Clone();
                 this.pictureBox1.Invalidate();
             }
@@ -133,6 +139,28 @@ namespace Arsalis.WebcamLibrary.Test
             g.DrawString(text, this.Font, brush, new PointF(5, 5));
             brush.Dispose();
             return image ;
+        }
+
+        private void GUI_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.CloseCurrentVideoSource();
+        }
+
+        private int previousFrameCount = 0;
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = "Frames received: " + this.webcam.frameCount.ToString();
+            int frameRate = 0;
+            int currentFrameCount = this.webcam.frameCount;
+            frameRate = currentFrameCount - previousFrameCount;
+            toolStripStatusLabel2.Text = "Frame rate: " + frameRate.ToString();
+            previousFrameCount = this.webcam.frameCount;
+        }
+
+        private void GUI_Load(object sender, EventArgs e)
+        {
+            timer1.Start();
         }
 	}
 }
