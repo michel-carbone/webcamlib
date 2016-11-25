@@ -9,7 +9,8 @@ namespace Arsalis.WebcamLibrary
     {
         public string timestamp;
 
-        public System.Drawing.Bitmap image;
+        private Arsalis.WebcamLibrary.WebcamImage imageToGUI;
+        private Arsalis.WebcamLibrary.WebcamImage imageToDisk;
 
         /// <summary>
         /// NewFrameImageEventArgs method that handle the event
@@ -17,12 +18,14 @@ namespace Arsalis.WebcamLibrary
         /// <param name="newframe">object of type WebcamImage used to get all info from event</param>
         public NewFrameImageEventArgs(object newframe)
         {
-            Arsalis.WebcamLibrary.WebcamImage obj = (Arsalis.WebcamLibrary.WebcamImage)newframe;
-            timestamp = obj.timestamp.ToString() + "::" + obj.timestamp.Millisecond.ToString(); ;
-            image = obj.image;
+            this.imageToDisk = (Arsalis.WebcamLibrary.WebcamImage)newframe;
+            this.imageToGUI = (Arsalis.WebcamLibrary.WebcamImage)newframe;
+            //Arsalis.WebcamLibrary.WebcamImage obj = (Arsalis.WebcamLibrary.WebcamImage)newframe;
+            timestamp = imageToGUI.timestamp.ToString() + "::" + imageToGUI.timestamp.Millisecond.ToString(); ;
+            //imageToGUI = (System.Drawing.Bitmap)obj.image.Clone();
             System.Console.WriteLine("NewFrameImageEventArgs :" + timestamp + "; frame number: " +obj.frameCount);
             //obj.saveImage();
-            ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), obj);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), imageToDisk);
         }
 
         public delegate void NewFrameEventImageHandler(object sender, NewFrameImageEventArgs e);
@@ -72,6 +75,16 @@ namespace Arsalis.WebcamLibrary
             {
                 throw new ApplicationException("File path for saving image does not exist");
             }
+        }
+
+        public WebcamImage getImageToGui()
+        {
+            return this.imageToGUI;
+        }
+
+        public WebcamImage getImageToDisk()
+        {
+            return this.imageToDisk;
         }
     }
 }

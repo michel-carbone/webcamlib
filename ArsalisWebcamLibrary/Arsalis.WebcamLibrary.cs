@@ -85,7 +85,7 @@ namespace Arsalis.WebcamLibrary
 
         //System.Threading.Thread thread;
 
-        private Arsalis.WebcamLibrary.WebcamImage lastImage;
+        public Arsalis.WebcamLibrary.WebcamImage lastImage;
 
         private void WorkThreadFunction(object webcamImage)
 		{
@@ -224,7 +224,7 @@ namespace Arsalis.WebcamLibrary
                 lastImageObj.frameCount = this.frameCount;
                 //saveImage(copy, now);
                 // 21/11/2016 commented ThreadPool call
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), lastImageObj);
+                ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), lastImageObj);
                 //
                 //this.thread = new Thread(new ThreadStart(WorkThreadFunction));
                 //thread.Start();

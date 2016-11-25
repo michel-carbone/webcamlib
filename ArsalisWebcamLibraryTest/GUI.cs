@@ -113,8 +113,8 @@ namespace Arsalis.WebcamLibrary.Test
             if (handler != null)
             {
                 handler(this, e);
-                this.pictureBox1.Image = (System.Drawing.Image)(e.image).Clone();
-                this.pictureBox1.Invalidate();
+                //this.pictureBox1.Image = (System.Drawing.Bitmap) e.getImageToGui().image.Clone();
+                //this.pictureBox1.Invalidate();
             }
         }
 
@@ -125,8 +125,9 @@ namespace Arsalis.WebcamLibrary.Test
 
         void GrabNewFrame(object sender, NewFrameImageEventArgs args)
         {
-            System.Drawing.Image frame = DrawText((System.Drawing.Image)args.image, args.timestamp);
-            this.pictureBox1.Image = frame;
+            System.Drawing.Image frame = DrawText((System.Drawing.Image)args.getImageToGui().image, args.timestamp);
+            //this.pictureBox1.Image = frame;
+            SetControlPropertyThreadSafe(this.pictureBox1, "Image", frame);
             //this.pictureBox1.Update();
         }
 
@@ -161,6 +162,22 @@ namespace Arsalis.WebcamLibrary.Test
         private void GUI_Load(object sender, EventArgs e)
         {
             timer1.Start();
+        }
+
+        private delegate void SetControlPropertyThreadSafeDelegate(Control control, string propertyName, object propertyValue);
+
+        public static void SetControlPropertyThreadSafe(Control control, string propertyName, object propertyValue)
+        {
+            if (control.InvokeRequired)
+            {
+                control.Invoke(new SetControlPropertyThreadSafeDelegate
+                (SetControlPropertyThreadSafe),
+                new object[] { control, propertyName, propertyValue });
+            }
+            else
+            {
+                control.GetType().InvokeMember(propertyName, System.Reflection.BindingFlags.SetProperty, null, control, new object[] { propertyValue });
+            }
         }
 	}
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Arsalis.WebcamLibrary
 {
-    class WebcamImage
+    public class WebcamImage
     {
         /// <summary>
         /// Bitmap containing the image
