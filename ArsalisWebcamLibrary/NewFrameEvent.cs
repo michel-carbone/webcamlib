@@ -11,12 +11,16 @@ namespace Arsalis.WebcamLibrary
 
         public System.Drawing.Bitmap image;
 
+        /// <summary>
+        /// NewFrameImageEventArgs method that handle the event
+        /// </summary>
+        /// <param name="newframe">object of type WebcamImage used to get all info from event</param>
         public NewFrameImageEventArgs(object newframe)
         {
             Arsalis.WebcamLibrary.WebcamImage obj = (Arsalis.WebcamLibrary.WebcamImage)newframe;
             timestamp = obj.timestamp.ToString() + "::" + obj.timestamp.Millisecond.ToString(); ;
             image = obj.image;
-            System.Console.WriteLine("NewFrameImageEventArgs :" + timestamp);
+            System.Console.WriteLine("NewFrameImageEventArgs :" + timestamp + "; frame number: " +obj.frameCount);
             //obj.saveImage();
             ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), obj);
         }
@@ -26,11 +30,11 @@ namespace Arsalis.WebcamLibrary
         private void WorkThreadFunction(object webcamImage)
         {
             WebcamImage lastImageObj = webcamImage as WebcamImage;
-            System.Drawing.Bitmap lastBitmap = lastImageObj.image;
+            System.Drawing.Bitmap lastBitmap = (System.Drawing.Bitmap) lastImageObj.image.Clone();
             DateTime lastTimestamp = lastImageObj.timestamp;
             int frameCount = lastImageObj.frameCount;
             // TODO DEBUG crossThreadAccess violation or something else... the object is in use...
-            //saveImage(lastBitmap, lastTimestamp);
+            saveImage(lastBitmap, lastTimestamp);
         }
 
         /// <summary>
@@ -53,6 +57,7 @@ namespace Arsalis.WebcamLibrary
                 try
                 {
                     frameCopy.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    System.Console.WriteLine("Image saved, frame timestamp: " + time.ToString() + "::" + time.Millisecond.ToString());
                 }
                 catch (System.ArgumentNullException argEx)
                 {

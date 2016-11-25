@@ -265,7 +265,7 @@ namespace Arsalis.WebcamLibrary
             {
                 this.writer.Close();
             }
-            System.Console.Write(this.messages);
+            //System.Console.Write(this.messages);
 		}
 		
 		/// <summary>
