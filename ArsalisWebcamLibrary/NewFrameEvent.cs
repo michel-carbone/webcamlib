@@ -19,11 +19,12 @@ namespace Arsalis.WebcamLibrary
         public NewFrameImageEventArgs(object newframe)
         {
             this.imageToDisk = (Arsalis.WebcamLibrary.WebcamImage)newframe;
+            this.imageToGUI = new Arsalis.WebcamLibrary.WebcamImage();
             this.imageToGUI = (Arsalis.WebcamLibrary.WebcamImage)newframe;
             //Arsalis.WebcamLibrary.WebcamImage obj = (Arsalis.WebcamLibrary.WebcamImage)newframe;
             timestamp = imageToGUI.timestamp.ToString() + "::" + imageToGUI.timestamp.Millisecond.ToString(); ;
             //imageToGUI = (System.Drawing.Bitmap)obj.image.Clone();
-            System.Console.WriteLine("NewFrameImageEventArgs :" + timestamp + "; frame number: " +obj.frameCount);
+            System.Console.WriteLine("NewFrameImageEventArgs :" + timestamp + "; frame number: " + this.imageToGUI.frameCount);
             //obj.saveImage();
             ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), imageToDisk);
         }
@@ -32,7 +33,8 @@ namespace Arsalis.WebcamLibrary
 
         private void WorkThreadFunction(object webcamImage)
         {
-            WebcamImage lastImageObj = webcamImage as WebcamImage;
+        	WebcamImage lastImageObj = new WebcamImage();
+            lastImageObj = webcamImage as WebcamImage;
             System.Drawing.Bitmap lastBitmap = (System.Drawing.Bitmap) lastImageObj.image.Clone();
             DateTime lastTimestamp = lastImageObj.timestamp;
             int frameCount = lastImageObj.frameCount;

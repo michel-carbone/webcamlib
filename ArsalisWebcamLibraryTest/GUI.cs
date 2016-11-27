@@ -35,9 +35,17 @@ namespace Arsalis.WebcamLibrary.Test
             this.webcam = selectedWebcam;
             // TODO check if VideoResolution can be set all the time at initialisation 
             // of WebcamLibrary or define a new parameter in WebcamLibrary
-            if (this.webcam.videoDeviceForCapture.VideoResolution != null)
+            
+            
+            try
             {
-                this.pictureBox1.Size = this.webcam.videoDeviceForCapture.VideoResolution.FrameSize;
+            	if (this.webcam.videoDeviceForCapture.VideoResolution != null)
+            	{
+                	this.pictureBox1.Size = this.webcam.videoDeviceForCapture.VideoResolution.FrameSize;
+            	}
+            }catch(Exception e)
+            {
+            	MessageBox.Show("Les parametre non presiser\n" + e.Message);
             }
             //this.OpenVideoSource( this.webcam.videoDeviceForCapture);
             //this.webcam.startWebcam(0);
@@ -109,7 +117,7 @@ namespace Arsalis.WebcamLibrary.Test
 
         protected virtual void OnNewFrameImage(NewFrameImageEventArgs e)
         {
-            var handler = NewFrameImage;
+            Arsalis.WebcamLibrary.NewFrameImageEventArgs.NewFrameEventImageHandler handler = NewFrameImage;
             if (handler != null)
             {
                 handler(this, e);

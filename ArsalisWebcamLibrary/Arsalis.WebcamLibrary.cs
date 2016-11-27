@@ -85,14 +85,17 @@ namespace Arsalis.WebcamLibrary
 
         //System.Threading.Thread thread;
 
-        public Arsalis.WebcamLibrary.WebcamImage lastImage;
+        public Arsalis.WebcamLibrary.WebcamImage lastImage = new WebcamImage();
+        
+        private Arsalis.WebcamLibrary.WebcamImage imageToDisk = new WebcamImage();
 
         private void WorkThreadFunction(object webcamImage)
 		{
-            WebcamImage lastImageObj = webcamImage as WebcamImage;
-            Bitmap lastBitmap = lastImageObj.image;
-            DateTime lastTimestamp = lastImageObj.timestamp;
-            int frameCount = lastImageObj.frameCount;
+            this.lastImage = webcamImage as WebcamImage;
+            this.imageToDisk = webcamImage as WebcamImage;
+            Bitmap lastBitmap = imageToDisk.image;
+            DateTime lastTimestamp = imageToDisk.timestamp;
+            int frameCount = imageToDisk.frameCount;
             saveImage(lastBitmap, lastTimestamp);
             this.messages += "This text was set by WorkThreadFunction, frame number: " + frameCount.ToString() + ".\r\n";
             //new NewFrameImageEventArgs("New image arrived, number " + this.frameCount.ToString());
@@ -224,7 +227,7 @@ namespace Arsalis.WebcamLibrary
                 lastImageObj.frameCount = this.frameCount;
                 //saveImage(copy, now);
                 // 21/11/2016 commented ThreadPool call
-                ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), lastImageObj);
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), lastImageObj);
                 //
                 //this.thread = new Thread(new ThreadStart(WorkThreadFunction));
                 //thread.Start();
