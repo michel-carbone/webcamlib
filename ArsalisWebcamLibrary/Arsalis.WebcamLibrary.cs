@@ -320,7 +320,11 @@ namespace Arsalis.WebcamLibrary
             }
             catch (ApplicationException e)
             {
-                System.Console.WriteLine("Exception in stopWebcam method:\n" + e.Message);
+                System.Console.WriteLine("ApplicationException in stopWebcam method:\n" + e.Message);
+            }
+            catch (SystemException sysEx)
+            {
+                System.Console.WriteLine("SystemException in stopWebcam method:\n" + sysEx.Message);
             }
             //System.Console.Write(this.messages);
 		}
