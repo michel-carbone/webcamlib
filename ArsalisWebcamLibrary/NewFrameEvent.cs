@@ -18,28 +18,47 @@ namespace Arsalis.WebcamLibrary
         /// <param name="newframe">object of type WebcamImage used to get all info from event</param>
         public NewFrameImageEventArgs(object newframe)
         {
-            this.imageToDisk = (Arsalis.WebcamLibrary.WebcamImage)newframe;
-            this.imageToGUI = new Arsalis.WebcamLibrary.WebcamImage();
-            this.imageToGUI = (Arsalis.WebcamLibrary.WebcamImage)newframe;
-            //Arsalis.WebcamLibrary.WebcamImage obj = (Arsalis.WebcamLibrary.WebcamImage)newframe;
-            timestamp = imageToGUI.timestamp.ToString() + "::" + imageToGUI.timestamp.Millisecond.ToString(); ;
-            //imageToGUI = (System.Drawing.Bitmap)obj.image.Clone();
-            System.Console.WriteLine("NewFrameImageEventArgs :" + timestamp + "; frame number: " + this.imageToGUI.frameCount);
-            //obj.saveImage();
-            ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), imageToDisk);
+            try
+            {
+                this.imageToDisk = (Arsalis.WebcamLibrary.WebcamImage)newframe;
+                this.imageToGUI = new Arsalis.WebcamLibrary.WebcamImage();
+                this.imageToGUI = (Arsalis.WebcamLibrary.WebcamImage)newframe;
+                //Arsalis.WebcamLibrary.WebcamImage obj = (Arsalis.WebcamLibrary.WebcamImage)newframe;
+                timestamp = imageToGUI.timestamp.ToString() + "::" + imageToGUI.timestamp.Millisecond.ToString(); ;
+                //imageToGUI = (System.Drawing.Bitmap)obj.image.Clone();
+                System.Console.WriteLine("NewFrameImageEventArgs :" + timestamp + "; frame number: " + this.imageToGUI.frameCount);
+                //obj.saveImage();
+                ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), imageToDisk);
+            }
+            catch (ApplicationException appEx)
+            {
+                System.Console.WriteLine("Exception in NewFrameImageEventArgs:\n" + appEx.Message);
+            }
+
         }
 
         public delegate void NewFrameEventImageHandler(object sender, NewFrameImageEventArgs e);
 
         private void WorkThreadFunction(object webcamImage)
         {
-        	WebcamImage lastImageObj = new WebcamImage();
-            lastImageObj = webcamImage as WebcamImage;
-            System.Drawing.Bitmap lastBitmap = (System.Drawing.Bitmap) lastImageObj.image.Clone();
-            DateTime lastTimestamp = lastImageObj.timestamp;
-            int frameCount = lastImageObj.frameCount;
-            // TODO DEBUG crossThreadAccess violation or something else... the object is in use...
-            saveImage(lastBitmap, lastTimestamp);
+            try
+            {
+                WebcamImage lastImageObj = new WebcamImage();
+                lastImageObj = webcamImage as WebcamImage;
+                System.Drawing.Bitmap lastBitmap = (System.Drawing.Bitmap)lastImageObj.image.Clone();
+                DateTime lastTimestamp = lastImageObj.timestamp;
+                int frameCount = lastImageObj.frameCount;
+                // TODO DEBUG crossThreadAccess violation or something else... the object is in use...
+                saveImage(lastBitmap, lastTimestamp);
+            }
+            catch (ApplicationException appEx)
+            {
+                System.Console.WriteLine("Exception in WorkThreadFunction:\n" + appEx.Message);
+            }
+            catch (InvalidOperationException invOpEx)
+            {
+                System.Console.WriteLine("Exception in WorkThreadFunction:\n" + invOpEx.Message);
+            }
         }
 
         /// <summary>
@@ -49,33 +68,40 @@ namespace Arsalis.WebcamLibrary
         /// <param name="time">time when image is captured</param>
         private void saveImage(System.Drawing.Bitmap frameCopy, DateTime time)
         {
-            char folderSep = System.IO.Path.DirectorySeparatorChar;
-            string path = "C:" + folderSep + "Arsalis" + folderSep;
-            if (System.IO.Directory.Exists(path))
+            try
             {
-                path += "capture_";
-                path += time.ToLongDateString() + "_";
-                path += time.Hour + "_";
-                path += time.Minute + "_";
-                path += time.Second + "_";
-                path += time.Millisecond + ".jpeg";
-                try
+                char folderSep = System.IO.Path.DirectorySeparatorChar;
+                string path = "C:" + folderSep + "Arsalis" + folderSep;
+                if (System.IO.Directory.Exists(path))
                 {
-                    frameCopy.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
-                    System.Console.WriteLine("Image saved, frame timestamp: " + time.ToString() + "::" + time.Millisecond.ToString());
+                    path += "capture_";
+                    path += time.ToLongDateString() + "_";
+                    path += time.Hour + "_";
+                    path += time.Minute + "_";
+                    path += time.Second + "_";
+                    path += time.Millisecond + ".jpeg";
+                    try
+                    {
+                        frameCopy.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        System.Console.WriteLine("Image saved, frame timestamp: " + time.ToString() + "::" + time.Millisecond.ToString());
+                    }
+                    catch (System.ArgumentNullException argEx)
+                    {
+                        throw new System.ArgumentNullException("ArgumentNullException: " + argEx.Message);
+                    }
+                    catch (System.Runtime.InteropServices.ExternalException extEx)
+                    {
+                        System.Console.WriteLine("System.Runtime.InteropServices.ExternalException:\n" + extEx.Message);
+                    }
                 }
-                catch (System.ArgumentNullException argEx)
+                else
                 {
-                    throw new System.ArgumentNullException("ArgumentNullException: " + argEx.Message);
-                }
-                catch (System.Runtime.InteropServices.ExternalException extEx)
-                {
-                    throw new System.Runtime.InteropServices.ExternalException("System.Runtime.InteropServices.ExternalException: " + extEx.Message);
+                    throw new ApplicationException("File path for saving image does not exist");
                 }
             }
-            else
+            catch (ApplicationException appEx)
             {
-                throw new ApplicationException("File path for saving image does not exist");
+                System.Console.WriteLine("Exception in saveImage method:\n" + appEx.Message);
             }
         }
 

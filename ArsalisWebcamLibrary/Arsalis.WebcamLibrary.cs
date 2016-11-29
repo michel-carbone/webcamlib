@@ -25,13 +25,17 @@ namespace Arsalis.WebcamLibrary
 	public class WebcamLibrary
 	{
 	    /// <summary>
-	    /// default constructor
+	    /// Constructor of WebcamLibrary object
+        /// Search at construction webcam connected to computer
 	    /// </summary>
 		public WebcamLibrary()
 		{
 			loadWebcamDevices();
 		}
 
+        /// <summary>
+        /// Bool property, true if there is a webcam connected
+        /// </summary>
         public bool IsAvailable
         {
             get
@@ -41,22 +45,22 @@ namespace Arsalis.WebcamLibrary
         } 
 		
 		/// <summary>
-		/// array that contains name of all webcams connected to the computer
+		/// Array that contains name of all webcams connected to the computer
 		/// </summary>
 		public string [] WebcamListNames;
 		
 		/// <summary>
-		/// array that contains monikerString
+		/// Array that contains monikerString of all connected webcams to the computer
 		/// </summary>
 		public string [] webcamListMonikerString;
 		
 		/// <summary>
-		/// collection of available video devices
+		/// Collection of available video devices connected to the computer
 		/// </summary>
         private FilterInfoCollection videoDevices;
         
         /// <summary>
-        /// boolean that is set when one or more webcam are detected
+        /// Private boolean that is set when one or more webcam are detected
         /// </summary>
         private bool webcamAvailable = false;
         
@@ -91,14 +95,21 @@ namespace Arsalis.WebcamLibrary
 
         private void WorkThreadFunction(object webcamImage)
 		{
-            this.lastImage = webcamImage as WebcamImage;
-            this.imageToDisk = webcamImage as WebcamImage;
-            Bitmap lastBitmap = imageToDisk.image;
-            DateTime lastTimestamp = imageToDisk.timestamp;
-            int frameCount = imageToDisk.frameCount;
-            saveImage(lastBitmap, lastTimestamp);
-            this.messages += "This text was set by WorkThreadFunction, frame number: " + frameCount.ToString() + ".\r\n";
-            //new NewFrameImageEventArgs("New image arrived, number " + this.frameCount.ToString());
+            try
+            {
+                this.lastImage = webcamImage as WebcamImage;
+                this.imageToDisk = webcamImage as WebcamImage;
+                Bitmap lastBitmap = imageToDisk.image;
+                DateTime lastTimestamp = imageToDisk.timestamp;
+                int frameCount = imageToDisk.frameCount;
+                saveImage(lastBitmap, lastTimestamp);
+                this.messages += "This text was set by WorkThreadFunction, frame number: " + frameCount.ToString() + ".\r\n";
+                //new NewFrameImageEventArgs("New image arrived, number " + this.frameCount.ToString());
+            }
+            catch(ApplicationException e)
+            {
+                System.Console.WriteLine("Exception in WorkThreadFunction method:\n" + e.Message);
+            }
 		}
         
         /// <summary>
@@ -144,8 +155,15 @@ namespace Arsalis.WebcamLibrary
 		///	position of selected camera in <see cref="WebcamListNames"></see></param>
 		public void startWebcam(int selectedCamera)
 		{
-            initDevice(selectedCamera, false);
-            startAcquisition();
+            try
+            {
+                initDevice(selectedCamera, false);
+                startAcquisition();
+            }
+            catch (ApplicationException e)
+            {
+                System.Console.WriteLine("Exception in startWebcam method:\n" + e.Message);
+            }
 		}
 
         /// <summary>
@@ -155,14 +173,21 @@ namespace Arsalis.WebcamLibrary
         /// <param name="initVideo">bool, if set: init video</param>
         public void initDevice(int selectedCamera, bool initVideo)
         {
-            this.videoDeviceForCapture = new VideoCaptureDevice(webcamListMonikerString[selectedCamera]);
-            this.webcamName = WebcamListNames[selectedCamera];
-
-            this.getAllParameters();
-
-            if (initVideo)
+            try
             {
-                initSaveVideo();
+                this.videoDeviceForCapture = new VideoCaptureDevice(webcamListMonikerString[selectedCamera]);
+                this.webcamName = WebcamListNames[selectedCamera];
+
+                this.getAllParameters();
+
+                if (initVideo)
+                {
+                    initSaveVideo();
+                }
+            }
+            catch(ApplicationException e)
+            {
+                System.Console.WriteLine("Exception in initDevice method:\n" + e.Message);
             }
         }
 
@@ -171,13 +196,20 @@ namespace Arsalis.WebcamLibrary
         /// </summary>
         private void getAllParameters()
         {
-            this.parameters.Exposure = this.getParameter(this.parameters.Exposure);
-            this.parameters.Focus = this.getParameter(this.parameters.Focus);
-            this.parameters.Iris = this.getParameter(this.parameters.Iris);
-            this.parameters.Pan = this.getParameter(this.parameters.Pan);
-            this.parameters.Roll = this.getParameter(this.parameters.Roll);
-            this.parameters.Tilt = this.getParameter(this.parameters.Tilt);
-            this.parameters.Zoom = this.getParameter(this.parameters.Zoom);
+            try
+            {
+                this.parameters.Exposure = this.getParameter(this.parameters.Exposure);
+                this.parameters.Focus = this.getParameter(this.parameters.Focus);
+                this.parameters.Iris = this.getParameter(this.parameters.Iris);
+                this.parameters.Pan = this.getParameter(this.parameters.Pan);
+                this.parameters.Roll = this.getParameter(this.parameters.Roll);
+                this.parameters.Tilt = this.getParameter(this.parameters.Tilt);
+                this.parameters.Zoom = this.getParameter(this.parameters.Zoom);
+            }
+            catch (ApplicationException e)
+            {
+                System.Console.WriteLine("Exception in getAllParameters method:\n" + e.Message);
+            }
         }
 
         /// <summary>
@@ -185,15 +217,23 @@ namespace Arsalis.WebcamLibrary
         /// </summary>
         public void startAcquisition()
         {
-            if (videoDeviceForCapture != null)
+            try
             {
-                this.videoDeviceForCapture.NewFrame += new NewFrameEventHandler(this.videoDeviceForCapture_NewFrame);
-                this.videoDeviceForCapture.Start();
+                if (videoDeviceForCapture != null)
+                {
+                    this.videoDeviceForCapture.NewFrame += new NewFrameEventHandler(this.videoDeviceForCapture_NewFrame);
+                    this.videoDeviceForCapture.Start();
+                }
+                else
+                {
+                    new ApplicationException("videoDeviceForCapture is NULL");
+                }
             }
-            else
+            catch (ApplicationException e)
             {
-                new ApplicationException("videoDeviceForCapture is NULL");
+                System.Console.WriteLine("Exception in startAcquisition method:\n" + e.Message);
             }
+
         }
 
         /// <summary>
@@ -201,13 +241,20 @@ namespace Arsalis.WebcamLibrary
         /// </summary>
         public void initSaveVideo()
         {
-            // instantiate AVI writer, use WMV3 codec
-            this.writer = new AForge.Video.VFW.AVIWriter("MSVC");
-            // create new AVI file and open it
-            string path = "C:/Arsalis/test_" + DateTime.Now.Minute.ToString() + ".avi";
-            int width = this.videoDeviceForCapture.VideoResolution.FrameSize.Width;
-            int height = this.videoDeviceForCapture.VideoResolution.FrameSize.Height;
-            writer.Open(path, width, height);
+            try
+            {
+                // instantiate AVI writer, use WMV3 codec
+                this.writer = new AForge.Video.VFW.AVIWriter("MSVC");
+                // create new AVI file and open it
+                string path = "C:/Arsalis/test_" + DateTime.Now.Minute.ToString() + ".avi";
+                int width = this.videoDeviceForCapture.VideoResolution.FrameSize.Width;
+                int height = this.videoDeviceForCapture.VideoResolution.FrameSize.Height;
+                writer.Open(path, width, height);
+            }
+            catch (ApplicationException e)
+            {
+                System.Console.WriteLine("Exception in initSaveVideo:\n" + e.Message);
+            }
         }
 
         void videoDeviceForCapture_NewFrame(object sender, NewFrameEventArgs eventArgs)
@@ -246,27 +293,34 @@ namespace Arsalis.WebcamLibrary
 		/// </summary>
 		public void stopWebcam()
 		{
-            if (this.videoDeviceForCapture != null)
+            try
             {
-                messages += this.videoDeviceForCapture.FramesReceived.ToString() + " frames received before SignalToStop\r\n";
-                videoDeviceForCapture.SignalToStop();
-                if (this.lastImage != null)
+                if (this.videoDeviceForCapture != null)
                 {
-                    Console.WriteLine("Height of last Image: " + this.lastImage.image.Height.ToString());
-                    Console.WriteLine("Width of last Image: " + this.lastImage.image.Width.ToString());
-                    Console.WriteLine("PropertyItems of last Image: ");
-                    for (int j = 0; j < this.lastImage.image.PropertyItems.Length; j++)
+                    messages += this.videoDeviceForCapture.FramesReceived.ToString() + " frames received before SignalToStop\r\n";
+                    videoDeviceForCapture.SignalToStop();
+                    if (this.lastImage != null)
                     {
-                        Console.WriteLine(this.lastImage.image.PropertyItems[j].ToString());
+                        Console.WriteLine("Height of last Image: " + this.lastImage.image.Height.ToString());
+                        Console.WriteLine("Width of last Image: " + this.lastImage.image.Width.ToString());
+                        Console.WriteLine("PropertyItems of last Image: ");
+                        for (int j = 0; j < this.lastImage.image.PropertyItems.Length; j++)
+                        {
+                            Console.WriteLine(this.lastImage.image.PropertyItems[j].ToString());
+                        }
                     }
+                    videoDeviceForCapture.WaitForStop();
+                    messages += this.videoDeviceForCapture.FramesReceived.ToString() + " frames received after WaitForStop\r\n";
                 }
-                videoDeviceForCapture.WaitForStop();
-                messages += this.videoDeviceForCapture.FramesReceived.ToString() + " frames received after WaitForStop\r\n";
+                // close AVI writer if open
+                if (this.writer != null)
+                {
+                    this.writer.Close();
+                }
             }
-            // close AVI writer if open
-            if (this.writer != null)
+            catch (ApplicationException e)
             {
-                this.writer.Close();
+                System.Console.WriteLine("Exception in stopWebcam method:\n" + e.Message);
             }
             //System.Console.Write(this.messages);
 		}
@@ -330,7 +384,14 @@ namespace Arsalis.WebcamLibrary
         /// <param name="propertyValue">desired value of property</param>
         public void setCameraParameter(CameraControlProperty property, int propertyValue)
         {
-            this.videoDeviceForCapture.SetCameraProperty(property, propertyValue, CameraControlFlags.Manual);
+            try
+            {
+                this.videoDeviceForCapture.SetCameraProperty(property, propertyValue, CameraControlFlags.Manual);
+            }
+            catch (ApplicationException appEx)
+            {
+                System.Console.WriteLine("Exception in setCameraParameter:\n" + appEx.Message);
+            }
         }
 
         /// <summary>
@@ -339,10 +400,17 @@ namespace Arsalis.WebcamLibrary
         /// <param name="resolution">Size of frame</param>
         public void setFrameResolution(Size resolution)
         {
-            string key = resolution.Width.ToString() + " x " + resolution.Height.ToString();
-            this.parameters.capabilities = videoCapabilitiesDictionary[key];
-            this.videoDeviceForCapture.VideoResolution = this.parameters.capabilities;
-            System.Console.WriteLine(this.videoDeviceForCapture.VideoResolution.FrameSize.ToString());
+            try
+            {
+                string key = resolution.Width.ToString() + " x " + resolution.Height.ToString();
+                this.parameters.capabilities = videoCapabilitiesDictionary[key];
+                this.videoDeviceForCapture.VideoResolution = this.parameters.capabilities;
+                System.Console.WriteLine(this.videoDeviceForCapture.VideoResolution.FrameSize.ToString());
+            }
+            catch(ApplicationException appEx)
+            {
+                System.Console.WriteLine("Exception in setFrameresolution:\n" + appEx.Message);
+            }
         }
 		
 		/// <summary>
@@ -352,37 +420,44 @@ namespace Arsalis.WebcamLibrary
 		/// <param name="time">time when image is captured</param>
 		private void saveImage(System.Drawing.Bitmap frameCopy, DateTime time)
 		{
-            char folderSep = System.IO.Path.DirectorySeparatorChar;
-            string path = "C:" + folderSep + "Arsalis" + folderSep;
-            if (System.IO.Directory.Exists(path))
+            try
             {
-                path += "capture_";
-                path += time.ToLongDateString() + "_";
-                path += time.Hour + "_";
-                path += time.Minute + "_";
-                path += time.Second + "_";
-                path += time.Millisecond + ".jpeg";
-                try
+                char folderSep = System.IO.Path.DirectorySeparatorChar;
+                string path = "C:" + folderSep + "Arsalis" + folderSep;
+                if (System.IO.Directory.Exists(path))
                 {
-                    frameCopy.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    path += "capture_";
+                    path += time.ToLongDateString() + "_";
+                    path += time.Hour + "_";
+                    path += time.Minute + "_";
+                    path += time.Second + "_";
+                    path += time.Millisecond + ".jpeg";
+                    try
+                    {
+                        frameCopy.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    }
+                    catch (System.ArgumentNullException argEx)
+                    {
+                        throw new System.ArgumentNullException("ArgumentNullException: " + argEx.Message);
+                    }
+                    catch (System.Runtime.InteropServices.ExternalException extEx)
+                    {
+                        throw new System.Runtime.InteropServices.ExternalException("System.Runtime.InteropServices.ExternalException: " + extEx.Message);
+                    }
                 }
-                catch (System.ArgumentNullException argEx)
+                else
                 {
-                    throw new System.ArgumentNullException("ArgumentNullException: " + argEx.Message);
+                    throw new ApplicationException("File path for saving image does not exist");
                 }
-                catch (System.Runtime.InteropServices.ExternalException extEx)
-                {
-                    throw new System.Runtime.InteropServices.ExternalException("System.Runtime.InteropServices.ExternalException: " + extEx.Message);
-                }
+                //this.lastImage = new Bitmap(frameCopy);
+                //writer.AddFrame(frameCopy);
+                //System.Drawing.Image copyCompressed = (System.Drawing.Image)frameCopy.Clone();
+                //this.images[frameCount] = new Bitmap(copyCompressed);
             }
-            else
+            catch (ApplicationException e)
             {
-                throw new ApplicationException("File path for saving image does not exist");
+                System.Console.WriteLine("Exception in saveImage method:\n" + e.Message);
             }
-            //this.lastImage = new Bitmap(frameCopy);
-            //writer.AddFrame(frameCopy);
-            //System.Drawing.Image copyCompressed = (System.Drawing.Image)frameCopy.Clone();
-			//this.images[frameCount] = new Bitmap(copyCompressed);
 		}
 		
         /// <summary>
@@ -409,19 +484,33 @@ namespace Arsalis.WebcamLibrary
                     }
                 }
 			}
-			catch
+			catch (ApplicationException e)
             {
-                messages += "Exception in GetFrameResolutions method";
+                System.Console.WriteLine("Exception in GetFrameResolutions method:\n" + e.Message);
             }
 		}
 
         public event Arsalis.WebcamLibrary.NewFrameImageEventArgs.NewFrameEventImageHandler NewFrameImage;
 
-
+        /// <summary>
+        /// Delegate that handle the NewFrameImage event handler
+        /// </summary>
+        /// <param name="e">EventArgs that contains the new image</param>
         protected virtual void OnNewFrameImage(NewFrameImageEventArgs e)
         {
-            if (NewFrameImage != null)
-                NewFrameImage(this, e);
+            try
+            {
+                if (NewFrameImage != null)
+                    NewFrameImage(this, e);
+            }
+            catch (ApplicationException appEx)
+            {
+                System.Console.WriteLine("Exception in OnNewFrame delegate:\n" + appEx.Message);
+            }
+            catch (SystemException sysEx)
+            {
+                System.Console.WriteLine("Exception in OnNwFrame delegate:\n" + sysEx.Message);
+            }
         }
 	}
 }

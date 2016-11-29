@@ -274,64 +274,71 @@ namespace Arsalis.WebcamLibrary
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
-            comboBox5.Items.Clear();
-            switch (comboBox4.SelectedIndex)
+            try
             {
-                case 0:
+                comboBox5.Items.Clear();
+                switch (comboBox4.SelectedIndex)
                 {
-                    this.comboBox5.Items.Add(this.webcamClass.parameters.Exposure.ctrFlag);
-                    this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Exposure.minValue, 
-                        this.webcamClass.parameters.Exposure.maxValue);
-                    break;
+                    case 0:
+                        {
+                            this.comboBox5.Items.Add(this.webcamClass.parameters.Exposure.ctrFlag);
+                            this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Exposure.minValue,
+                            this.webcamClass.parameters.Exposure.maxValue);
+                            break;
+                        }
+                    case 1:
+                        {
+                            this.comboBox5.Items.Add(this.webcamClass.parameters.Focus.ctrFlag);
+                            this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Focus.minValue,
+                            this.webcamClass.parameters.Focus.maxValue);
+                            break;
+                        }
+                    case 2:
+                        {
+                            this.comboBox5.Items.Add(this.webcamClass.parameters.Iris.ctrFlag);
+                            this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Iris.minValue,
+                            this.webcamClass.parameters.Iris.maxValue);
+                            break;
+                        }
+                    case 3:
+                        {
+                            this.comboBox5.Items.Add(this.webcamClass.parameters.Pan.ctrFlag);
+                            this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Pan.minValue,
+                            this.webcamClass.parameters.Pan.maxValue);
+                            break;
+                        }
+                    case 4:
+                        {
+                            this.comboBox5.Items.Add(this.webcamClass.parameters.Roll.ctrFlag);
+                            this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Roll.minValue,
+                            this.webcamClass.parameters.Roll.maxValue);
+                            break;
+                        }
+                    case 5:
+                        {
+                            this.comboBox5.Items.Add(this.webcamClass.parameters.Tilt.ctrFlag);
+                            this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Tilt.minValue,
+                            this.webcamClass.parameters.Tilt.maxValue);
+                            break;
+                        }
+                    case 6:
+                        {
+                            this.comboBox5.Items.Add(this.webcamClass.parameters.Zoom.ctrFlag);
+                            this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Zoom.minValue,
+                            this.webcamClass.parameters.Zoom.maxValue);
+                            break;
+                        }
+                    default:
+                        {
+                            throw new ApplicationException("Not implemented");
+                        }
                 }
-                case 1:
-                {
-                    this.comboBox5.Items.Add(this.webcamClass.parameters.Focus.ctrFlag);
-                    this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Focus.minValue, 
-                        this.webcamClass.parameters.Focus.maxValue); 
-                    break;
-                }
-                case 2:
-                {
-                    this.comboBox5.Items.Add(this.webcamClass.parameters.Iris.ctrFlag);
-                    this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Iris.minValue, 
-                        this.webcamClass.parameters.Iris.maxValue);
-                    break;
-                }
-                case 3:
-                {
-                    this.comboBox5.Items.Add(this.webcamClass.parameters.Pan.ctrFlag);
-                    this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Pan.minValue, 
-                        this.webcamClass.parameters.Pan.maxValue);
-                    break;
-                }
-                case 4:
-                {
-                    this.comboBox5.Items.Add(this.webcamClass.parameters.Roll.ctrFlag);
-                    this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Roll.minValue, 
-                        this.webcamClass.parameters.Roll.maxValue);
-                    break;
-                }
-                case 5:
-                {
-                    this.comboBox5.Items.Add(this.webcamClass.parameters.Tilt.ctrFlag);
-                    this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Tilt.minValue, 
-                        this.webcamClass.parameters.Tilt.maxValue);
-                    break;
-                }
-                case 6:
-                {
-                    this.comboBox5.Items.Add(this.webcamClass.parameters.Zoom.ctrFlag);
-                    this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Zoom.minValue, 
-                        this.webcamClass.parameters.Zoom.maxValue);
-                    break;
-                }
-                default:
-                {
-                    throw new ApplicationException("Not implemented");
-                }
+                this.comboBox5.SelectedIndex = 0;
             }
-            this.comboBox5.SelectedIndex = 0;
+            catch (ApplicationException appEx)
+            {
+                MessageBox.Show("Error in comboBox4_SelectedIndexChanged\n" + appEx.Message);
+            }
         }
 
         private void show_button_Click(object sender, EventArgs e)
@@ -339,7 +346,7 @@ namespace Arsalis.WebcamLibrary
             Arsalis.WebcamLibrary.Test.GUI testGUI = new Arsalis.WebcamLibrary.Test.GUI(this.webcamClass);
             // set GUI videoDevice to selected videoDevice of test webcam class
             //testGUI.OpenVideoSource(this.webcamClass.videoDeviceForCapture);
-            //testGUI.Show();
+            testGUI.Show();
         }
     }
 }
