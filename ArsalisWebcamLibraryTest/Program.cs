@@ -47,6 +47,7 @@ namespace Arsalis.WebcamLibrary.Test
 				test.stopWebcam();
 				Console.WriteLine(test.messages);
 				Console.WriteLine("Press any key to continue . . . ");
+				console.WriteLineGreen("Press any key to continue . . . ");
                 System.Threading.Thread.Sleep(2000);
                 testGui(test);
 			}
@@ -55,15 +56,17 @@ namespace Arsalis.WebcamLibrary.Test
 		public static void testGui(Arsalis.WebcamLibrary.WebcamLibrary test)
 		{
 			Console.WriteLine("Open GUI...");
-				// create an instance of test CUI
-    			Arsalis.WebcamLibrary.Test.GUI testGUI = new GUI(test);
-				// set GUI videoDevice to selected videoDevice of test webcam class
-				testGUI.OpenVideoSource(test.videoDeviceForCapture);
-				testGUI.ShowDialog();
-                testGUI.CloseCurrentVideoSource();
-				Console.Write(testGUI.timeStamps);
-                Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
+			// create an instance of test CUI
+			Arsalis.WebcamLibrary.Test.GUI testGUI = new GUI(test);
+			// set GUI videoDevice to selected videoDevice of test webcam class
+			testGUI.OpenVideoSource(test.videoDeviceForCapture);
+			testGUI.ShowDialog();
+            testGUI.CloseCurrentVideoSource();
+			Console.Write(testGUI.timeStamps);
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
 		}
+		
+		public static Arsalis.WebcamLibrary.ConsoleDebugger console = new ConsoleDebugger();
 	}
 }

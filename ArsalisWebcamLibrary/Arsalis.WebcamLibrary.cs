@@ -92,6 +92,8 @@ namespace Arsalis.WebcamLibrary
         public Arsalis.WebcamLibrary.WebcamImage lastImage = new WebcamImage();
         
         private Arsalis.WebcamLibrary.WebcamImage imageToDisk = new WebcamImage();
+        
+        private Arsalis.WebcamLibrary.ConsoleDebugger ConsoleBuddy = new Arsalis.WebcamLibrary.ConsoleDebugger();
 
         private void WorkThreadFunction(object webcamImage)
 		{
@@ -324,9 +326,8 @@ namespace Arsalis.WebcamLibrary
             }
             catch (SystemException sysEx)
             {
-                System.Console.WriteLine("SystemException in stopWebcam method:\n" + sysEx.Message);
+            	this.ConsoleBuddy.WriteSystemException(sysEx, "stopWebcam");
             }
-            //System.Console.Write(this.messages);
 		}
 		
 		/// <summary>

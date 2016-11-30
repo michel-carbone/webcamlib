@@ -13,6 +13,7 @@ namespace WebcamSetupGUI
         [STAThread]
         static void Main()
         {
+        	System.Console.WriteLine("Start WebcamSetupGUI");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Arsalis.WebcamLibrary.WebcamSetupGUI());
