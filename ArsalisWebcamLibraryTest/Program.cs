@@ -45,7 +45,7 @@ namespace Arsalis.WebcamLibrary.Test
                 test.startAcquisition();
 				Console.ReadKey(true);
 				test.stopWebcam();
-				Console.WriteLine(test.messages);
+				//Console.WriteLine(test.messages);
 				Console.WriteLine("Press any key to continue . . . ");
 				console.WriteLineGreen("Press any key to continue . . . ");
                 System.Threading.Thread.Sleep(2000);

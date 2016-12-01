@@ -103,6 +103,11 @@ namespace Arsalis.WebcamLibrary
             combo.Text = "";
         }
 
+        /// <summary>
+        /// Select a webcam, add parameter to comboBoxes and init selected webcam
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void select_webcam_button_Click(object sender, EventArgs e)
         {
             // TODO select webcam
@@ -113,7 +118,8 @@ namespace Arsalis.WebcamLibrary
             {
                 comboBox2.Items.Add(cameraParameters[i]);
                 comboBox4.Items.Add(cameraParameters[i]);
-            }           
+            }
+            this.webcamClass.initDevice(comboBox1.SelectedIndex, false);
         }
 
         /// <summary>
@@ -123,7 +129,6 @@ namespace Arsalis.WebcamLibrary
         /// <param name="e"></param>
         private void get_parameters_button_Click(object sender, EventArgs e)
         {
-            this.webcamClass.initDevice(comboBox1.SelectedIndex, false);
             switch(comboBox2.SelectedIndex)
             {
                 case 0:

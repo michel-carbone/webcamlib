@@ -69,15 +69,29 @@ namespace Arsalis.WebcamLibrary
         /// <summary>
         /// Write to console a SystemException in red foreground color
         /// </summary>
-        /// <param name="sysEx">Exception</param>
+        /// <param name="sysEx">System Exception</param>
         /// <param name="caller">Name of the method where the exception occured</param>
-        public void WriteSystemException(SystemException sysEx, string caller)
+        public void WriteException(SystemException sysEx, string caller)
         {
         	this.WriteLineRed("SystemException in " + caller + " method:\n" + sysEx.Message);
         	this.WriteLineBlue("Exception details:");
         	this.WriteLineBlue("Exception source: " + sysEx.Source);
         	this.WriteLineBlue("Exception data: " + sysEx.Data);
         	this.WriteLineBlue("Exception stacktrace: " + sysEx.StackTrace);
+        }
+
+        /// <summary>
+        /// Write to console a ApplicationException in red foreground color
+        /// </summary>
+        /// <param name="sysEx">Application Exception</param>
+        /// <param name="caller">Name of the method where the exception occured</param>
+        public void WriteException(ApplicationException appEx, string caller)
+        {
+            this.WriteLineRed("ApplicationException in " + caller + " method:\n" + appEx.Message);
+            this.WriteLineBlue("Exception details:");
+            this.WriteLineBlue("Exception source: " + appEx.Source);
+            this.WriteLineBlue("Exception data: " + appEx.Data);
+            this.WriteLineBlue("Exception stacktrace: " + appEx.StackTrace);
         }
     }
 }

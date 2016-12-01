@@ -34,10 +34,15 @@ namespace Arsalis.WebcamLibrary
             {
                 System.Console.WriteLine("Exception in NewFrameImageEventArgs:\n" + appEx.Message);
             }
-
+            catch (SystemException sysEx)
+            {
+                System.Console.WriteLine("Exception in NewFrameImageEventArgs:\n" + sysEx.Message);
+            }
         }
 
         public delegate void NewFrameEventImageHandler(object sender, NewFrameImageEventArgs e);
+
+        
 
         private void WorkThreadFunction(object webcamImage)
         {

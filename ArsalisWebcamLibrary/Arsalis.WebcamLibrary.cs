@@ -64,8 +64,14 @@ namespace Arsalis.WebcamLibrary
         /// </summary>
         private bool webcamAvailable = false;
         
+        /// <summary>
+        /// Number of frame received from the initialisation of the object
+        /// </summary>
         public int frameCount = 0;
 		
+        /// <summary>
+        /// Name of the selected webcam
+        /// </summary>
         public string webcamName = "";
 
         /// <summary>
@@ -73,29 +79,37 @@ namespace Arsalis.WebcamLibrary
         /// </summary>
         public VideoCaptureDevice videoDeviceForCapture;
 
-        public string messages = "";
+        //public string messages = "";
 
         /// <summary>
         /// class containing all struct CameraParam objects
         /// </summary>
         public Arsalis.WebcamLibrary.WebcamParameters parameters = new WebcamParameters();
 
+        /// <summary>
+        /// Array containing all resolutions of selected webcam
+        /// </summary>
         public Size[] webcamResolutions;
 
+        /// <summary>
+        /// Dictionnary containing all videoCapabilities of the selected webcam
+        /// </summary>
         private Dictionary<string, VideoCapabilities> videoCapabilitiesDictionary = new Dictionary<string, VideoCapabilities>();
         
-        
+        /// <summary>
+        /// AVIWriter
+        /// </summary>
         private AForge.Video.VFW.AVIWriter writer;
 
         //System.Threading.Thread thread;
 
         public Arsalis.WebcamLibrary.WebcamImage lastImage = new WebcamImage();
         
-        private Arsalis.WebcamLibrary.WebcamImage imageToDisk = new WebcamImage();
+        //private Arsalis.WebcamLibrary.WebcamImage imageToDisk = new WebcamImage();
         
-        private Arsalis.WebcamLibrary.ConsoleDebugger ConsoleBuddy = new Arsalis.WebcamLibrary.ConsoleDebugger();
+        internal Arsalis.WebcamLibrary.ConsoleDebugger ConsoleBuddy = new Arsalis.WebcamLibrary.ConsoleDebugger();
 
-        private void WorkThreadFunction(object webcamImage)
+        /*private void WorkThreadFunction(object webcamImage)
 		{
             try
             {
@@ -105,14 +119,18 @@ namespace Arsalis.WebcamLibrary
                 DateTime lastTimestamp = imageToDisk.timestamp;
                 int frameCount = imageToDisk.frameCount;
                 saveImage(lastBitmap, lastTimestamp);
-                this.messages += "This text was set by WorkThreadFunction, frame number: " + frameCount.ToString() + ".\r\n";
+                ConsoleBuddy.WriteLine("This text was set by WorkThreadFunction, frame number: " + frameCount.ToString());
                 //new NewFrameImageEventArgs("New image arrived, number " + this.frameCount.ToString());
             }
-            catch(ApplicationException e)
+            catch (ApplicationException appEx)
             {
-                System.Console.WriteLine("Exception in WorkThreadFunction method:\n" + e.Message);
+                ConsoleBuddy.WriteException(appEx, "WorkThreadFunction");
             }
-		}
+            catch (SystemException sysEx)
+            {
+                ConsoleBuddy.WriteException(sysEx, "WorkThreadFunction");
+            }
+		}*/
         
         /// <summary>
         /// method that search for available webcams
@@ -187,9 +205,13 @@ namespace Arsalis.WebcamLibrary
                     initSaveVideo();
                 }
             }
-            catch(ApplicationException e)
+            catch (ApplicationException appEx)
             {
-                System.Console.WriteLine("Exception in initDevice method:\n" + e.Message);
+                ConsoleBuddy.WriteException(appEx, "initDevice");
+            }
+            catch (SystemException sysEx)
+            {
+                ConsoleBuddy.WriteException(sysEx, "initDevice");
             }
         }
 
@@ -208,9 +230,13 @@ namespace Arsalis.WebcamLibrary
                 this.parameters.Tilt = this.getParameter(this.parameters.Tilt);
                 this.parameters.Zoom = this.getParameter(this.parameters.Zoom);
             }
-            catch (ApplicationException e)
+            catch (ApplicationException appEx)
             {
-                System.Console.WriteLine("Exception in getAllParameters method:\n" + e.Message);
+                ConsoleBuddy.WriteException(appEx, "getAllParameters");
+            }
+            catch (SystemException sysEx)
+            {
+                ConsoleBuddy.WriteException(sysEx, "getAllParameters");
             }
         }
 
@@ -231,11 +257,14 @@ namespace Arsalis.WebcamLibrary
                     new ApplicationException("videoDeviceForCapture is NULL");
                 }
             }
-            catch (ApplicationException e)
+            catch (ApplicationException appEx)
             {
-                System.Console.WriteLine("Exception in startAcquisition method:\n" + e.Message);
+                ConsoleBuddy.WriteException(appEx, "startAcquisition");
             }
-
+            catch (SystemException sysEx)
+            {
+                ConsoleBuddy.WriteException(sysEx, "startAcquisition");
+            }
         }
 
         /// <summary>
@@ -265,7 +294,7 @@ namespace Arsalis.WebcamLibrary
             {
                 this.frameCount = ++this.frameCount;
                 DateTime now = DateTime.Now;
-                messages += "Event in WebcamLibrary @ " + now.ToString() + "::" + now.Millisecond.ToString() + ";\t frames received:" + this.frameCount.ToString() + "\r\n";
+                //messages += "Event in WebcamLibrary @ " + now.ToString() + "::" + now.Millisecond.ToString() + ";\t frames received:" + this.frameCount.ToString() + "\r\n";
                 System.Drawing.Bitmap copy = (System.Drawing.Bitmap)eventArgs.Frame.Clone();
                 this.lastImage = new WebcamImage();
                 this.lastImage.image = new Bitmap(copy);
@@ -295,30 +324,21 @@ namespace Arsalis.WebcamLibrary
 		/// </summary>
 		public void stopWebcam()
 		{
+            ConsoleBuddy.WriteLineBlue("Enter in stopWebcam method");
             try
             {
                 if (this.videoDeviceForCapture != null)
                 {
-                    messages += this.videoDeviceForCapture.FramesReceived.ToString() + " frames received before SignalToStop\r\n";
                     videoDeviceForCapture.SignalToStop();
-                    if (this.lastImage != null)
-                    {
-                        Console.WriteLine("Height of last Image: " + this.lastImage.image.Height.ToString());
-                        Console.WriteLine("Width of last Image: " + this.lastImage.image.Width.ToString());
-                        Console.WriteLine("PropertyItems of last Image: ");
-                        for (int j = 0; j < this.lastImage.image.PropertyItems.Length; j++)
-                        {
-                            Console.WriteLine(this.lastImage.image.PropertyItems[j].ToString());
-                        }
-                    }
                     videoDeviceForCapture.WaitForStop();
-                    messages += this.videoDeviceForCapture.FramesReceived.ToString() + " frames received after WaitForStop\r\n";
+                    ConsoleBuddy.WriteLine(this.videoDeviceForCapture.FramesReceived.ToString() + " frames received after WaitForStop");
                 }
                 // close AVI writer if open
                 if (this.writer != null)
                 {
                     this.writer.Close();
                 }
+                ConsoleBuddy.WriteLineBlue("Exit stopWebcam method");
             }
             catch (ApplicationException e)
             {
@@ -326,7 +346,7 @@ namespace Arsalis.WebcamLibrary
             }
             catch (SystemException sysEx)
             {
-            	this.ConsoleBuddy.WriteSystemException(sysEx, "stopWebcam");
+            	this.ConsoleBuddy.WriteException(sysEx, "stopWebcam");
             }
 		}
 		
@@ -368,17 +388,25 @@ namespace Arsalis.WebcamLibrary
             }
             try
             {
-	            // get current property values
-	            this.videoDeviceForCapture.GetCameraProperty(property.propertyType, out property.currentValue, out property.currentCtrlFlag);
-	            Console.Write("currentValue: " + property.currentValue.ToString() + "\r\n" +
-	                             "currentCameraControlFlags: " + property.currentCtrlFlag.ToString() + "\r\n");
-	            // check if property is adjustable
-	            Console.WriteLine("IsAvailable "+ property.propertyType.ToString() + " is ajustable?: " + property.isAdjustable.ToString());
-			}
-            catch (ApplicationException ex)
-			{
-				throw new Exception("Error in getParameter method: " + ex.Message);
-			}
+                // get current property values
+                this.videoDeviceForCapture.GetCameraProperty(property.propertyType, out property.currentValue, out property.currentCtrlFlag);
+                Console.Write("currentValue: " + property.currentValue.ToString() + "\r\n" +
+                                 "currentCameraControlFlags: " + property.currentCtrlFlag.ToString() + "\r\n");
+                // check if property is adjustable
+                Console.WriteLine("IsAvailable " + property.propertyType.ToString() + " is ajustable?: " + property.isAdjustable.ToString());
+            }
+            catch (ArgumentException argEx)
+            {
+                ConsoleBuddy.WriteException(argEx, "getParameter");
+            }
+            catch (ApplicationException appEx)
+            {
+                ConsoleBuddy.WriteException(appEx, "getParameter");
+            }
+            catch (NotSupportedException notSuppEx)
+            {
+                ConsoleBuddy.WriteException(notSuppEx, "getParameter");
+            }
 			return property;
 		}
 		
@@ -393,9 +421,17 @@ namespace Arsalis.WebcamLibrary
             {
                 this.videoDeviceForCapture.SetCameraProperty(property, propertyValue, CameraControlFlags.Manual);
             }
+            catch (ArgumentException argEx)
+            {
+                ConsoleBuddy.WriteException(argEx, "setCameraParameter");
+            }
             catch (ApplicationException appEx)
             {
-                System.Console.WriteLine("Exception in setCameraParameter:\n" + appEx.Message);
+                ConsoleBuddy.WriteException(appEx, "setCameraParameter");
+            }
+            catch (NotSupportedException notSuppEx)
+            {
+                ConsoleBuddy.WriteException(notSuppEx, "setCameraParameter");
             }
         }
 
