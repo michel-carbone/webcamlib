@@ -60,11 +60,11 @@ namespace Arsalis.WebcamLibrary
             }
             catch (ApplicationException appEx)
             {
-                System.Console.WriteLine("Exception in WorkThreadFunction:\n" + appEx.Message);
+                ConsoleBuddy.WriteException(appEx, "WorkThreadFunction");
             }
             catch (InvalidOperationException invOpEx)
             {
-                System.Console.WriteLine("Exception in WorkThreadFunction:\n" + invOpEx.Message);
+                ConsoleBuddy.WriteException(invOpEx, "WorkThreadFunction");
             }
         }
 

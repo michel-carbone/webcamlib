@@ -74,10 +74,10 @@ namespace Arsalis.WebcamLibrary
         public void WriteException(SystemException sysEx, string caller)
         {
         	this.WriteLineRed("SystemException in " + caller + " method:\n" + sysEx.Message);
-        	this.WriteLineBlue("Exception details:");
-        	this.WriteLineBlue("Exception source: " + sysEx.Source);
-        	this.WriteLineBlue("Exception data: " + sysEx.Data);
-        	this.WriteLineBlue("Exception stacktrace: " + sysEx.StackTrace);
+            this.WriteLineRed("Exception details:");
+            this.WriteLineRed("Exception source: " + sysEx.Source);
+            this.WriteLineRed("Exception data: " + sysEx.Data);
+            this.WriteLineRed("Exception stacktrace: " + sysEx.StackTrace);
         }
 
         /// <summary>
@@ -88,10 +88,10 @@ namespace Arsalis.WebcamLibrary
         public void WriteException(ApplicationException appEx, string caller)
         {
             this.WriteLineRed("ApplicationException in " + caller + " method:\n" + appEx.Message);
-            this.WriteLineBlue("Exception details:");
-            this.WriteLineBlue("Exception source: " + appEx.Source);
-            this.WriteLineBlue("Exception data: " + appEx.Data);
-            this.WriteLineBlue("Exception stacktrace: " + appEx.StackTrace);
+            this.WriteLineRed("Exception details:");
+            this.WriteLineRed("Exception source: " + appEx.Source);
+            this.WriteLineRed("Exception data: " + appEx.Data);
+            this.WriteLineRed("Exception stacktrace: " + appEx.StackTrace);
         }
     }
 }
