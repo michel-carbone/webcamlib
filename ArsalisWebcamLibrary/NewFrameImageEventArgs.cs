@@ -12,6 +12,8 @@ namespace Arsalis.WebcamLibrary
         private Arsalis.WebcamLibrary.WebcamImage imageToGUI;
         private Arsalis.WebcamLibrary.WebcamImage imageToDisk;
 
+        private Arsalis.WebcamLibrary.ConsoleDebugger ConsoleBuddy = new ConsoleDebugger();
+
         /// <summary>
         /// NewFrameImageEventArgs method that handle the event
         /// </summary>
@@ -26,17 +28,17 @@ namespace Arsalis.WebcamLibrary
                 //Arsalis.WebcamLibrary.WebcamImage obj = (Arsalis.WebcamLibrary.WebcamImage)newframe;
                 timestamp = imageToGUI.timestamp.ToString() + "::" + imageToGUI.timestamp.Millisecond.ToString(); ;
                 //imageToGUI = (System.Drawing.Bitmap)obj.image.Clone();
-                System.Console.WriteLine("NewFrameImageEventArgs :" + timestamp + "; frame number: " + this.imageToGUI.frameCount);
+                ConsoleBuddy.WriteLineBlue("NewFrameImageEventArgs :" + timestamp + "; frame number: " + this.imageToGUI.frameCount);
                 //obj.saveImage();
                 ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), imageToDisk);
             }
             catch (ApplicationException appEx)
             {
-                System.Console.WriteLine("Exception in NewFrameImageEventArgs:\n" + appEx.Message);
+                ConsoleBuddy.WriteException(appEx, "NewFrameImageEventArgs");
             }
             catch (SystemException sysEx)
             {
-                System.Console.WriteLine("Exception in NewFrameImageEventArgs:\n" + sysEx.Message);
+                ConsoleBuddy.WriteException(sysEx, "NewFrameImageEventArgs");
             }
         }
 

@@ -137,8 +137,8 @@ namespace Arsalis.WebcamLibrary
         /// </summary>        
 		private void loadWebcamDevices()
 		{
-			try
-			{
+            try
+            {
                 // enumerate video devices
                 this.videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
 
@@ -155,16 +155,20 @@ namespace Arsalis.WebcamLibrary
                 WebcamListNames = new string[this.videoDevices.Count];
                 webcamListMonikerString = new string[this.videoDevices.Count];
                 int i = 0;
-                foreach ( FilterInfo device in this.videoDevices )
+                foreach (FilterInfo device in this.videoDevices)
                 {
-                	WebcamListNames[i] = device.Name;
-                	webcamListMonikerString[i] = device.MonikerString;
-                	i=++i;
+                    WebcamListNames[i] = device.Name;
+                    webcamListMonikerString[i] = device.MonikerString;
+                    i = ++i;
                 }
             }
-            catch ( ApplicationException ex)
+            catch (ApplicationException appEx)
             {
-                System.Console.WriteLine("Problem in loadWebcamDevices:" + ex.Message);
+                ConsoleBuddy.WriteException(appEx, "loadWebcamDevices");
+            }
+            catch (SystemException sysEx)
+            {
+                ConsoleBuddy.WriteException(sysEx, "loadWebcamDevices");
             }
 		}
 		
@@ -282,9 +286,13 @@ namespace Arsalis.WebcamLibrary
                 int height = this.videoDeviceForCapture.VideoResolution.FrameSize.Height;
                 writer.Open(path, width, height);
             }
-            catch (ApplicationException e)
+            catch (ApplicationException appEx)
             {
-                System.Console.WriteLine("Exception in initSaveVideo:\n" + e.Message);
+                ConsoleBuddy.WriteException(appEx, "initSaveVideo");
+            }
+            catch (SystemException sysEx)
+            {
+                ConsoleBuddy.WriteException(sysEx, "initSaveVideo");
             }
         }
 
@@ -296,9 +304,9 @@ namespace Arsalis.WebcamLibrary
                 DateTime now = DateTime.Now;
                 //messages += "Event in WebcamLibrary @ " + now.ToString() + "::" + now.Millisecond.ToString() + ";\t frames received:" + this.frameCount.ToString() + "\r\n";
                 System.Drawing.Bitmap copy = (System.Drawing.Bitmap)eventArgs.Frame.Clone();
-                this.lastImage = new WebcamImage();
+      /*          this.lastImage = new WebcamImage();
                 this.lastImage.image = new Bitmap(copy);
-                this.lastImage.timestamp = now;
+                this.lastImage.timestamp = now;*/
                 WebcamImage lastImageObj = new WebcamImage();
                 lastImageObj.image = new Bitmap(copy);
                 lastImageObj.timestamp = now;
@@ -459,7 +467,7 @@ namespace Arsalis.WebcamLibrary
 		/// </summary>
 		/// <param name="frameCopy">Bitmap frame to save</param>
 		/// <param name="time">time when image is captured</param>
-		private void saveImage(System.Drawing.Bitmap frameCopy, DateTime time)
+		/*private void saveImage(System.Drawing.Bitmap frameCopy, DateTime time)
 		{
             try
             {
@@ -499,7 +507,7 @@ namespace Arsalis.WebcamLibrary
             {
                 System.Console.WriteLine("Exception in saveImage method:\n" + e.Message);
             }
-		}
+		}*/
 		
         /// <summary>
         /// Get all available frame resolution from selected webcam
@@ -508,29 +516,36 @@ namespace Arsalis.WebcamLibrary
 		{
             try
             {
-				VideoCapabilities [] videoCapabilities = this.videoDeviceForCapture.VideoCapabilities;
+                VideoCapabilities[] videoCapabilities = this.videoDeviceForCapture.VideoCapabilities;
                 this.webcamResolutions = new Size[videoCapabilities.Length];
 
-				for(int i = 0; i < videoCapabilities.Length; i++)
+                for (int i = 0; i < videoCapabilities.Length; i++)
                 {
                     int width = videoCapabilities[i].FrameSize.Width;
                     int height = videoCapabilities[i].FrameSize.Height;
                     Console.WriteLine(videoCapabilities[i].FrameSize.ToString());
-                    string item = string.Format("{0} x {1}", width,height );
-                
+                    string item = string.Format("{0} x {1}", width, height);
+
                     if (!videoCapabilitiesDictionary.ContainsKey(item))
                     {
                         videoCapabilitiesDictionary.Add(item, videoCapabilities[i]);
                         this.webcamResolutions[i] = new Size(width, height);
                     }
                 }
-			}
-			catch (ApplicationException e)
+            }
+            catch (ApplicationException appEx)
             {
-                System.Console.WriteLine("Exception in GetFrameResolutions method:\n" + e.Message);
+                ConsoleBuddy.WriteException(appEx, "GetFrameResolutions");
+            }
+            catch (SystemException sysEx)
+            {
+                ConsoleBuddy.WriteException(sysEx, "GetFrameResolutions");
             }
 		}
 
+        /// <summary>
+        /// Public event fired at each new frame image
+        /// </summary>
         public event Arsalis.WebcamLibrary.NewFrameImageEventArgs.NewFrameEventImageHandler NewFrameImage;
 
         /// <summary>
@@ -541,8 +556,9 @@ namespace Arsalis.WebcamLibrary
         {
             try
             {
-                if (NewFrameImage != null)
-                    NewFrameImage(this, e);
+                var handler = NewFrameImage;
+                if (handler != null)
+                    handler(this, e);
             }
             catch (ApplicationException appEx)
             {
