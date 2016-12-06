@@ -43,9 +43,10 @@ namespace Arsalis.WebcamLibrary.Test
             	{
                 	this.pictureBox1.Size = this.webcam.videoDeviceForCapture.VideoResolution.FrameSize;
             	}
-            }catch(Exception e)
+            }
+            catch(SystemException ex)
             {
-            	MessageBox.Show("Les parametre non presiser\n" + e.Message);
+                ConsoleBuddy.WriteException(ex, "GUI(Arsalis.WebcamLibrary.WebcamLibrary selectedWebcam)");
             }
             //this.OpenVideoSource( this.webcam.videoDeviceForCapture);
             //this.webcam.startWebcam(0);
@@ -55,21 +56,32 @@ namespace Arsalis.WebcamLibrary.Test
 		
 		public WebcamLibrary webcam;
 		public string  timeStamps = "";
-		
+
+        internal ConsoleDebugger ConsoleBuddy = new ConsoleDebugger();
 		
 		void VideoSourcePlayer1NewFrame(object sender, ref Bitmap image)
 		{
-			
-				//Create Bitmap from frame
-				System.Drawing.Bitmap FrameData = (System.Drawing.Bitmap)image.Clone();
-				//Add to PictureBox
-		        //pictureBox1.Image = FrameData;
-		        //pictureBox1.Invalidate();
-			
-	        DateTime now = DateTime.Now;
-	        //int frameCount = this.webcam.videoDeviceForCapture.FramesReceived;
-	        this.timeStamps += now.ToString() + "::" + now.Millisecond.ToString() + "\r\n";
-	        //this.Invalidate();
+            try
+            {
+                //Create Bitmap from frame
+                System.Drawing.Bitmap FrameData = (System.Drawing.Bitmap)image.Clone();
+                //Add to PictureBox
+                //pictureBox1.Image = FrameData;
+                //pictureBox1.Invalidate();
+
+                DateTime now = DateTime.Now;
+                //int frameCount = this.webcam.videoDeviceForCapture.FramesReceived;
+                this.timeStamps += now.ToString() + "::" + now.Millisecond.ToString() + "\r\n";
+                //this.Invalidate();
+            }
+            catch (SystemException sysEx)
+            {
+                ConsoleBuddy.WriteException(sysEx, "VideoSourcePlayer1NewFrame");
+            }
+            catch (ApplicationException appEx)
+            {
+                ConsoleBuddy.WriteException(appEx, "VideoSourcePlayer1NewFrame");
+            }
 		}
 		
 		public void OpenVideoSource( IVideoSource source )
@@ -128,26 +140,60 @@ namespace Arsalis.WebcamLibrary.Test
 
         void SubscribeToEvent(Arsalis.WebcamLibrary.WebcamLibrary webcam)
         {
-            webcam.NewFrameImage += this.GrabNewFrame;
+            try
+            {
+                webcam.NewFrameImage += this.GrabNewFrame;
+            }
+            catch (SystemException sysEx)
+            {
+                ConsoleBuddy.WriteException(sysEx, "SubscribeToEvent");
+            }
+            catch (ApplicationException appEx)
+            {
+                ConsoleBuddy.WriteException(appEx, "SubscribeToEvent");
+            }
         }
 
         void GrabNewFrame(object sender, NewFrameImageEventArgs args)
         {
-            System.Drawing.Image frame = DrawText((System.Drawing.Image)args.getImageToGui().image, args.timestamp);
-            //this.pictureBox1.Image = frame;
-            SetControlPropertyThreadSafe(this.pictureBox1, "Image", frame);
-            //this.pictureBox1.Update();
+            try
+            {
+                System.Drawing.Image frame = DrawText((System.Drawing.Image)args.getImageToGui().image, args.timestamp);
+                //this.pictureBox1.Image = frame;
+                SetControlPropertyThreadSafe(this.pictureBox1, "Image", frame);
+                //this.pictureBox1.Update();
+            }
+            catch (SystemException sysEx)
+            {
+                ConsoleBuddy.WriteException(sysEx, "GrabNewFrame");
+            }
+            catch (ApplicationException appEx)
+            {
+                ConsoleBuddy.WriteException(appEx, "GrabNewFrame");
+            }
+
         }
 
         private System.Drawing.Image DrawText(System.Drawing.Image image, string text)
         {
-            Graphics g = Graphics.FromImage(image);
+            try
+            {
+                Graphics g = Graphics.FromImage(image);
 
-            // paint current time
-            SolidBrush brush = new SolidBrush(Color.Red);
-            g.DrawString(text, this.Font, brush, new PointF(5, 5));
-            brush.Dispose();
-            return image ;
+                // paint current time
+                SolidBrush brush = new SolidBrush(Color.Red);
+                g.DrawString(text, this.Font, brush, new PointF(5, 5));
+                brush.Dispose();
+            }
+            catch (SystemException sysEx)
+            {
+                ConsoleBuddy.WriteException(sysEx, "DrawText");
+            }
+            catch (ApplicationException appEx)
+            {
+                ConsoleBuddy.WriteException(appEx, "DrawText");
+            }
+            return image;
         }
 
         private void GUI_FormClosing(object sender, FormClosingEventArgs e)
@@ -159,12 +205,19 @@ namespace Arsalis.WebcamLibrary.Test
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            toolStripStatusLabel1.Text = "Frames received: " + this.webcam.frameCount.ToString();
-            int frameRate = 0;
-            int currentFrameCount = this.webcam.frameCount;
-            frameRate = currentFrameCount - previousFrameCount;
-            toolStripStatusLabel2.Text = "Frame rate: " + frameRate.ToString();
-            previousFrameCount = this.webcam.frameCount;
+            try
+            {
+                toolStripStatusLabel1.Text = "Frames received: " + this.webcam.frameCount.ToString();
+                int frameRate = 0;
+                int currentFrameCount = this.webcam.frameCount;
+                frameRate = currentFrameCount - previousFrameCount;
+                toolStripStatusLabel2.Text = "Frame rate: " + frameRate.ToString();
+                previousFrameCount = this.webcam.frameCount;
+            }
+            catch (SystemException sysEx)
+            {
+                ConsoleBuddy.WriteException(sysEx, "timer1_Tick");
+            }
         }
 
         private void GUI_Load(object sender, EventArgs e)

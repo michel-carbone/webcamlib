@@ -21,12 +21,23 @@ namespace Arsalis.WebcamLibrary
 {
 	/// <summary>
 	/// Description of Arsalis_WebcamLibrary.
+    /// This library encapsulate the AForge libraries that allow to:
+    /// - get and set settings from a video capture device
+    /// - keep a copy of these settings
+    /// - subscribe to the NewFrameEvent of a video capture device and record time of the event
+    /// This library create a new event at each new frame from video capture device
+    /// 
+    /// This event make the following operations
+    /// - create two copies of the frame and a copy of the timestamp of the NewFrame event
+    /// - save a copy of the image in JPEG if desired
+    /// - show a copy of the frame to a GUI
 	/// </summary>
 	public class WebcamLibrary
 	{
 	    /// <summary>
-	    /// Constructor of WebcamLibrary object
-        /// Search at construction webcam connected to computer
+	    /// Constructor of WebcamLibrary object.
+        /// Search at construction of webcams connected to the computer and set properties
+        /// related to webcams and availability of webcams. Parameters are not yet get from webcam.
 	    /// </summary>
 		public WebcamLibrary()
 		{
@@ -34,7 +45,10 @@ namespace Arsalis.WebcamLibrary
 		}
 
         /// <summary>
-        /// Bool property, true if there is a webcam connected
+        /// Bool property, TRUE if there is a webcam connected
+        /// It is the public field of <see cref="webcamAvailable"/>.
+        /// This property is set at construction with <see cref="WebcamLibrary"/> 
+        /// and <see cref="loadWebcamDevices"/> and is read-only.
         /// </summary>
         public bool IsAvailable
         {
@@ -60,12 +74,13 @@ namespace Arsalis.WebcamLibrary
         private FilterInfoCollection videoDevices;
         
         /// <summary>
-        /// Private boolean that is set when one or more webcam are detected
+        /// Boolean that is set when one or more webcam are detected
         /// </summary>
         private bool webcamAvailable = false;
         
         /// <summary>
-        /// Number of frame received from the initialisation of the object
+        /// Number of frame received from the initialisation of the object. It is not reset
+        /// by reading the value like <see cref="AForge.Video.VideoCaptureDevice.FramesReceived"/>.
         /// </summary>
         public int frameCount = 0;
 		
@@ -134,6 +149,10 @@ namespace Arsalis.WebcamLibrary
         
         /// <summary>
         /// method that search for available webcams
+        /// if one or more webcams are available:
+        /// - save their name in <see cref="WebcamListNames"/>
+        /// - save their monikerName in <see cref="webcamListMonikerString"/>
+        /// - set bool <see cref="webcamAvailable"/> to TRUE
         /// </summary>        
 		private void loadWebcamDevices()
 		{
@@ -300,6 +319,15 @@ namespace Arsalis.WebcamLibrary
         {
             try
             {
+                int videoDeviceFramesReceived = this.videoDeviceForCapture.FramesReceived;
+                if (videoDeviceFramesReceived == 1)
+                {
+                    ConsoleBuddy.WriteLineGreen("One frame received from last NewFrame event");
+                }
+                else
+                {
+                    ConsoleBuddy.WriteLineRed("Number of frames received from NewFrame event: "+ videoDeviceFramesReceived.ToString());
+                }
                 this.frameCount = ++this.frameCount;
                 DateTime now = DateTime.Now;
                 //messages += "Event in WebcamLibrary @ " + now.ToString() + "::" + now.Millisecond.ToString() + ";\t frames received:" + this.frameCount.ToString() + "\r\n";
@@ -568,6 +596,15 @@ namespace Arsalis.WebcamLibrary
             {
                 System.Console.WriteLine("Exception in OnNwFrame delegate:\n" + sysEx.Message);
             }
+        }
+
+        /// <summary>
+        /// Destructor that write message to console when Arsalis.WebcamLibrary object is destroyed
+        /// </summary>
+        ~WebcamLibrary()
+        {
+            System.Console.WriteLine("WebcamLibrary object is destroyed");
+            System.Threading.Thread.Sleep(1000);
         }
 	}
 }

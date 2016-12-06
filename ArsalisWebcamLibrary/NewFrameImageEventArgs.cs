@@ -23,14 +23,16 @@ namespace Arsalis.WebcamLibrary
             try
             {
                 this.imageToDisk = (Arsalis.WebcamLibrary.WebcamImage)newframe;
-                this.imageToGUI = new Arsalis.WebcamLibrary.WebcamImage();
-                this.imageToGUI = (Arsalis.WebcamLibrary.WebcamImage)newframe;
+                //this.imageToGUI = new Arsalis.WebcamLibrary.WebcamImage();
+                //this.imageToGUI = (Arsalis.WebcamLibrary.WebcamImage)newframe;
+                this.imageToGUI = imageToDisk.Clone();
                 //Arsalis.WebcamLibrary.WebcamImage obj = (Arsalis.WebcamLibrary.WebcamImage)newframe;
                 timestamp = imageToGUI.timestamp.ToString() + "::" + imageToGUI.timestamp.Millisecond.ToString(); ;
                 //imageToGUI = (System.Drawing.Bitmap)obj.image.Clone();
                 ConsoleBuddy.WriteLineBlue("NewFrameImageEventArgs :" + timestamp + "; frame number: " + this.imageToGUI.frameCount);
                 //obj.saveImage();
                 ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), imageToDisk);
+                ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), imageToGUI);
             }
             catch (ApplicationException appEx)
             {
@@ -52,11 +54,12 @@ namespace Arsalis.WebcamLibrary
             {
                 WebcamImage lastImageObj = new WebcamImage();
                 lastImageObj = webcamImage as WebcamImage;
-                System.Drawing.Bitmap lastBitmap = (System.Drawing.Bitmap)lastImageObj.image.Clone();
-                DateTime lastTimestamp = lastImageObj.timestamp;
-                int frameCount = lastImageObj.frameCount;
+                //lastImageObj = (WebcamImage)webcamImage.Clone();
+                //System.Drawing.Bitmap lastBitmap = (System.Drawing.Bitmap)lastImageObj.image.Clone();
+                //DateTime lastTimestamp = lastImageObj.timestamp;
+                //int frameCount = lastImageObj.frameCount;
                 // TODO DEBUG crossThreadAccess violation or something else... the object is in use...
-                saveImage(lastBitmap, lastTimestamp);
+                saveImage(lastImageObj.image, lastImageObj.timestamp);
             }
             catch (ApplicationException appEx)
             {
@@ -90,6 +93,7 @@ namespace Arsalis.WebcamLibrary
                     try
                     {
                         frameCopy.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        //this.imageToDisk.image.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
                         System.Console.WriteLine("Image saved, frame timestamp: " + time.ToString() + "::" + time.Millisecond.ToString());
                     }
                     catch (System.ArgumentNullException argEx)

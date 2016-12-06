@@ -32,7 +32,33 @@ namespace Arsalis.WebcamLibrary
             //this.frameCount = 0;
         }
 
-        internal void saveImage()
+        /// <summary>
+        /// Constructor with all field as parameter
+        /// </summary>
+        /// <param name="frameImage"></param>
+        /// <param name="time"></param>
+        /// <param name="frameCount"></param>
+        public WebcamImage(System.Drawing.Bitmap frameImage, DateTime time, int frmCount)
+        {
+            this.image = frameImage;
+            this.timestamp = time;
+            this.frameCount = frmCount;
+        }
+
+        public WebcamImage Clone()
+        {
+            WebcamImage clone = new WebcamImage();
+            clone.image = (System.Drawing.Bitmap)this.image.Clone();
+            DateTime time = new DateTime();
+            time = this.timestamp;
+            clone.timestamp = time;
+            int frmCount = 0;
+            frmCount = this.frameCount;
+            clone.frameCount = frmCount;
+            return clone;
+        }
+
+        public void saveImage()
         {
             char folderSep = System.IO.Path.DirectorySeparatorChar;
             string path = "C:" + folderSep + "Arsalis" + folderSep;
