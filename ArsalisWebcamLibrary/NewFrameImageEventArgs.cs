@@ -32,7 +32,7 @@ namespace Arsalis.WebcamLibrary
                 ConsoleBuddy.WriteLineBlue("NewFrameImageEventArgs :" + timestamp + "; frame number: " + this.imageToGUI.frameCount);
                 //obj.saveImage();
                 ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), imageToDisk);
-                ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), imageToGUI);
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), imageToGUI);
             }
             catch (ApplicationException appEx)
             {

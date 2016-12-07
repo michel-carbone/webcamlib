@@ -65,7 +65,21 @@ namespace Arsalis.WebcamLibrary
                 Console.ResetColor();
             }
         }
-        
+
+        /// <summary>
+        /// Line write to console a message in foreground color Blue
+        /// </summary>
+        /// <param name="message">Message to print to console</param>
+        public void WriteLineYellow(string message)
+        {
+            lock (_ConsoleLock)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(message);
+                Console.ResetColor();
+            }
+        }
+
         /// <summary>
         /// Write to console a SystemException in red foreground color
         /// </summary>

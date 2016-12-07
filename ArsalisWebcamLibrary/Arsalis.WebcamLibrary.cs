@@ -42,6 +42,8 @@ namespace Arsalis.WebcamLibrary
 		public WebcamLibrary()
 		{
 			loadWebcamDevices();
+            this.timer.Interval = 1000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
 		}
 
         /// <summary>
@@ -116,14 +118,27 @@ namespace Arsalis.WebcamLibrary
         /// </summary>
         private AForge.Video.VFW.AVIWriter writer;
 
-        //System.Threading.Thread thread;
+        //System.Threading.Thread thread; // not used
 
-        public Arsalis.WebcamLibrary.WebcamImage lastImage = new WebcamImage();
+        //public Arsalis.WebcamLibrary.WebcamImage lastImage = new WebcamImage(); // not used
         
-        //private Arsalis.WebcamLibrary.WebcamImage imageToDisk = new WebcamImage();
+        //private Arsalis.WebcamLibrary.WebcamImage imageToDisk = new WebcamImage(); // not used
         
-        internal Arsalis.WebcamLibrary.ConsoleDebugger ConsoleBuddy = new Arsalis.WebcamLibrary.ConsoleDebugger();
+        /// <summary>
+        /// Instance of ConsoleDebugger for exception print details to Console and colored messages
+        /// </summary>
+        public Arsalis.WebcamLibrary.ConsoleDebugger ConsoleBuddy = new Arsalis.WebcamLibrary.ConsoleDebugger();
 
+        /// <summary>
+        /// Calculated frame rate from webcam on 1 second
+        /// </summary>
+        public double frameRate;
+
+        private System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
+
+        private System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+
+        private double elapsedTime = 0;
         /*private void WorkThreadFunction(object webcamImage)
 		{
             try
@@ -279,6 +294,8 @@ namespace Arsalis.WebcamLibrary
                 {
                     new ApplicationException("videoDeviceForCapture is NULL");
                 }
+                this.timer.Start();
+                this.stopWatch.Start();
             }
             catch (ApplicationException appEx)
             {
@@ -320,13 +337,13 @@ namespace Arsalis.WebcamLibrary
             try
             {
                 int videoDeviceFramesReceived = this.videoDeviceForCapture.FramesReceived;
-                if (videoDeviceFramesReceived == 1)
+                if (videoDeviceFramesReceived <= 1)
                 {
-                    ConsoleBuddy.WriteLineGreen("One frame received from last NewFrame event");
+                    ConsoleBuddy.WriteLineGreen("Number of frames received from last NewFrame event: " + videoDeviceFramesReceived.ToString());
                 }
                 else
                 {
-                    ConsoleBuddy.WriteLineRed("Number of frames received from NewFrame event: "+ videoDeviceFramesReceived.ToString());
+                    ConsoleBuddy.WriteLineRed("Number of frames received from last NewFrame event: " + videoDeviceFramesReceived.ToString());
                 }
                 this.frameCount = ++this.frameCount;
                 DateTime now = DateTime.Now;
@@ -374,6 +391,7 @@ namespace Arsalis.WebcamLibrary
                 {
                     this.writer.Close();
                 }
+                this.timer.Stop();
                 ConsoleBuddy.WriteLineBlue("Exit stopWebcam method");
             }
             catch (ApplicationException e)
@@ -596,6 +614,13 @@ namespace Arsalis.WebcamLibrary
             {
                 System.Console.WriteLine("Exception in OnNwFrame delegate:\n" + sysEx.Message);
             }
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            ConsoleBuddy.WriteLineYellow("Timer event");
+            this.elapsedTime = this.stopWatch.ElapsedMilliseconds / 1000.0;
+            System.Console.WriteLine("Time elapsed: " + this.elapsedTime.ToString() + " s");
         }
 
         /// <summary>
