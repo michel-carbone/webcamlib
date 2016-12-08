@@ -42,6 +42,10 @@ namespace Arsalis.WebcamLibrary
             {
                 ConsoleBuddy.WriteException(sysEx, "NewFrameImageEventArgs");
             }
+            catch (Exception e)
+            {
+                ConsoleBuddy.WriteException(e, "NewFrameImageEventArgs");
+            }
         }
 
         public delegate void NewFrameEventImageHandler(object sender, NewFrameImageEventArgs e);
@@ -68,6 +72,10 @@ namespace Arsalis.WebcamLibrary
             catch (InvalidOperationException invOpEx)
             {
                 ConsoleBuddy.WriteException(invOpEx, "WorkThreadFunction");
+            }
+            catch (Exception e)
+            {
+                ConsoleBuddy.WriteException(e, "WorkThreadFunction");
             }
         }
 
@@ -98,11 +106,17 @@ namespace Arsalis.WebcamLibrary
                     }
                     catch (System.ArgumentNullException argEx)
                     {
-                        throw new System.ArgumentNullException("ArgumentNullException: " + argEx.Message);
+                        //throw new System.ArgumentNullException("ArgumentNullException: " + argEx.Message);
+                        ConsoleBuddy.WriteException(argEx, "saveImage");
                     }
                     catch (System.Runtime.InteropServices.ExternalException extEx)
                     {
-                        System.Console.WriteLine("System.Runtime.InteropServices.ExternalException:\n" + extEx.Message);
+                        //System.Console.WriteLine("System.Runtime.InteropServices.ExternalException:\n" + extEx.Message);
+                        ConsoleBuddy.WriteException(extEx, "saveImage");
+                    }
+                    catch (Exception e)
+                    {
+                        ConsoleBuddy.WriteException(e, "saveImage");
                     }
                 }
                 else
