@@ -619,8 +619,10 @@ namespace Arsalis.WebcamLibrary
         private void timer_Tick(object sender, EventArgs e)
         {
             ConsoleBuddy.WriteLineYellow("Timer event");
+            ConsoleBuddy.WriteLineYellow("Time elapsed: " + this.elapsedTime.ToString() + " s");
             this.elapsedTime = this.stopWatch.ElapsedMilliseconds / 1000.0;
-            System.Console.WriteLine("Time elapsed: " + this.elapsedTime.ToString() + " s");
+            this.frameRate = this.frameCount / this.elapsedTime;
+            ConsoleBuddy.WriteLineYellow("Frame rate: " + this.frameRate.ToString() +" frames/sec");
         }
 
         /// <summary>

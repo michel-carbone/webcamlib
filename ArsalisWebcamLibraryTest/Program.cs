@@ -59,9 +59,9 @@ namespace Arsalis.WebcamLibrary.Test
 			// create an instance of test CUI
 			Arsalis.WebcamLibrary.Test.GUI testGUI = new GUI(test);
 			// set GUI videoDevice to selected videoDevice of test webcam class
-			testGUI.OpenVideoSource(test.videoDeviceForCapture);
+			//testGUI.OpenVideoSource(test.videoDeviceForCapture);
 			testGUI.ShowDialog();
-            testGUI.CloseCurrentVideoSource();
+            //testGUI.CloseCurrentVideoSource();
 			Console.Write(testGUI.timeStamps);
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();

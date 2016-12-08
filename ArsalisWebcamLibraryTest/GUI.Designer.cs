@@ -37,7 +37,6 @@ namespace Arsalis.WebcamLibrary.Test
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
-            this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -47,23 +46,9 @@ namespace Arsalis.WebcamLibrary.Test
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // videoSourcePlayer1
-            // 
-            this.videoSourcePlayer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.videoSourcePlayer1.KeepAspectRatio = true;
-            this.videoSourcePlayer1.Location = new System.Drawing.Point(12, 12);
-            this.videoSourcePlayer1.Name = "videoSourcePlayer1";
-            this.videoSourcePlayer1.Size = new System.Drawing.Size(160, 154);
-            this.videoSourcePlayer1.TabIndex = 0;
-            this.videoSourcePlayer1.Text = "videoSourcePlayer1";
-            this.videoSourcePlayer1.VideoSource = null;
-            this.videoSourcePlayer1.NewFrame += new AForge.Controls.VideoSourcePlayer.NewFrameHandler(this.VideoSourcePlayer1NewFrame);
-            // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(178, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(10, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(640, 480);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -75,9 +60,9 @@ namespace Arsalis.WebcamLibrary.Test
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 514);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 501);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(833, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(660, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -102,10 +87,9 @@ namespace Arsalis.WebcamLibrary.Test
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(833, 536);
+            this.ClientSize = new System.Drawing.Size(660, 523);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.videoSourcePlayer1);
             this.Name = "GUI";
             this.Text = "GUI";
             this.Load += new System.EventHandler(this.GUI_Load);
@@ -117,7 +101,6 @@ namespace Arsalis.WebcamLibrary.Test
             this.PerformLayout();
 
         }
-		public AForge.Controls.VideoSourcePlayer videoSourcePlayer1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;

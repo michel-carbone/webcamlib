@@ -30,9 +30,10 @@ namespace Arsalis.WebcamLibrary.Test
 			InitializeComponent();
 
             // optimise display speed in order to avoid flicker
-            //this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             
             this.webcam = selectedWebcam;
+            this.ConsoleBuddy = this.webcam.ConsoleBuddy;
             // TODO check if VideoResolution can be set all the time at initialisation 
             // of WebcamLibrary or define a new parameter in WebcamLibrary
             
@@ -51,15 +52,14 @@ namespace Arsalis.WebcamLibrary.Test
             //this.OpenVideoSource( this.webcam.videoDeviceForCapture);
             //this.webcam.startWebcam(0);
             //this.videoSourcePlayer1.Start();
-            SubscribeToEvent(selectedWebcam);
 		}
 		
 		public WebcamLibrary webcam;
 		public string  timeStamps = "";
 
-        internal ConsoleDebugger ConsoleBuddy = new ConsoleDebugger();
+        internal ConsoleDebugger ConsoleBuddy;// = new ConsoleDebugger();
 		
-		void VideoSourcePlayer1NewFrame(object sender, ref Bitmap image)
+		/*void VideoSourcePlayer1NewFrame(object sender, ref Bitmap image)
 		{
             try
             {
@@ -123,7 +123,7 @@ namespace Arsalis.WebcamLibrary.Test
                 this.videoSourcePlayer1.VideoSource = null;
             }
         }
-
+        */
         public event Arsalis.WebcamLibrary.NewFrameImageEventArgs.NewFrameEventImageHandler NewFrameImage;
 
 
@@ -153,7 +153,21 @@ namespace Arsalis.WebcamLibrary.Test
                 ConsoleBuddy.WriteException(appEx, "SubscribeToEvent");
             }
         }
-
+        void UnsubscribeToEvent(Arsalis.WebcamLibrary.WebcamLibrary webcam)
+        {
+            try
+            {
+                webcam.NewFrameImage -= this.GrabNewFrame;
+            }
+            catch (SystemException sysEx)
+            {
+                ConsoleBuddy.WriteException(sysEx, "UnsubscribeToEvent");
+            }
+            catch (ApplicationException appEx)
+            {
+                ConsoleBuddy.WriteException(appEx, "UnsubscribeToEvent");
+            }
+        }
         void GrabNewFrame(object sender, NewFrameImageEventArgs args)
         {
             try
@@ -198,7 +212,8 @@ namespace Arsalis.WebcamLibrary.Test
 
         private void GUI_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.CloseCurrentVideoSource();
+            //this.CloseCurrentVideoSource();
+            UnsubscribeToEvent(this.webcam);
         }
 
         private int previousFrameCount = 0;
@@ -223,6 +238,7 @@ namespace Arsalis.WebcamLibrary.Test
         private void GUI_Load(object sender, EventArgs e)
         {
             timer1.Start();
+            SubscribeToEvent(this.webcam);
         }
 
         private delegate void SetControlPropertyThreadSafeDelegate(Control control, string propertyName, object propertyValue);

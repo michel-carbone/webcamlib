@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Arsalis.WebcamLibrary
 {
+    /// <summary>
+    /// ConsoleDebugger is a class that allows to format messages to Console in color 
+    /// and format exception message 
+    /// </summary>
 	public class ConsoleDebugger
     {
         /// <summary>
