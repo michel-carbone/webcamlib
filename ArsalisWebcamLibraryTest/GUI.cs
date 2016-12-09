@@ -18,10 +18,14 @@ using AForge.Video.DirectShow;
 namespace Arsalis.WebcamLibrary.Test
 {
 	/// <summary>
-	/// Description of GUI.
+	/// This form contains a PictureBox that display images received by WebcamLibrary NewFrameImage event.
 	/// </summary>
 	public partial class GUI : Form
 	{
+        /// <summary>
+        /// Constructor of GUI form
+        /// </summary>
+        /// <param name="selectedWebcam">WebcamLibrary object from which NewFrameImageEvents come</param>
 		public GUI(Arsalis.WebcamLibrary.WebcamLibrary selectedWebcam)
 		{
 			//
@@ -53,9 +57,11 @@ namespace Arsalis.WebcamLibrary.Test
             //this.webcam.startWebcam(0);
             //this.videoSourcePlayer1.Start();
 		}
-		
+
+		/// <summary>
+		/// Reference (or copy?) to WebcamLibrary object received by GUI ctor
+		/// </summary>
 		public WebcamLibrary webcam;
-		public string  timeStamps = "";
 
         internal ConsoleDebugger ConsoleBuddy;// = new ConsoleDebugger();
 		
@@ -123,10 +129,10 @@ namespace Arsalis.WebcamLibrary.Test
                 this.videoSourcePlayer1.VideoSource = null;
             }
         }
-        */
+        
         public event Arsalis.WebcamLibrary.NewFrameImageEventArgs.NewFrameEventImageHandler NewFrameImage;
 
-
+        
         protected virtual void OnNewFrameImage(NewFrameImageEventArgs e)
         {
             Arsalis.WebcamLibrary.NewFrameImageEventArgs.NewFrameEventImageHandler handler = NewFrameImage;
@@ -137,12 +143,13 @@ namespace Arsalis.WebcamLibrary.Test
                 //this.pictureBox1.Invalidate();
             }
         }
-
+        */
         void SubscribeToEvent(Arsalis.WebcamLibrary.WebcamLibrary webcam)
         {
             try
             {
                 webcam.NewFrameImage += this.GrabNewFrame;
+                ConsoleBuddy.WriteLineYellow("Leave SubscribeToEvent...");
             }
             catch (SystemException sysEx)
             {
@@ -153,11 +160,13 @@ namespace Arsalis.WebcamLibrary.Test
                 ConsoleBuddy.WriteException(appEx, "SubscribeToEvent");
             }
         }
+        
         void UnsubscribeToEvent(Arsalis.WebcamLibrary.WebcamLibrary webcam)
         {
             try
             {
                 webcam.NewFrameImage -= this.GrabNewFrame;
+                ConsoleBuddy.WriteLineYellow("Leave UnsubscribeToEvent...");
             }
             catch (SystemException sysEx)
             {
@@ -168,6 +177,7 @@ namespace Arsalis.WebcamLibrary.Test
                 ConsoleBuddy.WriteException(appEx, "UnsubscribeToEvent");
             }
         }
+
         void GrabNewFrame(object sender, NewFrameImageEventArgs args)
         {
             try
@@ -214,6 +224,7 @@ namespace Arsalis.WebcamLibrary.Test
         {
             //this.CloseCurrentVideoSource();
             UnsubscribeToEvent(this.webcam);
+            ConsoleBuddy.WriteLineYellow("Leave GUI_FormClosing...");
         }
 
         private int previousFrameCount = 0;

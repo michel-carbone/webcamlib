@@ -62,7 +62,6 @@ namespace Arsalis.WebcamLibrary.Test
 			//testGUI.OpenVideoSource(test.videoDeviceForCapture);
 			testGUI.ShowDialog();
             //testGUI.CloseCurrentVideoSource();
-			Console.Write(testGUI.timeStamps);
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
 		}
