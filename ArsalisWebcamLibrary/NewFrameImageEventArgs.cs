@@ -46,6 +46,7 @@ namespace Arsalis.WebcamLibrary
             {
                 ConsoleBuddy.WriteException(e, "NewFrameImageEventArgs");
             }
+            newframe = null;
         }
 
         public delegate void NewFrameEventImageHandler(object sender, NewFrameImageEventArgs e);
@@ -64,6 +65,10 @@ namespace Arsalis.WebcamLibrary
                 //int frameCount = lastImageObj.frameCount;
                 // TODO DEBUG crossThreadAccess violation or something else... the object is in use...
                 saveImage(lastImageObj.image, lastImageObj.timestamp);
+                lastImageObj.Dispose();
+                imageToDisk.Dispose();
+                imageToGUI.Dispose();
+                webcamImage = null;
             }
             catch (ApplicationException appEx)
             {
@@ -103,6 +108,7 @@ namespace Arsalis.WebcamLibrary
                         frameCopy.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
                         //this.imageToDisk.image.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
                         System.Console.WriteLine("Image saved, frame timestamp: " + time.ToString() + "::" + time.Millisecond.ToString());
+                        frameCopy.Dispose();
                     }
                     catch (System.ArgumentNullException argEx)
                     {
@@ -138,6 +144,18 @@ namespace Arsalis.WebcamLibrary
         public WebcamImage getImageToDisk()
         {
             return this.imageToDisk;
+        }
+
+        ~NewFrameImageEventArgs()
+        {
+            if (this.imageToDisk != null)
+            {
+                this.imageToDisk.Dispose();
+            }
+            if (this.imageToGUI != null)
+            {
+                this.imageToGUI.Dispose();
+            }
         }
     }
 }

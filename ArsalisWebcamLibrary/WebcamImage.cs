@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Arsalis.WebcamLibrary
 {
-    public class WebcamImage
+    public class WebcamImage :IDisposable
     {
         /// <summary>
         /// Bitmap containing the image
@@ -43,6 +43,7 @@ namespace Arsalis.WebcamLibrary
             this.image = frameImage;
             this.timestamp = time;
             this.frameCount = frmCount;
+            frameImage.Dispose();
         }
 
         public WebcamImage Clone()
@@ -88,6 +89,37 @@ namespace Arsalis.WebcamLibrary
                 throw new ApplicationException("File path for saving image does not exist");
             }
         }
-		
+
+        ~WebcamImage()
+        {
+            Dispose(false);
+        }
+
+        private bool disposed = false;
+
+        //Implement IDisposable.
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    // Free other state (managed objects).
+                }
+                // Free your own state (unmanaged objects).
+                // Set large fields to null.
+                if(this.image!= null)
+                {
+                    this.image.Dispose();
+                }
+                disposed = true;
+            }
+        }
     }
 }

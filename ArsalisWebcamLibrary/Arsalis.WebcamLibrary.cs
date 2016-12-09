@@ -365,6 +365,7 @@ namespace Arsalis.WebcamLibrary
 
                 NewFrameImageEventArgs e = new NewFrameImageEventArgs(lastImageObj);
                 OnNewFrameImage(e);
+                copy.Dispose();
             }
             catch (System.NullReferenceException NullEx)
             {
