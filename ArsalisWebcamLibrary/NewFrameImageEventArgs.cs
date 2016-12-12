@@ -31,8 +31,10 @@ namespace Arsalis.WebcamLibrary
                 //imageToGUI = (System.Drawing.Bitmap)obj.image.Clone();
                 ConsoleBuddy.WriteLineBlue("NewFrameImageEventArgs :" + timestamp + "; frame number: " + this.imageToGUI.frameCount);
                 //obj.saveImage();
-                ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), imageToDisk);
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), imageToDisk);
                 //ThreadPool.QueueUserWorkItem(new WaitCallback(WorkThreadFunction), imageToGUI);
+                Thread thread = new Thread(WorkThreadFunction);
+                thread.Start(imageToDisk);
             }
             catch (ApplicationException appEx)
             {

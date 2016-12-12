@@ -11,6 +11,15 @@ namespace Arsalis.WebcamLibrary
 	public class ConsoleDebugger
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ConsoleDebugger"/> class.
+        /// </summary>
+        public ConsoleDebugger()
+        {
+            // set the console length to the max length allowed
+            Console.SetBufferSize(Console.WindowWidth, Int16.MaxValue - 1);
+        }
+
+        /// <summary>
         /// Lock for avoiding concurrent access to System.Console because the formatting is not thread safe
         /// </summary>
         private static object _ConsoleLock = new object();
