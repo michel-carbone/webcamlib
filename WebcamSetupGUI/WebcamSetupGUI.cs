@@ -112,12 +112,17 @@ namespace Arsalis.WebcamLibrary
             // TODO select webcam
             displayState();
             // TODO get parameters from either Arsalis lib or AForge lib
-            string [] cameraParameters = {"Exposure", "Focus", "Iris", "Pan", "Roll", "Tilt", "Zoom"};
+
+            string [] cameraParameters = this.webcamClass.parameters.getCameraParametersName();
+            clearComboBox(comboBox2);
+            clearComboBox(comboBox4);
             for (int i = 0; i < cameraParameters.Length; i++)
             {
                 comboBox2.Items.Add(cameraParameters[i]);
                 comboBox4.Items.Add(cameraParameters[i]);
             }
+            comboBox2.Sorted = true;
+            comboBox4.Sorted = true;
             this.webcamClass.initDevice(comboBox1.SelectedIndex, false);
         }
 
@@ -287,49 +292,56 @@ namespace Arsalis.WebcamLibrary
                         {
                             this.comboBox5.Items.Add(this.webcamClass.parameters.Exposure.ctrFlag);
                             this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Exposure.minValue,
-                            this.webcamClass.parameters.Exposure.maxValue);
+                                this.webcamClass.parameters.Exposure.maxValue);
+                            this.label_top_numeric1.setValue(this.webcamClass.parameters.Exposure.currentValue);
                             break;
                         }
                     case 1:
                         {
                             this.comboBox5.Items.Add(this.webcamClass.parameters.Focus.ctrFlag);
                             this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Focus.minValue,
-                            this.webcamClass.parameters.Focus.maxValue);
+                                this.webcamClass.parameters.Focus.maxValue);
+                            this.label_top_numeric1.setValue(this.webcamClass.parameters.Focus.currentValue);
                             break;
                         }
                     case 2:
                         {
                             this.comboBox5.Items.Add(this.webcamClass.parameters.Iris.ctrFlag);
                             this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Iris.minValue,
-                            this.webcamClass.parameters.Iris.maxValue);
+                                this.webcamClass.parameters.Iris.maxValue);
+                            this.label_top_numeric1.setValue(this.webcamClass.parameters.Iris.currentValue);
                             break;
                         }
                     case 3:
                         {
                             this.comboBox5.Items.Add(this.webcamClass.parameters.Pan.ctrFlag);
                             this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Pan.minValue,
-                            this.webcamClass.parameters.Pan.maxValue);
+                                this.webcamClass.parameters.Pan.maxValue);
+                            this.label_top_numeric1.setValue(this.webcamClass.parameters.Pan.currentValue);
                             break;
                         }
                     case 4:
                         {
                             this.comboBox5.Items.Add(this.webcamClass.parameters.Roll.ctrFlag);
                             this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Roll.minValue,
-                            this.webcamClass.parameters.Roll.maxValue);
+                                this.webcamClass.parameters.Roll.maxValue);
+                            this.label_top_numeric1.setValue(this.webcamClass.parameters.Roll.currentValue);
                             break;
                         }
                     case 5:
                         {
                             this.comboBox5.Items.Add(this.webcamClass.parameters.Tilt.ctrFlag);
                             this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Tilt.minValue,
-                            this.webcamClass.parameters.Tilt.maxValue);
+                                this.webcamClass.parameters.Tilt.maxValue);
+                            this.label_top_numeric1.setValue(this.webcamClass.parameters.Tilt.currentValue);
                             break;
                         }
                     case 6:
                         {
                             this.comboBox5.Items.Add(this.webcamClass.parameters.Zoom.ctrFlag);
                             this.label_top_numeric1.setMinMax(this.webcamClass.parameters.Zoom.minValue,
-                            this.webcamClass.parameters.Zoom.maxValue);
+                                this.webcamClass.parameters.Zoom.maxValue);
+                            this.label_top_numeric1.setValue(this.webcamClass.parameters.Zoom.currentValue);
                             break;
                         }
                     default:

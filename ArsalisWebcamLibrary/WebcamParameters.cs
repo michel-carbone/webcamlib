@@ -54,5 +54,27 @@ namespace Arsalis.WebcamLibrary
         /// VideoCapabilities of selected webcam
         /// </summary>
         public AForge.Video.DirectShow.VideoCapabilities capabilities;
+
+        /// <summary>
+        /// Gets the name of the camera parameters.
+        /// </summary>
+        /// <returns>string array containing all camera parameters names</returns>
+        public string[] getCameraParametersName()
+        {
+
+            string[] temp = new string[100];
+            int i = 0;
+            foreach (AForge.Video.DirectShow.CameraControlProperty param in AForge.Video.DirectShow.CameraControlProperty.GetValues(typeof(AForge.Video.DirectShow.CameraControlProperty)))
+            {
+                temp[i] = param.ToString();
+                i = ++i;
+            }
+            string[] parameters = new string[i];
+            for (i = 0; i < parameters.Length; i++)
+            {
+                parameters[i] = temp[i];
+            }
+            return parameters;
+        }
 	}
 }
